@@ -2,115 +2,79 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>xo-fractions-game</title>
+        <title>Fraction Fuel(er)</title>
         <link rel="stylesheet" href="documents.css">
     </head>
     <body>
         <div id="main">
-            <h1>Team Proposal</h1>
-
-            <h2>List your other team members below</h2>
+            <h1>Fraction Fuel(er)</h1>
             <table>
                 <tr>
                     <td>Name</td>
                     <td>email</td>
+                    <td>Role</td>
                 </tr>
                 <tr>
                     <td>Lance Laughlin</td>
                     <td>lxl1500@rit.edu</td>
+                    <td>Programmer and Interaction Designer</td>
                 </tr>
                 <tr>
                     <td>Chris Knepper</td>
                     <td>cxk1108@rit.edu</td>
+                    <td>Programmer and Interaction Designer</td>
                 </tr>
                 <tr>
                     <td>Valerie Magri</td>
                     <td>vxm9790@rit.edu</td>
+                    <td>Programmer and Interaction Designer</td>
                 </tr>
                 <tr>
                     <td>John Savage</td>
                     <td>jrs1498@rit.edu</td>
+                    <td>Programmer and Quality Assurance</td>
                 </tr>
                 <tr>
                     <td>Mike Nolan</td>
                     <td>mpn3712@rit.edu</td>
+                    <td>Programmer and Quality Assurance</td>
                 </tr>
                 <tr>
                     <td>Brendan George</td>
                     <td>bwg3323@rit.edu</td>
-            </table>
-
-            <h2>Which project did your team choose?</h2>
-
-            <p>We have decided to start a new project. We have a large-enough team that we should be able to create an original game.</p>
-            <p>The learning goal is to teach children fractions, specifically arithmetic operations (addition, subtraction, multiplication, division).</p>
-
-            <h2>2-liner description of the project?</h2>
-
-            <h3>Description Ideas:</h3>
-            <ul>
-                <li><strong>The game uses rocket fuel and space objects to teach fraction math through mixing and blasting. There is a level system, with progression being the rocket getting higher and higher (i.e. from the ground to space).</strong></li>
-                <li>The game assigns fraction values to objects like rocket fuels and asteroids, moons, etc... e.g. displaying equal proportional fractions and having the player pick the correct one.</li>
-            </ul>
-
-            <h3>Specific Gameplay Elements:</h3>
-            <ul>
-                <li>Player starts at start screen</li>
-                <li>First level shows container in the middle (big on screen)</li>
-                <li>Smaller containers, increasing in quantity as level increases</li>
-                <li>Some fraction full of liquid</li>
-                <li>"Click-and-drag" (click to select, click again to place) to transfer liquid to big container</li>
-                <li>Must correctly use ratios and other fraction operations to fill container correctly</li>
-                <li>A reset button exists and a complete button to check the answer</li>
-                <li>Advancing levels correctly shows the rocket getting higher in the sky (launching, climbing, etc...)</li>
-            </ul>
-
-            <h3>Names:</h3>
-            <ul>
-                <li>Math Blasternauts</li>
-                <li>???</li>
-            </ul>
-
-            <h2>What will each team member's role be?</h2>
-
-            <table>
-                <tr>
-                    <th>Name</th>
-                    <th>Role</th>
-                </tr>
-                <tr>
-                    <td>Lance Laughlin</td>
-                    <td>Programmer and Interaction Designer</td>
-                </tr>
-                <tr>
-                    <td>Chris Knepper</td>
-                    <td>Programmer and Interaction Designer</td>
-                </tr>
-                <tr>
-                    <td>Valerie Magri</td>
-                    <td>Programmer and Interaction Designer</td>
-                </tr>
-                <tr>
-                    <td>John Savage</td>
-                    <td>Programmer and Quality Assurance</td>
-                </tr>
-                <tr>
-                    <td>Mike Nolan</td>
-                    <td>Programmer and Quality Assurance</td>
-                </tr>
-                <tr>
-                    <td>Brendan George</td>
                     <td>Artist, Public Relations, and Interaction Designer</td>
             </table>
 
-            <h2>Source Code Repository URL?</h2>
-            <p><a href="https://github.com/chrisknepper/xo-fractions-game" target="_blank">XO Fractions Game Repo</a></p>
+            <h2>What is it?</h2>
+            <p>A game for the XO-PC. The game uses fueling a rocket to get it into space to teach fractions, specifically arithmetic operations. Addition, subtraction, multiplication, and division are covered, as well as decimal to fraction conversion and proportions.</p>
 
-            <h2>Commarch Assessment</h2>
-            <a href="commarch.html">Skytime Commarch</a>
+            <h2>What Does it Use?</h2>
+            <p>The game was created to run on the Sugar Operating System on the XO-PC. It is built in Python with PyGame.</p>
 
-            <h2>List your upstream Mentor's below:</h2>
-            <!-- Possibly we could use the people who did the skytime game as mentors? -->
+            <h3>Interface:</h3>
+            <ul>
+                <li>Player starts at start screen, then they can continue progress or select any unlocked lesson (stage) and the difficulty</li>
+                <li>Lesson shows goal containers, choice containers overlain on the rocket art.</li>
+                <li>Each choice container has a fraction and the player must choose the correct fraction(s) to match the goal container's.</li>
+                <li>Click to select, click again to deselect to transfer liquid to big container</li>
+                <li>Must correctly use ratios and other fraction operations to fill container correctly</li>
+                <li>A Reset Button allows the player to reset the lesson. A Check Answer button is used. If it </li>
+            </ul>
+
+            <h3>Level System:</h3>
+            <ul>
+                <li>Different "lessons" are taught for each "journey" or trip from the ground to space</li>
+                <li>As the rocket gets higher, the concepts get more advanced/in-depth</li>
+                <li>Each lesson has a learning goal, which is met when the final problems are solved and the rocket is in space</li>
+                <li>Points are given each time the rocket moves</li>
+                <li>At the end of a lesson, a cool graphic is displayed</li>
+                <li>Points can be spent on customizing the rocket</li>
+            </ul>
+
+            <h2>Where Can I Get It?</h2>
+            <p><a href="https://github.com/chrisknepper/xo-fractions-game" target="_blank">Fraction Fuel(er) Repo on Github</a></p>
+
+            <h2>Upstream Mentors:</h2>
             <table>
                 <tr>
                     <td>Name</td>
@@ -136,22 +100,6 @@
 
             <p><em>*Awaiting reply</em></p>
 
-            <h2>How will you communicate with them? (i.e. IRC Channel, Email Addresss, mail lists, issue trackers, etc...)</h2>
-            <p>We will communicate via IRC (#rit-foss @ freenode), email, and talking IRL (since we see them quite a bit!)</p>
-
-            <h2>What are the easy parts?</h2>
-            <ul>
-                <li>Creating art</li>
-                <li>Writing a story</li>
-                <li>Brainstorming gameplay features</li>
-            </ul>
-            <h2>What are the hard parts?</h2>
-            <ul>
-                <li>Understanding Pygame and getting OLPC software set up</li>
-                <li>Manging assignments for team members</li>
-                <li>Balancing features with performance</li>
-            </ul>
-            <h2>How will you overcome both?</h2>
             <h3>Milestones:</h3>
             <ul>
                 <li>WEEK 0: Getting container filled</li>
@@ -161,6 +109,12 @@
                 <li>WEEK 5: Have art implemented.</li>
                 <li>WEEK 6: Have all questions implemented</li>
                 <li>WEEK 7: Panic and debug/polish</li>
+            </ul>
+
+            <h3>If We Have Time:</h3>
+            <ul>
+                <li>Bonus level on each lesson which gets the rocket even further and shows a bonus graphic</li>
+                <li>Integrate Sashes/Mozilla Badges/achievements</li>
             </ul>
         </div>
     </body>
