@@ -3,11 +3,46 @@
 import pygame
 from gi.repository import Gtk
 
+WHITE = (255, 255, 255)
+GREEN = (0, 255, 0)
+BLUE = (0, 0, 128)
+
+class Button:
+
+    def __init__(self, x, y, width, height, text, color=BLUE):
+        self.fontObj = pygame.font.Font('freesansbold.ttf', 32)
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.text = self.fontObj.render(text, True, GREEN)
+        self.textRectObj = self.text.get_rect()
+        self.textRectObj.center = (x + (width / 2), y + (height / 2))
+        self.color = color
+
+
+    def draw(self, screen):
+        pygame.draw.rect(screen, self.color, (self.x, self.y, self.width, self.height), 0)
+        screen.blit(self.text, self.textRectObj);
+
+    def is_under(self, pos):
+        x, y = pos
+        if (self.x < x and 
+            self.x + self.width > x and 
+            self.y < y and 
+            self.y + self.height > y
+            ):
+            return pos
+        else:
+            return None
+
+
 
 class FractionautsMain:
     def __init__(self):
         # Set up a clock for managing the frame rate.
         self.clock = pygame.time.Clock()
+        self.buttons = []
 
         self.x = -100
         self.y = 100
@@ -17,6 +52,8 @@ class FractionautsMain:
 
         self.paused = False
         self.direction = 1
+        self.btn = Button(300, 300, 200, 100, 'Other stuff!')
+        self.buttons.append(self.btn);
 
     def on_click_me_clicked(self, button):
         print "\"Click me\" button was clicked"
@@ -39,14 +76,11 @@ class FractionautsMain:
 
         screen = pygame.display.get_surface()
 
-        WHITE = (255, 255, 255)
-        GREEN = (0, 255, 0)
-        BLUE = (0, 0, 128)
-
         fontObj = pygame.font.Font('freesansbold.ttf', 32)
         textSurfaceObj = fontObj.render('Fractionauts', True, GREEN, BLUE)
         textRectObj = textSurfaceObj.get_rect()
         textRectObj.center = (200, 150)
+
 
         while self.running:
             # Pump GTK messages.
@@ -64,6 +98,11 @@ class FractionautsMain:
                         self.direction = -1
                     elif event.key == pygame.K_RIGHT:
                         self.direction = 1
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    #TODO: loop through buttons and check for colisions
+                    for button in self.buttons:
+                        if button.is_under(pygame.mouse.get_pos()):
+                            print 'YOU JUST CLICKED THE BUTTON'
 
             # Move the ball
             if not self.paused:
@@ -87,6 +126,7 @@ class FractionautsMain:
 
             # Draw the ball
             pygame.draw.circle(screen, (255, 0, 0), (self.x, self.y), 100)
+            self.btn.draw(screen);
 
             # Flip Display
             pygame.display.flip()
