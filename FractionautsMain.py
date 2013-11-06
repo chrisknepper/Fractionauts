@@ -42,8 +42,7 @@ class FractionautsMain:
     def __init__(self):
         self.needsUpdate = False
         self.initialized = False
-        global screen
-        screen = pygame.display.get_surface()
+        self.screen = pygame.display.get_surface()
         self.height = pygame.display.Info().current_h
         self.width = pygame.display.Info().current_w
         self.hcenter = self.width / 2
@@ -83,14 +82,11 @@ class FractionautsMain:
 
     # The main game loop.
     def run(self):
-        global screen
         self.running = True
         fontObj = pygame.font.Font('freesansbold.ttf', 32)
-        global textSurfaceObj
-        textSurfaceObj = fontObj.render('Fractionauts', True, GREEN, BLUE)
-        global textRectObj
-        textRectObj = textSurfaceObj.get_rect()
-        textRectObj.center = (self.hcenter, 150)
+        self.textSurfaceObj = fontObj.render('Fractionauts', True, GREEN, BLUE)
+        self.textRectObj = self.textSurfaceObj.get_rect()
+        self.textRectObj.center = (self.hcenter, 150)
 
         while self.running:
             # Pump GTK messages.
@@ -115,9 +111,6 @@ class FractionautsMain:
 
 
     def renderScreen(self):
-        global screen
-        global textRectObj
-        global textSurfaceObj
         if self.mode == 'menu':
             for button in self.buttons:
                 if button.is_under(pygame.mouse.get_pos()):
@@ -131,14 +124,14 @@ class FractionautsMain:
                     elif button == self.howBtn:
                         self.mode = 'help'
 
-            screen.fill((255, 255, 255))  # 255 for white
-            screen.blit(textSurfaceObj, textRectObj);
+            self.screen.fill((255, 255, 255))  # 255 for white
+            self.screen.blit(self.textSurfaceObj, self.textRectObj);
             for button in self.buttons:
-                button.draw(screen)
+                button.draw(self.screen)
         elif self.mode == 'play':
-            screen.fill((206, 156, 60))  # 255 for white
+            self.screen.fill((206, 156, 60))  # 255 for white
         elif self.mode == 'help':
-            screen.fill((34, 215, 217))  # 255 for white
+            self.screen.fill((34, 215, 217))  # 255 for white
 
 
 
