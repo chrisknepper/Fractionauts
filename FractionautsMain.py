@@ -2,6 +2,8 @@
 #Fractionauts Main Class
 import pygame
 from gi.repository import Gtk
+import random
+from fractions import Fraction
 
 WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
@@ -36,6 +38,14 @@ class Button:
         else:
             return None
 
+
+class Question:
+    def __init__(self,questionType):
+        self.questionType = questionType
+        numerator = random.randint(1,9)
+        denominator = random.randint(numerator,9)
+        self.goal = Fraction(numerator,denominator)
+        print(self.goal)
 
 
 class FractionautsMain:
@@ -133,6 +143,7 @@ class FractionautsMain:
 # This function is called when the game is run directly from the command line:
 # ./FractionautsMain.py
 def main():
+    question = Question("multiplication")
     pygame.init()
     pygame.display.set_mode((0, 0), pygame.RESIZABLE)
     game = FractionautsMain()
