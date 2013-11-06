@@ -97,21 +97,13 @@ class FractionautsMain:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     return
-                elif event.type == pygame.VIDEORESIZE:
-                    pygame.display.set_mode(event.size, pygame.RESIZABLE)
-                elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_LEFT:
-                        self.direction = -1
-                    elif event.key == pygame.K_RIGHT:
-                        self.direction = 1
-                elif event.type == pygame.MOUSEBUTTONDOWN or self.initialized is False:
-                    self.initialized = True
-                    self.renderScreen()
+
+            self.listenForEvents()
+            self.renderScreen()
             pygame.display.flip()
 
-
-    def renderScreen(self):
-        if self.mode == 'menu':
+    def listenForEvents(self):
+        if 1 in pygame.mouse.get_pressed():
             for button in self.buttons:
                 if button.is_under(pygame.mouse.get_pos()):
                     print 'You clicked the ' + button.text + ' button'
@@ -124,6 +116,8 @@ class FractionautsMain:
                     elif button == self.howBtn:
                         self.mode = 'help'
 
+    def renderScreen(self):
+        if self.mode == 'menu':
             self.screen.fill((255, 255, 255))  # 255 for white
             self.screen.blit(self.textSurfaceObj, self.textRectObj);
             for button in self.buttons:
