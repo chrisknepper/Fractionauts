@@ -41,11 +41,43 @@ class Button:
 
 class Question:
     def __init__(self,questionType):
-        self.questionType = questionType
-        numerator = random.randint(1,9)
-        denominator = random.randint(numerator,9)
-        self.goal = Fraction(numerator,denominator)
-        print(self.goal)
+        totalQuestions = 5
+        answers = []
+        for i in range(0,totalQuestions):
+            fraction = round(random.uniform(0.2,0.9),1)
+            if((sum(answers) + fraction) <= 1):
+                answers.append(fraction)
+            else: break
+        print(answers)
+        total = sum(answers)
+        print(total)
+
+
+
+        #numCorrect = random.randint(2,4)
+        #answers = []
+        #while (sum(answers) < 1 and len(answers) < 5) :
+         #   fraction = round(random.uniform(0.1, 0.9), 1)
+          #  if((sum(answers) + fraction) < 1):
+           #     answers.append(fraction)
+            #    print(answers)
+           # else: print(answers)
+        #else: print("done")
+
+
+        #numCorrect = random.randint(2,4)
+        #print numCorrect
+        #answers = []
+        #for i in range(0, numCorrect):
+         #   if (numCorrect >= i):
+          #      fraction = round(random.uniform(0.2, 0.9), 1)
+           #     if((sum(answers) + fraction) <= 1):
+            #        answers.append(fraction)
+        
+       # print(answers)
+       # total = sum(answers)
+       # print(total)
+
 
 
 class FractionautsMain:
