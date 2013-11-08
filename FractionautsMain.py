@@ -41,16 +41,52 @@ class Button:
 
 class Question:
     def __init__(self,questionType):
-        totalQuestions = 5
+        numChoices = 6
+        numCorrect = random.randint(2,4)
         answers = []
-        for i in range(0,totalQuestions):
-            fraction = round(random.uniform(0.2,0.9),1)
-            if((sum(answers) + fraction) <= 1):
-                answers.append(fraction)
-            else: break
-        print(answers)
-        total = sum(answers)
-        print(total)
+        print numCorrect
+
+        section = float(1)/float(numCorrect)
+
+        for i in range(0,numCorrect):
+            fraction = round(random.uniform(0.1,section),2)
+            answers.append(fraction)
+            print(fraction)
+
+        print answers
+
+        goal = sum(answers)
+        print goal
+
+        dummyQuestions = numChoices - numCorrect
+        print dummyQuestions
+
+        for i in range(0,dummyQuestions):
+            fraction = round(random.uniform(0.1,0.9),2)
+            answers.append(fraction)
+
+
+        for i in range(0,len(answers)):
+            print Fraction.from_float(answers[i])
+
+
+
+        print answers
+
+        
+
+
+
+        #numCorrect = random.randint(2,4)
+        #answers = []
+        #for i in range(0,numCorrect):
+        #    fraction = round(random.uniform(0.2,0.9),1)
+        #    if (sum(answers) + fraction) <= 1:
+        #        answers.append(fraction)
+        #    else: break
+        #print(answers)
+        #total = sum(answercs)
+        #print(total)
 
 
 
