@@ -36,9 +36,6 @@ class Question:
             fraction = round(random.uniform(0.1,0.9),2)
             answers.append(fraction)
 
-        for i in range(0,len(answers)):
-            print Fraction.from_float(answers[i])
-
         print answers
 
 
