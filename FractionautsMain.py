@@ -78,9 +78,11 @@ class FractionautsMain:
         self.menuBtn = Button(300, 500, 200, 75, 'Back to Menu')
         self.fillBtn1 = Button(300, 400, 200, 75, 'Fill it 20%')
         self.fillBtn2 = Button(300, 300, 200, 75, 'FIll it 90%')
+        self.emptyBtn = Button(300, 200, 200, 75, 'Empty all containers')
         self.gameScreenButtons.append(self.menuBtn)
         self.gameScreenButtons.append(self.fillBtn1)
         self.gameScreenButtons.append(self.fillBtn2)
+        self.gameScreenButtons.append(self.emptyBtn)
 
         #Help screen buttons
         self.helpScreenButtons.append(self.menuBtn)
@@ -146,6 +148,9 @@ class FractionautsMain:
                             self.mainContainer.fill(0.2)
                         elif button == self.fillBtn2:
                             self.mainContainer.fill(0.9)
+                        elif button == self.emptyBtn:
+                            for container in self.containers:
+                                container.fill(0.0)
             elif self.mode == 'help':
                 for button in self.helpScreenButtons:
                     if button.is_under(pygame.mouse.get_pos()):
