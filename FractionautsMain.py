@@ -4,6 +4,7 @@ import pygame
 from gi.repository import Gtk
 import random
 from fractions import Fraction
+from decimal import Decimal
 from Button import *
 from Container import *
 
@@ -15,19 +16,20 @@ class Question:
     def __init__(self,questionType):
         numChoices = 6
         numCorrect = random.randint(2,4)
-        answers = []
+        correctAnswers = []
+        incorrectAnswers =[]
         print numCorrect
 
         section = float(1)/float(numCorrect)
 
         for i in range(0,numCorrect):
             fraction = round(random.uniform(0.1,section),2)
-            answers.append(fraction)
+            correctAnswers.append(fraction)
             print(fraction)
 
-        print answers
+        print correctAnswers
 
-        goal = sum(answers)
+        goal = sum(correctAnswers)
         print goal
 
         dummyQuestions = numChoices - numCorrect
@@ -35,9 +37,9 @@ class Question:
 
         for i in range(0,dummyQuestions):
             fraction = round(random.uniform(0.1,0.9),2)
-            answers.append(fraction)
+            incorrectAnswers.append(fraction)
 
-        print answers
+        print incorrectAnswers
 
 
 
