@@ -1,5 +1,5 @@
 #!/usr/bin/python
-#Fractionauts Main Class
+# Fractionauts Main Class
 import pygame
 from gi.repository import Gtk
 from Button import *
@@ -10,8 +10,10 @@ WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 128)
 
+
 class FractionautsMain:
-    def __init__(self):
+
+    def __init_(self):
         self.needsUpdate = False
         self.initialized = False
         self.screen = pygame.display.get_surface()
@@ -35,15 +37,18 @@ class FractionautsMain:
         self.paused = False
         self.direction = 1
 
-        #Main menu buttons
-        self.playBtn = Button(self.hcenter - (75*1.5), self.vcenter - 100, 200, 75, 'Play')
-        self.howBtn = Button(self.hcenter - (75*1.5), self.vcenter, 200, 75, 'How to Play')
-        self.quitBtn = Button(self.hcenter - (75*1.5), self.vcenter + 100, 200, 75, 'Quit')
+        # Main menu buttons
+        self.playBtn = Button(
+            self.hcenter - (75 * 1.5), self.vcenter - 100, 200, 75, 'Play')
+        self.howBtn = Button(
+            self.hcenter - (75 * 1.5), self.vcenter, 200, 75, 'How to Play')
+        self.quitBtn = Button(
+            self.hcenter - (75 * 1.5), self.vcenter + 100, 200, 75, 'Quit')
         self.menuButtons.append(self.playBtn)
         self.menuButtons.append(self.howBtn)
         self.menuButtons.append(self.quitBtn)
 
-        #Game playing screen buttons
+        # Game playing screen buttons
         self.menuBtn = Button(300, 500, 200, 75, 'Back to Menu')
         self.fillBtn1 = Button(300, 400, 200, 75, 'Fill it 20%')
         self.fillBtn2 = Button(300, 300, 200, 75, 'FIll it 90%')
@@ -53,10 +58,10 @@ class FractionautsMain:
         self.gameScreenButtons.append(self.fillBtn2)
         self.gameScreenButtons.append(self.emptyBtn)
 
-        #Help screen buttons
+        # Help screen buttons
         self.helpScreenButtons.append(self.menuBtn)
 
-        #Game screen elements
+        # Game screen elements
         self.mainContainer = Container(200, 200, 100, 300, 0.5)
         self.containers.append(self.mainContainer)
 
@@ -130,7 +135,7 @@ class FractionautsMain:
     def renderScreen(self):
         if self.mode == 'menu':
             self.screen.fill((255, 255, 255))  # 255 for white
-            self.screen.blit(self.textSurfaceObj, self.textRectObj);
+            self.screen.blit(self.textSurfaceObj, self.textRectObj)
             for button in self.menuButtons:
                 button.draw(self.screen)
         elif self.mode == 'play':
@@ -143,7 +148,6 @@ class FractionautsMain:
             self.screen.fill((34, 215, 217))
             for button in self.helpScreenButtons:
                 button.draw(self.screen)
-
 
 
 # This function is called when the game is run directly from the command line:
