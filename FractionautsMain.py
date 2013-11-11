@@ -2,9 +2,12 @@
 # Fractionauts Main Class
 import pygame
 from gi.repository import Gtk
-from Button import *
+from Button import Button
 from Container import *
-from Question import *
+from Question import Question
+from AnswerButton import AnswerButton
+from Background import Background
+
 
 WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
