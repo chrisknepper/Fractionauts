@@ -1,7 +1,7 @@
 import pygame
-import Button
+from Button import Button
 
-class AnswerButton:
+class AnswerButton(Button):
 
     def __init__(self, x, y, width, height, filename, text=''):
         self.x = x
