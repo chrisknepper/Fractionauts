@@ -24,7 +24,8 @@ class Button:
         self.color = color
 
     def draw(self, screen):
-        pygame.draw.rect(screen, self.color, (self.x, self.y, self.width, self.height), 0)
+        pygame.draw.rect(screen, self.color, 
+            (self.x, self.y, self.width, self.height), 0)
         screen.blit(self.textObj, self.textRectObj);
 
     def is_under(self, pos):
@@ -38,6 +39,19 @@ class Button:
         else:
             return None
 
+
+class AnswerButton(Button):
+    def __init__(self, x, y, width, height, filename, text=''):
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.image = pygame.image.load(filename)
+        self.text = text
+    
+    def draw(self, screen):
+        screen.blit(self.image, (self.x, self.y))
+        
 
 class Question:
     def __init__(self,questionType):
@@ -101,12 +115,16 @@ class FractionautsMain:
         self.mode = 'menu'
         self.paused = False
         self.direction = 1
-        self.playBtn = Button(self.hcenter - (75*1.5), self.vcenter - 100, 200, 75, 'Play')
-        self.howBtn = Button(self.hcenter - (75*1.5), self.vcenter, 200, 75, 'How to Play')
-        self.quitBtn = Button(self.hcenter - (75*1.5), self.vcenter + 100, 200, 75, 'Quit')
-        self.buttons.append(self.playBtn)
-        self.buttons.append(self.howBtn)
-        self.buttons.append(self.quitBtn)
+
+        img = AnswerButton(100, 100, 30, 30, 'test.png')
+
+        playBtn = Button(self.hcenter - (75*1.5), self.vcenter - 100, 200, 75, 'Play')
+        howBtn = Button(self.hcenter - (75*1.5), self.vcenter, 200, 75, 'How to Play')
+        quitBtn = Button(self.hcenter - (75*1.5), self.vcenter + 100, 200, 75, 'Quit')
+        self.buttons.append(playBtn)
+        self.buttons.append(howBtn)
+        self.buttons.append(quitBtn)
+        self.buttons.append(img)
 
     def on_click_me_clicked(self, button):
         print "\"Click me\" button was clicked"
