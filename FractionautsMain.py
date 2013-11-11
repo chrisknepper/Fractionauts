@@ -14,9 +14,9 @@ GREEN = (0, 255, 0)
 BLUE = (0, 0, 128)
 
 
-class FractionautsMain:
+class FractionautsMain(object):
 
-    def __init_(self):
+    def __init__(self):
         self.needsUpdate = False
         self.initialized = False
         self.screen = pygame.display.get_surface()
