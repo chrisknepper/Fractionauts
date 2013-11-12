@@ -156,7 +156,7 @@ class FractionautsMain(object):
 # This function is called when the game is run directly from the command line:
 # ./FractionautsMain.py
 def main():
-    question = Question("multiplication")
+    question = Question("addition")
     pygame.init()
     pygame.display.set_mode((0, 0), pygame.RESIZABLE)
     game = FractionautsMain()
