@@ -56,10 +56,12 @@ class FractionautsMain(object):
         self.fillBtn1 = Button(300, 400, 200, 75, 'Fill it 20%')
         self.fillBtn2 = Button(300, 300, 200, 75, 'FIll it 90%')
         self.emptyBtn = Button(300, 200, 200, 75, 'Empty all containers')
+        self.doneBtn = Button(300, 600, 200, 75, 'Done')
         self.gameScreenButtons.append(self.menuBtn)
         self.gameScreenButtons.append(self.fillBtn1)
         self.gameScreenButtons.append(self.fillBtn2)
         self.gameScreenButtons.append(self.emptyBtn)
+        self.gameScreenButtons.append(self.doneBtn)
 
         # Help screen buttons
         self.helpScreenButtons.append(self.menuBtn)
@@ -67,6 +69,7 @@ class FractionautsMain(object):
         # Game screen elements
         self.mainContainer = Container(200, 200, 100, 300, 0.5)
         self.containers.append(self.mainContainer)
+        self.goalFill = 0.9 #temporary goal fill amount
 
     def set_paused(self, paused):
         self.paused = paused
@@ -103,31 +106,57 @@ class FractionautsMain(object):
 
     def listenForEvents(self):
         if 1 in pygame.mouse.get_pressed():
+            #Menu state buttons
             if self.mode == 'menu':
                 for button in self.menuButtons:
                     if button.is_under(pygame.mouse.get_pos()):
                         print 'You clicked the ' + button.text + ' button'
+                        
+                        #Quit button
                         if button == self.quitBtn:
                             self.running = False
                             pygame.quit()
                             exit()
+                            
+                        #Play button
                         elif button == self.playBtn:
                             self.mode = 'play'
+
+                        #How button
                         elif button == self.howBtn:
                             self.mode = 'help'
+                            
+            #Play state buttons
             elif self.mode == 'play':
                 for button in self.gameScreenButtons:
                     if button.is_under(pygame.mouse.get_pos()):
                         print 'You clicked the ' + button.text + ' button'
+
+                        #Menu button
                         if button == self.menuBtn:
                             self.mode = 'menu'
+
+                        #Fill 20% button
                         elif button == self.fillBtn1:
                             self.mainContainer.fill(0.2)
+
+                        #Fill 90% button
                         elif button == self.fillBtn2:
                             self.mainContainer.fill(0.9)
+
+                        #Empty button
                         elif button == self.emptyBtn:
                             for container in self.containers:
                                 container.fill(0.0)
+
+                        #Done button
+                        #Evaluate the answer. If correct, return to main menu
+                        # if incorrect, do nothing for now
+                        elif button == self.doneBtn:
+                            if self.evaluateAnswer():
+                                self.mode = 'menu'
+
+            #Help state buttons
             elif self.mode == 'help':
                 for button in self.helpScreenButtons:
                     if button.is_under(pygame.mouse.get_pos()):
@@ -152,6 +181,9 @@ class FractionautsMain(object):
             for button in self.helpScreenButtons:
                 button.draw(self.screen)
 
+    #Compare the main container's current filled percentage with the goal filled percentage
+    def evaluateAnswer(self):
+        return self.mainContainer.filled == self.goalFill
 
 # This function is called when the game is run directly from the command line:
 # ./FractionautsMain.py
