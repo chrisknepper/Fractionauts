@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # Fractionauts Main Class
 import pygame
+import os
 from gi.repository import Gtk
 from Button import Button
 from Container import *
@@ -71,6 +72,9 @@ class FractionautsMain(object):
         self.containers.append(self.mainContainer)
         self.goalFill = 0.9 #temporary goal fill amount
 
+        #Load in Title Image
+        self.logo = pygame.image.load(os.path.join('assets', 'Title.png'))
+
     def set_paused(self, paused):
         self.paused = paused
 
@@ -86,9 +90,6 @@ class FractionautsMain(object):
     def run(self):
         self.running = True
         fontObj = pygame.font.Font('freesansbold.ttf', 32)
-        self.textSurfaceObj = fontObj.render('Fractionauts', True, GREEN, BLUE)
-        self.textRectObj = self.textSurfaceObj.get_rect()
-        self.textRectObj.center = (self.hcenter, 150)
 
         while self.running:
             # Pump GTK messages.
@@ -167,7 +168,7 @@ class FractionautsMain(object):
     def renderScreen(self):
         if self.mode == 'menu':
             self.screen.fill((255, 255, 255))  # 255 for white
-            self.screen.blit(self.textSurfaceObj, self.textRectObj)
+            self.screen.blit(self.logo, (self.hcenter - 300, 150))
             for button in self.menuButtons:
                 button.draw(self.screen)
         elif self.mode == 'play':
@@ -190,7 +191,7 @@ class FractionautsMain(object):
 def main():
     question = Question("addition")
     pygame.init()
-    pygame.display.set_mode((0, 0), pygame.RESIZABLE)
+    pygame.display.set_mode((1200, 900), pygame.RESIZABLE)
     game = FractionautsMain()
     game.run()
 
