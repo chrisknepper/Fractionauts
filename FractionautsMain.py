@@ -52,11 +52,11 @@ class FractionautsMain(object):
         self.menuButtons.append(self.quitBtn)
 
         # Game playing screen buttons
-        self.menuBtn = Button(300, 500, 200, 75, 'Back to Menu')
-        self.fillBtn1 = Button(300, 400, 200, 75, 'Fill it 20%')
-        self.fillBtn2 = Button(300, 300, 200, 75, 'FIll it 90%')
-        self.emptyBtn = Button(300, 200, 200, 75, 'Empty all containers')
-        self.doneBtn = Button(300, 600, 200, 75, 'Done')
+        self.menuBtn = Button(600, 500, 200, 75, 'Back to Menu')
+        self.fillBtn1 = Button(600, 400, 200, 75, 'Fill it 20%')
+        self.fillBtn2 = Button(600, 300, 200, 75, 'FIll it 90%')
+        self.emptyBtn = Button(600, 200, 200, 75, 'Empty all containers')
+        self.doneBtn = Button(600, 600, 200, 75, 'Done')
         self.gameScreenButtons.append(self.menuBtn)
         self.gameScreenButtons.append(self.fillBtn1)
         self.gameScreenButtons.append(self.fillBtn2)
@@ -67,7 +67,9 @@ class FractionautsMain(object):
         self.helpScreenButtons.append(self.menuBtn)
 
         # Game screen elements
-        self.mainContainer = Container(200, 200, 100, 300, 0.5)
+        self.mainContainer = Container(200, 200, 177, 258, 0.5)
+		
+
         self.containers.append(self.mainContainer)
         self.goalFill = 0.9 #temporary goal fill amount
 

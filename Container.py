@@ -27,8 +27,14 @@ class Container:
             self.x + (self.width / 2), self.y + (self.height / 2))
 
     def draw(self, screen):
-        pygame.draw.rect(
-            screen, self.bg, (self.x, self.y, self.width, self.height), 0)
-        pygame.draw.rect(screen, self.color, (
-            self.x, self.y + (self.height - self.fillHeight), self.width, self.fillHeight), 0)
+        base_filename = "assets/Eigthmeterbase.png"
+        base_surface = pygame.image.load(base_filename)
+        shade_filename = "assets/Eigthmetershading.png"
+        shade_surface = pygame.image.load(shade_filename)
+        screen.blit(base_surface,(self.x, self.y, 20, self.height))
+        pygame.draw.rect(screen, self.bg, (self.x, self.y, self.width, self.height), 0)
+        pygame.draw.rect(screen, self.color, (self.x, self.y + (self.height - self.fillHeight), self.width, self.fillHeight), 0)
+        screen.blit(shade_surface,(self.x, self.y, 20, self.height))
         screen.blit(self.textObj, self.textRectObj)
+
+    
