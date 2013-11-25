@@ -2,12 +2,14 @@
 # Fractionauts Main Class
 import pygame
 import os
+import json
 from gi.repository import Gtk
 from Button import Button
 from Container import *
 from Question import Question
 from AnswerButton import AnswerButton
 from Background import Background
+from TextItem import TextItem
 
 
 WHITE = (255, 255, 255)
@@ -20,6 +22,8 @@ class FractionautsMain(object):
     def __init__(self):
         self.needsUpdate = False
         self.initialized = False
+        self.gameLoaded = False
+        self.savePath = os.path.join('assets', 'save.json')
         self.screen = pygame.display.get_surface()
         self.height = pygame.display.Info().current_h
         self.width = pygame.display.Info().current_w
@@ -30,7 +34,11 @@ class FractionautsMain(object):
         self.menuButtons = []
         self.gameScreenButtons = []
         self.helpScreenButtons = []
+        self.gameScreenUI = []
         self.containers = []
+        self.currentAnswers = [];
+        self.currentLevel = 0;
+        self.score = 0;
 
         self.x = -100
         self.y = 100
@@ -64,11 +72,17 @@ class FractionautsMain(object):
         self.gameScreenButtons.append(self.emptyBtn)
         self.gameScreenButtons.append(self.doneBtn)
 
+        # Game screen text elements
+        self.scoreDisplay = TextItem(100, 600, 200, 75, 'Score:')
+        self.levelDisplay = TextItem(100, 800, 200, 75, 'Current Level:')
+        self.gameScreenUI.append(self.scoreDisplay)
+        self.gameScreenUI.append(self.levelDisplay)
+
         # Help screen buttons
         self.helpScreenButtons.append(self.menuBtn)
 
         # Game screen elements
-        self.mainContainer = Container(200, 200, 100, 300, 0.5)
+        self.mainContainer = Container(1000, 200, 100, 300, 0.5)
         self.containers.append(self.mainContainer)
         self.goalFill = 0.9 #temporary goal fill amount
 
@@ -77,14 +91,6 @@ class FractionautsMain(object):
 
     def set_paused(self, paused):
         self.paused = paused
-
-    # Called to save the state of the game to the Journal.
-    def write_file(self, file_path):
-        pass
-
-    # Called to load the state of the game from the Journal.
-    def read_file(self, file_path):
-        pass
 
     # The main game loop.
     def run(self):
@@ -102,6 +108,9 @@ class FractionautsMain(object):
                     return
 
             self.listenForEvents()
+            if self.gameLoaded == False:
+                self.loadGame()
+
             self.renderScreen()
             pygame.display.flip()
 
@@ -121,7 +130,7 @@ class FractionautsMain(object):
                             
                         #Play button
                         elif button == self.playBtn:
-                            self.mode = 'play'
+                            self.loadLevel(int(self.currentLevel))
 
                         #How button
                         elif button == self.howBtn:
@@ -177,14 +186,59 @@ class FractionautsMain(object):
                 container.draw(self.screen)
             for button in self.gameScreenButtons:
                 button.draw(self.screen)
+            for item in self.gameScreenUI:
+                item.draw(self.screen)
+            for answer in self.currentAnswers:
+                answer.draw(self.screen)
         elif self.mode == 'help':
             self.screen.fill((34, 215, 217))
             for button in self.helpScreenButtons:
                 button.draw(self.screen)
 
+
+    #Load save file, set meta variables
+    def loadGame(self):
+        print 'loading game'
+        path = self.savePath
+        try:
+            with open(path) as saved_game:
+                save_data = json.load(saved_game)
+                self.score = save_data["score"]
+                self.scoreDisplay.setText('Score: ' + str(self.score))
+                self.currentLevel = save_data["current_level"]
+                self.levelDisplay.setText('Current Level: ' + str(self.currentLevel))
+                saved_game.close()
+        except IOError:
+            new_game = open(path, 'w')
+            new_game.close()
+        self.gameLoaded = True
+
+    #Load the level-th "levels" object in the save file
+    def loadLevel(self, level):
+        print 'loading level'
+        path = self.savePath
+        try:
+            with open(path) as saved_game:
+                save_data = json.load(saved_game)
+                level_data = save_data["levels"][level]
+                self.currentAnswers = []
+                counter = 0
+                for answer in level_data["options"]:
+                    temp = Button(600, 300 + (counter * 100), 200, 75, answer)
+                    self.currentAnswers.append(temp)
+                    counter = counter + 1
+                saved_game.close()
+                self.mode = 'play'
+        except IOError:
+            new_game = open(path, 'w')
+            new_game.close()
+
+
     #Compare the main container's current filled percentage with the goal filled percentage
     def evaluateAnswer(self):
         return self.mainContainer.filled == self.goalFill
+
+
 
 # This function is called when the game is run directly from the command line:
 # ./FractionautsMain.py
