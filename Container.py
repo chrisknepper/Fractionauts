@@ -1,7 +1,7 @@
 import pygame
+from Button import Button
 
-
-class Container:
+class Container(Button):
 
     # Takes in drawing co-ordinates, height/width, background/fill colors, and
     # how much it is filled up

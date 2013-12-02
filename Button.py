@@ -27,6 +27,7 @@ class Button:
             self.y < y and
             self.y + self.height > y
             ):
+            print 'You are under a button!'
             return pos
         else:
             return None
