@@ -82,7 +82,7 @@ class FractionautsMain(object):
         self.helpScreenButtons.append(self.menuBtn)
 
         # Game screen elements
-        self.mainContainer = Container(1000, 200, 100, 300, 0.5)
+        self.mainContainer = Container(1000, 200, 177, 259, 0.5)
         self.containers.append(self.mainContainer)
         self.goalFill = 0.9 #temporary goal fill amount
 
