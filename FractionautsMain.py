@@ -224,7 +224,7 @@ class FractionautsMain(object):
                 self.currentAnswers = []
                 counter = 0
                 for answer in level_data["options"]:
-                    temp = Button(600, 300 + (counter * 100), 200, 75, answer)
+                    temp = Container(300, 300 + (counter * 100), 200, 75, answer)
                     self.currentAnswers.append(temp)
                     counter = counter + 1
                 saved_game.close()

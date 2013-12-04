@@ -1,15 +1,13 @@
 import pygame
-from Button import Button
+from Container import Container
 
-class AnswerButton(Button):
+class AnswerButton(Container):
 
-    def __init__(self, x, y, width, height, filename, text=''):
+    def __init__(self, x, y, width, height, text=''):
         self.x = x
         self.y = y
         self.width = width
         self.height = height
-        self.image = pygame.image.load(filename)
+        self.color = (0,255,0)
+        #self.image = pygame.image.load(filename)
         self.text = text
-
-    def draw(self, screen):
-        screen.blit(self.image, (self.x, self.y))

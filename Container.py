@@ -18,7 +18,7 @@ class Container(Button):
     # Take in filled percentage as a decimal, multiply it by the height of
     # container to get pixel height
     def fill(self, percent):
-        self.filled = percent
+        self.filled = float(percent)
         self.fillHeight = round(self.filled * self.height)
         self.text = str(round(self.filled * 100))
         self.textObj = self.fontObj.render(self.text, True, (0, 255, 0))
