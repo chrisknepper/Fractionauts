@@ -82,7 +82,7 @@ class FractionautsMain(object):
         self.helpScreenButtons.append(self.menuBtn)
 
         # Game screen elements
-        self.mainContainer = Container(1000, 200, 177, 259, 0.5)
+        self.mainContainer = Container(1000, 200, 0.5)
         self.containers.append(self.mainContainer)
         self.goalFill = 0.9 #temporary goal fill amount
 
@@ -231,6 +231,18 @@ class FractionautsMain(object):
                 self.mode = 'play'
         except IOError:
             new_game = open(path, 'w')
+            new_game.close()
+
+    def saveLevel(self):
+        path = self.savePath
+        try:
+            with open(path, 'w') as saved_game:
+                save_data = json.load(saved_game)
+                save_data['current_level'] = self.currentLevel
+                json.dump(save_data, save_data)
+        except IOError:
+            new_game = open(path, 'w')
+            save_data['current_level'] = self.currentLevel
             new_game.close()
 
 

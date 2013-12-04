@@ -5,7 +5,7 @@ class Container(Button):
 
     # Takes in drawing co-ordinates, height/width, background/fill colors, and
     # how much it is filled up
-    def __init__(self, x, y, width, height, filled=0.0, color=(255, 0, 0), bg=(50, 50, 50)):
+    def __init__(self, x, y, filled=0.0, width=177, height=259, color=(255, 0, 0), bg=(50, 50, 50)):
         self.fontObj = pygame.font.Font('freesansbold.ttf', 32)
         self.x = x
         self.y = y
