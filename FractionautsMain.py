@@ -10,6 +10,7 @@ from Question import Question
 from AnswerButton import AnswerButton
 from Background import Background
 from TextItem import TextItem
+from ScrollingImage import ScrollingImage
 
 
 WHITE = (255, 255, 255)
@@ -86,8 +87,24 @@ class FractionautsMain(object):
         self.containers.append(self.mainContainer)
         self.goalFill = 0.9 #temporary goal fill amount
 
-        #Load in Title Image
-        self.logo = pygame.image.load(os.path.join('assets', 'Title.png'))
+        #Load in Title Image and background images
+        self.logo = pygame.image.load(os.path.join('assets', 'startscreen', 'Title.png'))
+        self.startbg = pygame.image.load(os.path.join('assets', 'startscreen', \
+                                                      'night_sunset_gradient.png'))
+        self.stars_tiny =  ScrollingImage( \
+                           pygame.image.load(os.path.join('assets', 'startscreen', \
+                                           'stars_tiny.png')), (-50,-50), float(.004))
+        self.stars_small = ScrollingImage( \
+                           pygame.image.load(os.path.join('assets', 'startscreen', \
+                                           'stars_small.png')), (-50,-50), float(.008))
+        self.stars_medium = ScrollingImage( \
+                            pygame.image.load(os.path.join('assets', 'startscreen', \
+                                           'stars_medium.png')), (-50,-50), float(.012))
+        self.stars_big = ScrollingImage( \
+                         pygame.image.load(os.path.join('assets', 'startscreen', \
+                                          'stars_big.png')), (-50,-50), float(.016))
+        self.sunsetoverlay = pygame.image.load(os.path.join('assets', 'startscreen', \
+                                                            'sunset_overlay.png'))
 
     def set_paused(self, paused):
         self.paused = paused
@@ -177,6 +194,12 @@ class FractionautsMain(object):
     def renderScreen(self):
         if self.mode == 'menu':
             self.screen.fill((255, 255, 255))  # 255 for white
+            self.screen.blit(self.startbg, (0, 0))
+            self.stars_tiny.draw(self.screen, pygame.time.get_ticks());
+            self.stars_small.draw(self.screen, pygame.time.get_ticks());
+            self.stars_medium.draw(self.screen, pygame.time.get_ticks());
+            self.stars_big.draw(self.screen, pygame.time.get_ticks());
+            #self.screen.blit(self.sunsetoverlay, (0, 0)) # this might make it too dim
             self.screen.blit(self.logo, (self.hcenter - 300, 150))
             for button in self.menuButtons:
                 button.draw(self.screen)
