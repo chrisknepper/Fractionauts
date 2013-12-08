@@ -39,8 +39,8 @@ class Game(object):
         self.gameScreenUI.append(self.levelDisplay)
 
         # Game screen elements
-        self.mainContainer = Container(1000, 200, 0.5)
-        self.containers.append(self.mainContainer)
+        self.goalContainer = Container(1000, 200, 0.5, 177, 259, False)
+        self.containers.append(self.goalContainer)
         self.goalFill = 0.9 #temporary goal fill amount
 
 
@@ -57,11 +57,11 @@ class Game(object):
 
                     #Fill 20% button
                     elif button == self.fillBtn1:
-                        self.mainContainer.fill(0.2)
+                        self.goalContainer.fill(0.2)
 
                     #Fill 90% button
                     elif button == self.fillBtn2:
-                        self.mainContainer.fill(0.9)
+                        self.goalContainer.fill(0.9)
 
                     #Empty button
                     elif button == self.emptyBtn:
@@ -91,15 +91,14 @@ class Game(object):
 
 
 
-    #Load the level-th "levels" object in the save file
+    #Load the level-th JSON file in the levels folder
     def loadLevel(self, level):
         print 'loading level'
-        path = self.main.savePath
+        load_file = str(level) + '.json'
+        path = os.path.join('assets/levels', load_file)
         try:
-            with open(path) as saved_game:
-                save_data = json.load(saved_game)
-                print(save_data)
-                level_data = save_data.get('levels')[level]
+            with open(path) as level_file:
+                level_data = json.load(level_file)
                 self.currentAnswers = []
                 counter = 0
                 for answer in level_data["options"]:
@@ -112,7 +111,7 @@ class Game(object):
                     temp = Container(temp_x, temp_y, answer)
                     self.currentAnswers.append(temp)
                     counter = counter + 1
-                saved_game.close()
+                level_file.close()
                 self.level_loaded = True
         except IOError:
             new_game = open(path, 'w')
@@ -133,7 +132,7 @@ class Game(object):
 
     #Compare the main container's current filled percentage with the goal filled percentage
     def evaluateAnswer(self):
-        return self.mainContainer.filled == self.goalFill
+        return self.goalContainer.filled == self.goalFill
 
 
     def enter(self):
