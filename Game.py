@@ -100,17 +100,7 @@ class Game(object):
             with open(path) as level_file:
                 level_data = json.load(level_file)
                 self.currentAnswers = []
-                counter = 0
-                for answer in level_data["options"]:
-                    if(counter < 3):
-                        temp_y = 0
-                        temp_x = 0 + (counter * 300)
-                    else:
-                        temp_y = 350
-                        temp_x = 0 + ((counter - 3) * 300)
-                    temp = Container(temp_x, temp_y, answer)
-                    self.currentAnswers.append(temp)
-                    counter = counter + 1
+                self.arrangeAnswers(level_data["options"])
                 level_file.close()
                 self.level_loaded = True
         except IOError:
@@ -128,6 +118,24 @@ class Game(object):
             new_game = open(path, 'w')
             save_data['current_level'] = self.main.currentLevel
             new_game.close()
+
+    #Arrange passed-in answers array in a grid with sensible default options
+    def arrangeAnswers(self, answers, perRow = 3, base_x = 100, base_y = 50, h_spacing = 200, v_spacing = 350):
+        #Starting our counter variables at 1 to avoid an additional if block (because we can never divide by 0 this way)
+        counter = 1
+        currentRow = 1
+        posInCurrentRow = -1 #Initialize current row position to -1 so first answer isn't offset incorrectly
+        for answer in answers:
+            if(counter > currentRow * perRow):
+                currentRow = currentRow + 1
+                posInCurrentRow = 0
+            else:
+                posInCurrentRow = posInCurrentRow + 1
+            answer_x = base_x + (h_spacing * posInCurrentRow)
+            answer_y = base_y + ((currentRow - 1) * v_spacing)
+            temp = Container(answer_x, answer_y, answer)
+            self.currentAnswers.append(temp)
+            counter = counter + 1
 
 
     #Compare the main container's current filled percentage with the goal filled percentage
