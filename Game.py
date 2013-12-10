@@ -36,8 +36,8 @@ class Game(object):
         self.gameScreenUI.append(self.goalDisplay)
         #self.gameScreenUI.append(self.scoreDisplay)
         self.gameScreenUI.append(self.levelDisplay)
-        self.winScreen = TextItem(self.main.width / 2, self.main.height / 2, 200, 75, 'You Win!')
-
+        self.winScreen = TextItem(self.main.width / 2 - 400, 100, 800, 600, 'You Win!', (152, 151, 151), (59, 59, 59), True)
+        self.winScreen.close()
         # Game screen elements
         self.goalContainer = Container(950, 300, 0, 1, 177, 259, False)
         self.goalFill = 1.0 #temporary goal fill amount #the number you are aiming for
@@ -54,6 +54,10 @@ class Game(object):
                         self.goalContainer.fill(self.goalContainer.filled+answer.filled)
                     else:
                         self.goalContainer.fill(self.goalContainer.filled-answer.filled)
+
+            if self.winScreen.drawing == True and self.winScreen.is_under(pygame.mouse.get_pos()):
+                print 'You closed the win screen'
+                self.winScreen.close()
 
             #Play state buttons
             for button in self.buttons:
@@ -75,7 +79,8 @@ class Game(object):
                     # if incorrect, do nothing for now
                     elif button == self.doneBtn:
                         if self.evaluateAnswer():
-                            self.levelWon = True
+                            self.winScreen.open()
+                            self.levelWon == True
         self.last_mousepressed = pygame.mouse.get_pressed()
 
 
@@ -84,12 +89,12 @@ class Game(object):
         self.goalContainer.draw(self.main.screen)
         for button in self.buttons:
             button.draw(self.main.screen)
-        for item in self.gameScreenUI:
-            item.draw(self.main.screen)
-        if(self.levelWon == True):
-            self.winScreen.draw(self.main.screen)
         for answer in self.currentAnswers:
             answer.draw(self.main.screen)
+        for item in self.gameScreenUI:
+            item.draw(self.main.screen)
+            if(self.winScreen.drawing == True):
+                self.winScreen.draw(self.main.screen)
         if not self.level_loaded:
             self.main.screen.fill((0, 0, 0))
 
