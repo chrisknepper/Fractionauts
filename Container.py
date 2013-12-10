@@ -5,13 +5,15 @@ class Container(Button):
 
     # Takes in drawing co-ordinates, height/width, background/fill colors, and
     # how much it is filled up
-    def __init__(self, x, y, filled=0.0, width=177, height=259, showText = True, color=(255, 0, 0), bg=(50, 50, 50)):
+    def __init__(self, x, y, filled=0.0, width=177, height=259, showText = True, \
+                 color=(255, 0, 0), bg=(50, 50, 50)):
         self.fontObj = pygame.font.Font('freesansbold.ttf', 32)
         self.x = x
         self.y = y
         self.width = width
         self.height = height
         self.showText = showText
+        self.selected = False
         self.fill(filled)
         self.color = color
         self.bg = bg
@@ -34,8 +36,14 @@ class Container(Button):
         shade_filename = "assets/Eigthmetershading.png"
         shade_surface = pygame.image.load(shade_filename)
         screen.blit(base_surface,(self.x, self.y, 20, self.height))
-        pygame.draw.rect(screen, self.bg, (self.x, self.y, self.width, self.height), 0)
-        pygame.draw.rect(screen, self.color, (self.x, self.y + (self.height - self.fillHeight), self.width, self.fillHeight), 0)
+        color = self.bg
+        if self.selected:
+            color = (0,0,0)
+        pygame.draw.rect(screen, color, (self.x, self.y, self.width, self.height), 0)
+        color = self.color
+        if self.selected:
+            color = (50,50,50)
+        pygame.draw.rect(screen, color, (self.x, self.y + (self.height - self.fillHeight), self.width, self.fillHeight), 0)
         screen.blit(shade_surface,(self.x, self.y, 20, self.height))
         if(self.showText):
             screen.blit(self.textObj, self.textRectObj)
