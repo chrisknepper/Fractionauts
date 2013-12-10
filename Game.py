@@ -34,8 +34,8 @@ class Game(object):
         self.gameScreenUI.append(self.levelDisplay)
 
         # Game screen elements
-        self.goalContainer = Container(1000, 200, 0.0, 177, 259, False)
-        #self.goalFill = 0.0 #temporary goal fill amount #deprecated?
+        self.goalContainer = Container(1000, 200, 0, 1, 177, 259, False)
+        self.goalFill = 1.0 #temporary goal fill amount #the number you are aiming for
 
 
     def listenForEvents(self):
@@ -62,7 +62,7 @@ class Game(object):
                     elif button == self.emptyBtn:
                         for answer in self.currentAnswers:
                             answer.selected = False
-                        goalContainer.fill(0.0)
+                        self.goalContainer.fill(0.0)
 
                     #Done button
                     #Evaluate the answer. If correct, return to main menu
@@ -96,6 +96,9 @@ class Game(object):
                 level_data = json.load(level_file)
                 self.currentAnswers = []
                 self.arrangeAnswers(level_data["options"])
+                answer = level_data["answer"].split("/")
+                self.goalFill = float(answer[0])/float(answer[1])
+                print self.goalFill
                 level_file.close()
                 self.level_loaded = True
         except IOError:
@@ -124,6 +127,7 @@ class Game(object):
         posInCurrentRow = -1 #Initialize current row position to -1 
                              #so first answer isn't offset incorrectly
         for answer in answers:
+            answer = answer.split("/")#get numerator and denominator
             if(counter > currentRow * perRow):
                 currentRow = currentRow + 1
                 posInCurrentRow = 0
@@ -131,18 +135,22 @@ class Game(object):
                 posInCurrentRow = posInCurrentRow + 1
             answer_x = base_x + (h_spacing * posInCurrentRow)
             answer_y = base_y + ((currentRow - 1) * v_spacing)
-            temp = Container(answer_x, answer_y, answer)
+            temp = Container(answer_x, answer_y, int(answer[0]), int(answer[1]))
             self.currentAnswers.append(temp)
             counter = counter + 1
 
 
     #Compare the main container's current filled percentage with the goal filled percentage
     def evaluateAnswer(self):
-        return self.goalContainer.filled == self.goalFill
+        #later we should have a more solid way to deal with float errors
+        print str(round(self.goalContainer.filled, 5))+" == "+str(round(self.goalFill, 5))
+        print round(self.goalContainer.filled, 5) == round(self.goalFill, 5)
+        return round(self.goalContainer.filled, 5) == round(self.goalFill, 5)
 
 
     def enter(self):
         print("entered play state")
         self.loadLevel(self.main.currentLevel)
+        self.goalContainer.fill(0)
 
 
