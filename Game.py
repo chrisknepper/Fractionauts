@@ -19,6 +19,7 @@ class Game(object):
         self.currentAnswers = []
         self.level_loaded = False
         self.last_mousepressed = []
+        self.levelWon = False
 
         # Game playing screen buttons
         self.emptyBtn = Button(580, 430, 250, 75, 'Reset')
@@ -35,6 +36,7 @@ class Game(object):
         self.gameScreenUI.append(self.goalDisplay)
         #self.gameScreenUI.append(self.scoreDisplay)
         self.gameScreenUI.append(self.levelDisplay)
+        self.winScreen = TextItem(self.main.width / 2, self.main.height / 2, 200, 75, 'You Win!')
 
         # Game screen elements
         self.goalContainer = Container(950, 300, 0, 1, 177, 259, False)
@@ -73,7 +75,7 @@ class Game(object):
                     # if incorrect, do nothing for now
                     elif button == self.doneBtn:
                         if self.evaluateAnswer():
-                            self.main.set_mode('menu')
+                            self.levelWon = True
         self.last_mousepressed = pygame.mouse.get_pressed()
 
 
@@ -84,6 +86,8 @@ class Game(object):
             button.draw(self.main.screen)
         for item in self.gameScreenUI:
             item.draw(self.main.screen)
+        if(self.levelWon == True):
+            self.winScreen.draw(self.main.screen)
         for answer in self.currentAnswers:
             answer.draw(self.main.screen)
         if not self.level_loaded:
@@ -156,6 +160,7 @@ class Game(object):
 
     def enter(self):
         print("entered play state")
+        self.levelWon = False
         self.loadLevel(self.main.currentLevel)
         self.goalContainer.fill(0)
 
