@@ -18,28 +18,32 @@ class Game(object):
         self.gameScreenUI = []
         self.currentAnswers = []
         self.level_loaded = False
+        self.last_mousepressed = []
 
         # Game playing screen buttons
-        self.menuBtn = Button(600, 500, 200, 75, 'Back to Menu')
-        self.emptyBtn = Button(600, 200, 200, 75, 'Empty all containers')
-        self.doneBtn = Button(600, 600, 200, 75, 'Done')
+        self.emptyBtn = Button(580, 430, 250, 75, 'Reset')
+        self.menuBtn = Button(580, 530, 250, 75, 'Back to Menu')
+        self.doneBtn = Button(580, 630, 250, 75, 'Done')
         self.buttons.append(self.menuBtn)
         self.buttons.append(self.emptyBtn)
         self.buttons.append(self.doneBtn)
 
         # Game screen text elements
-        self.scoreDisplay = TextItem(100, 600, 200, 75, 'Score:')
-        self.levelDisplay = TextItem(100, 800, 200, 75, 'Current Level:')
-        self.gameScreenUI.append(self.scoreDisplay)
+        self.scoreDisplay = TextItem(100, 600, 200, 75, 'Score: ')
+        self.levelDisplay = TextItem(100, 800, 200, 75, 'Current Level: ')
+        self.goalDisplay = TextItem(950, 650, 200, 75, 'Goal: ')
+        self.gameScreenUI.append(self.goalDisplay)
+        #self.gameScreenUI.append(self.scoreDisplay)
         self.gameScreenUI.append(self.levelDisplay)
 
         # Game screen elements
-        self.goalContainer = Container(1000, 200, 0, 1, 177, 259, False)
+        self.goalContainer = Container(950, 300, 0, 1, 177, 259, False)
         self.goalFill = 1.0 #temporary goal fill amount #the number you are aiming for
 
 
     def listenForEvents(self):
-        if self.level_loaded and 1 in pygame.mouse.get_pressed():
+        if self.level_loaded and 1 in pygame.mouse.get_pressed()\
+            and not (1 in self.last_mousepressed):
             for answer in self.currentAnswers:
                 if answer.is_under(pygame.mouse.get_pos()):
                     print 'You clicked the ' + answer.text + ' answer'
@@ -70,6 +74,7 @@ class Game(object):
                     elif button == self.doneBtn:
                         if self.evaluateAnswer():
                             self.main.set_mode('menu')
+        self.last_mousepressed = pygame.mouse.get_pressed()
 
 
     def renderScreen(self):
@@ -98,6 +103,7 @@ class Game(object):
                 self.arrangeAnswers(level_data["options"])
                 answer = level_data["answer"].split("/")
                 self.goalFill = float(answer[0])/float(answer[1])
+                self.goalDisplay.setText("Goal: "+answer[0]+"/"+answer[1])
                 print self.goalFill
                 level_file.close()
                 self.level_loaded = True
