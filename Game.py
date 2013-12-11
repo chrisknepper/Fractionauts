@@ -24,7 +24,7 @@ class Game(object):
         # Game playing screen buttons
         self.emptyBtn = Button(580, 430, 250, 75, 'Reset')
         self.menuBtn = Button(580, 530, 250, 75, 'Back to Menu')
-        self.doneBtn = Button(580, 630, 250, 75, 'Done')
+        self.doneBtn = Button(580, 630, 250, 75, 'Check Answer')
         self.buttons.append(self.menuBtn)
         self.buttons.append(self.emptyBtn)
         self.buttons.append(self.doneBtn)
@@ -36,7 +36,7 @@ class Game(object):
         self.gameScreenUI.append(self.goalDisplay)
         #self.gameScreenUI.append(self.scoreDisplay)
         self.gameScreenUI.append(self.levelDisplay)
-        self.winScreen = TextItem(self.main.width / 2 - 400, 100, 800, 600, 'You Win!', (152, 151, 151), (59, 59, 59), True)
+        self.winScreen = TextItem(self.main.width / 2 - 400, 100, 800, 600, 'You Beat the Level! Click inside this box to go on!', (152, 151, 151), (59, 59, 59), True)
         self.winScreen.close()
         # Game screen elements
         self.goalContainer = Container(950, 300, 0, 1, 177, 259, False)
@@ -56,8 +56,13 @@ class Game(object):
                         self.goalContainer.fill(self.goalContainer.filled-answer.filled)
 
             if self.winScreen.drawing == True and self.winScreen.is_under(pygame.mouse.get_pos()):
-                print 'You closed the win screen'
                 self.winScreen.close()
+                if(self.checkLevelExists(self.main.currentLevel + 1)):
+                    self.main.currentLevel = self.main.currentLevel + 1
+                    self.main.set_mode('play')
+                else:
+                    self.main.currentLevel = 0
+                    self.main.set_mode('menu')
 
             #Play state buttons
             for button in self.buttons:
@@ -116,9 +121,13 @@ class Game(object):
                 print self.goalFill
                 level_file.close()
                 self.level_loaded = True
+                self.levelDisplay.setText("Current Level: " + str(self.main.currentLevel + 1))
         except IOError:
             new_game = open(path, 'w')
             new_game.close()
+
+    def checkLevelExists(self, level):
+        return os.path.exists(os.path.join('assets/levels', str(level) + '.json'))
 
     def saveLevel(self):
         path = self.main.savePath

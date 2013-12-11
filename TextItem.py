@@ -2,7 +2,7 @@ import pygame
 
 class TextItem:
 
-    def __init__(self, x, y, width, height, text, color=(0, 0, 255), textColor=(0, 255, 0), CloseWhenClicked = False):
+    def __init__(self, x, y, width, height, text, color=(16, 65, 147), textColor=(90, 147, 243), CloseWhenClicked = False):
         self.fontObj = pygame.font.Font('freesansbold.ttf', 32)
         self.x = x
         self.y = y
