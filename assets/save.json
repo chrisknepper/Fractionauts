@@ -2,18 +2,5 @@
     "score": "1337",
     "completed": "0",
     "current_game": "true",
-    "current_level": "0",
-    "levels": [
-        {   
-            "type": "Addition",
-            "options": [
-                "0.5",
-                "0.5",
-                "0.2",
-                "0.3",
-                "0.7"
-            ],  
-            "answer": "8/9"
-        }   
-    ]   
+    "current_level": "0"  
 }

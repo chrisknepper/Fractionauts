@@ -11,7 +11,7 @@ from sugar3.graphics.toolbutton import ToolButton
 from sugar3.activity.widgets import StopButton
 
 import sugargame.canvas
-import FractionautsActivity
+import FractionautsMain
 
 
 class FractionautsActivity(sugar3.activity.activity.Activity):
@@ -21,7 +21,7 @@ class FractionautsActivity(sugar3.activity.activity.Activity):
         self.paused = False
 
         # Create the game instance.
-        self.game = TestGame.TestGame()
+        self.game = FractionautsMain.main()
 
         # Build the activity toolbar.
         self.build_toolbar()
