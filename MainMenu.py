@@ -55,6 +55,7 @@ class MainMenu(object):
                     
                     #Quit button
                     if button == self.quitBtn:
+                        self.main.saveLevel()
                         self.running = False
                         pygame.quit()
                         exit()

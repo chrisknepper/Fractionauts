@@ -92,16 +92,23 @@ class FractionautsMain(object):
         self.gameLoaded = True
 
     def saveLevel(self):
+        print "saving level"
         path = self.savePath
         try:
-            with open(path, 'w') as saved_game:
+            with open(path, 'r+') as saved_game:
                 save_data = json.load(saved_game)
-                save_data['current_level'] = self.currentLevel
-                json.dump(save_data, save_data)
-        except IOError:
-            new_game = open(path, 'w')
-            save_data['current_level'] = self.currentLevel
-            new_game.close()
+                save_data['current_level'] = str(self.currentLevel)
+                json_string = json.dumps(save_data, indent=4)
+                print json_string
+                saved_game.seek(0)
+                saved_game.write(json_string)
+                saved_game.truncate()
+                saved_game.close()
+                print "level saved"
+        except IOError as e:
+            print e
+            print 'Saving error'
+            return
 
 
 

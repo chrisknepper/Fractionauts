@@ -22,19 +22,19 @@ class Game(object):
         self.levelWon = False
 
         # Game playing screen buttons
-        self.emptyBtn = Button(580, 430, 250, 75, 'Reset')
-        self.menuBtn = Button(580, 530, 250, 75, 'Back to Menu')
-        self.doneBtn = Button(580, 630, 250, 75, 'Check Answer')
+        self.emptyBtn = Button(750, 825, 200, 75, 'Reset')
+        self.menuBtn = Button(950, 825, 250, 75, 'Back to Menu')
+        self.doneBtn = Button(915, 625, 250, 75, 'Check Answer')
         self.buttons.append(self.menuBtn)
         self.buttons.append(self.emptyBtn)
         self.buttons.append(self.doneBtn)
 
         # Game screen text elements
-        self.scoreDisplay = TextItem(100, 600, 200, 75, 'Score: ')
-        self.levelDisplay = TextItem(100, 800, 200, 75, 'Current Level: ')
-        self.goalDisplay = TextItem(950, 650, 200, 75, 'Goal: ')
+        self.scoreDisplay = TextItem(700, 0, 200, 75, 'Score: ')
+        self.levelDisplay = TextItem(900, 0, 300, 75, 'Current Level: ')
+        self.goalDisplay = TextItem(950, 240, 177, 60, 'Fill to: ')
         self.gameScreenUI.append(self.goalDisplay)
-        #self.gameScreenUI.append(self.scoreDisplay)
+        self.gameScreenUI.append(self.scoreDisplay)
         self.gameScreenUI.append(self.levelDisplay)
         self.winScreen = TextItem(self.main.width / 2 - 400, 100, 800, 600, 'You Beat the Level! Click inside this box to go on!', (152, 151, 151), (59, 59, 59), True)
         self.winScreen.close()
@@ -114,10 +114,10 @@ class Game(object):
             with open(path) as level_file:
                 level_data = json.load(level_file)
                 self.currentAnswers = []
-                self.arrangeAnswers(level_data["options"])
+                self.arrangeAnswers(level_data["options"], 3, 75, 125, 225, 375)
                 answer = level_data["answer"].split("/")
                 self.goalFill = float(answer[0])/float(answer[1])
-                self.goalDisplay.setText("Goal: "+answer[0]+"/"+answer[1])
+                self.goalDisplay.setText("Fill to: "+answer[0]+"/"+answer[1])
                 print self.goalFill
                 level_file.close()
                 self.level_loaded = True
