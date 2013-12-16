@@ -38,6 +38,10 @@ class Game(object):
         self.gameScreenUI.append(self.levelDisplay)
         self.winScreen = TextItem(self.main.width / 2 - 400, 100, 800, 600, 'You Beat the Level! Click inside this box to go on!', (152, 151, 151), (59, 59, 59), True)
         self.winScreen.close()
+
+        self.loseScreen = TextItem(self.main.width / 2 - 400, 100, 800, 600, 'Wrong Answer! Try again!', (152, 151, 151), (59, 59, 59), True)
+        self.loseScreen.close()
+
         # Game screen elements
         self.goalContainer = Container(950, 300, 0, 1, 177, 259, False)
         self.goalFill = 1.0 #temporary goal fill amount #the number you are aiming for
@@ -63,6 +67,9 @@ class Game(object):
                 else:
                     self.main.currentLevel = 0
                     self.main.set_mode('menu')
+            if self.loseScreen.drawing == True and self.loseScreen.is_under(pygame.mouse.get_pos()):
+                # close lose screen.
+                self.loseScreen.close()
 
             #Play state buttons
             for button in self.buttons:
@@ -86,6 +93,9 @@ class Game(object):
                         if self.evaluateAnswer():
                             self.winScreen.open()
                             self.levelWon == True
+                        else:
+                            self.loseScreen.open()
+                            print 'WRONG ANSWER'
         self.last_mousepressed = pygame.mouse.get_pressed()
 
 
@@ -100,6 +110,8 @@ class Game(object):
             item.draw(self.main.screen)
             if(self.winScreen.drawing == True):
                 self.winScreen.draw(self.main.screen)
+            if(self.loseScreen.drawing == True):
+                self.loseScreen.draw(self.main.screen)
         if not self.level_loaded:
             self.main.screen.fill((0, 0, 0))
 
