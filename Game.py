@@ -20,6 +20,8 @@ class Game(object):
         self.level_loaded = False
         self.last_mousepressed = []
         self.levelWon = False
+        self.background = Background(os.path.join('assets', 'rocket_launch.png'), 800, 675 - (self.main.currentLevel * 100))
+        print 'currentLevel is ' + str(self.main.currentLevel)
 
         # Game playing screen buttons
         self.emptyBtn = Button(750, 825, 200, 75, 'Reset')
@@ -101,6 +103,7 @@ class Game(object):
 
     def renderScreen(self):
         self.main.screen.fill((206, 156, 60))
+        self.background.draw(self.main.screen)
         self.goalContainer.draw(self.main.screen)
         for button in self.buttons:
             button.draw(self.main.screen)
@@ -133,6 +136,7 @@ class Game(object):
                 print self.goalFill
                 level_file.close()
                 self.level_loaded = True
+                self.background.y = 675 - (self.main.currentLevel * 100)
                 self.levelDisplay.setText("Current Level: " + str(self.main.currentLevel + 1))
         except IOError:
             new_game = open(path, 'w')
@@ -140,18 +144,6 @@ class Game(object):
 
     def checkLevelExists(self, level):
         return os.path.exists(os.path.join('assets/levels', str(level) + '.json'))
-
-    def saveLevel(self):
-        path = self.main.savePath
-        try:
-            with open(path, 'w') as saved_game:
-                save_data = json.load(saved_game)
-                save_data['current_level'] = self.main.currentLevel
-                json.dump(save_data, save_data)
-        except IOError:
-            new_game = open(path, 'w')
-            save_data['current_level'] = self.main.currentLevel
-            new_game.close()
 
     #Arrange passed-in answers array in a grid with sensible default options
     def arrangeAnswers(self, answers, perRow = 3, base_x = 100, \
