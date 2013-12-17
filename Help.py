@@ -11,7 +11,8 @@ class Help(object):
     def __init__(self, main):
         self.main = main
         self.buttons = []
-
+        self.background_image = os.path.join('assets', 'startscreen', 'night_sunset_gradient.png')
+        self.background = Background(self.background_image)
         self.menuBtn = Button(600, 500, 200, 75, 'Back to Menu')
         # Help screen buttons
         self.buttons.append(self.menuBtn)
@@ -28,7 +29,7 @@ class Help(object):
                   
 
     def renderScreen(self):
-        self.main.screen.fill((34, 215, 217))
+        self.background.draw(self.main.screen)
         for button in self.buttons:
             button.draw(self.main.screen)
 
