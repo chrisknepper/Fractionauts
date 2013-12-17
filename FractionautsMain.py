@@ -82,9 +82,9 @@ class FractionautsMain(object):
                 play = self.modes.index('play')
                 save_data = json.load(saved_game)
                 self.score = save_data["score"]
-                self.states[play].scoreDisplay.setText('Score: ' + str(self.score))
+                self.states[play].scoreDisplay.setText(['Score: ' + str(self.score)])
                 self.currentLevel = int(save_data["current_level"])
-                self.states[play].levelDisplay.setText('Current Level: ' + str(self.currentLevel))
+                self.states[play].levelDisplay.setText(['Current Level: ' + str(self.currentLevel)])
                 saved_game.close()
         except IOError:
             new_game = open(path, 'w')

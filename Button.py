@@ -3,14 +3,15 @@ import pygame
 
 class Button:
 
-    def __init__(self, x, y, width, height, text, color=(16, 65, 147)):
+    def __init__(self, x, y, width, height, text, color=(16, 65, 147), textColor=(90, 147, 243)):
         self.fontObj = pygame.font.Font('freesansbold.ttf', 32)
         self.x = x
         self.y = y
         self.width = width
         self.height = height
         self.text = text
-        self.textObj = self.fontObj.render(text, True, (90, 147, 243))
+        self.textColor = textColor
+        self.textObj = self.fontObj.render(text, True, self.textColor)
         self.textRectObj = self.textObj.get_rect()
         self.textRectObj.center = (x + (width / 2), y + (height / 2))
         self.color = color

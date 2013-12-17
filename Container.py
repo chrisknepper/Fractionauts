@@ -6,7 +6,7 @@ class Container(Button):
     # Takes in drawing co-ordinates, height/width, background/fill colors, and
     # how much it is filled up
     def __init__(self, x, y, numerator=0, denominator=0, width=177, height=259, showText = True, \
-                 color=(255, 0, 0), bg=(50, 50, 50)):
+                 color=(215, 54, 54), bg=(50, 50, 50)):
         self.fontObj = pygame.font.Font('freesansbold.ttf', 32)
         self.x = x
         self.y = y
@@ -27,7 +27,7 @@ class Container(Button):
         self.fillHeight = round(self.filled * self.height)
         if(self.showText):
             self.text = str(self.numerator)+"/"+str(self.denominator)
-            self.textObj = self.fontObj.render(self.text, True, (0, 255, 0))
+            self.textObj = self.fontObj.render(self.text, True, (80, 204, 80))
             self.textRectObj = self.textObj.get_rect()
             self.textRectObj.center = (
                 self.x + (self.width / 2), self.y + (self.height / 2))

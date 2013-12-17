@@ -20,28 +20,35 @@ class Game(object):
         self.level_loaded = False
         self.last_mousepressed = []
         self.levelWon = False
-        self.background = Background(os.path.join('assets', 'rocket_launch.png'), 800, 675 - (self.main.currentLevel * 100))
+        self.failed_rocket = os.path.join('assets', 'rocket_down.png')
+        self.launching_rocket = os.path.join('assets', 'rocket_launch.png')
+        self.background_image = os.path.join('assets', 'startscreen', 'night_sunset_gradient.png')
+        self.background = Background(self.background_image)
+        self.background_rocket = Background(self.launching_rocket, 800, 675 - (self.main.currentLevel * 100))
         print 'currentLevel is ' + str(self.main.currentLevel)
 
         # Game playing screen buttons
-        self.emptyBtn = Button(750, 825, 200, 75, 'Reset')
-        self.menuBtn = Button(950, 825, 250, 75, 'Back to Menu')
-        self.doneBtn = Button(915, 625, 250, 75, 'Check Answer')
+        self.emptyBtn = Button(750, 825, 200, 75, 'Reset', (206, 148, 73), (109, 78, 38))
+        self.menuBtn = Button(950, 825, 250, 75, 'Back to Menu', (202, 198, 82), (85, 83, 34))
+        self.doneBtn = Button(915, 625, 250, 75, 'Check Answer', (7,208,226), (4,111,121))
         self.buttons.append(self.menuBtn)
         self.buttons.append(self.emptyBtn)
         self.buttons.append(self.doneBtn)
 
         # Game screen text elements
-        self.scoreDisplay = TextItem(700, 0, 200, 75, 'Score: ')
-        self.levelDisplay = TextItem(900, 0, 300, 75, 'Current Level: ')
-        self.goalDisplay = TextItem(950, 240, 177, 60, 'Fill to: ')
+        self.scoreDisplay = TextItem(700, 0, 200, 75, ['Score: '], showRect = False)
+        self.levelDisplay = TextItem(900, 0, 300, 75, ['Current Level: '], showRect = False)
+        self.goalDisplay = TextItem(950, 240, 177, 60, ['Fill to: '], textColor= (255,255,255), showRect = False)
+        self.feedback_width = 600
+        self.feedback_height = 200
+        self.feedback_x = (self.main.width / 2) - (self.feedback_width / 2)
+        self.feedback_y = (self.main.height / 2) - (self.feedback_height / 2)
         self.gameScreenUI.append(self.goalDisplay)
         self.gameScreenUI.append(self.scoreDisplay)
         self.gameScreenUI.append(self.levelDisplay)
-        self.winScreen = TextItem(self.main.width / 2 - 400, 100, 800, 600, 'You Beat the Level! Click inside this box to go on!', (152, 151, 151), (59, 59, 59), True)
+        self.winScreen = TextItem(self.feedback_x, self.feedback_y, self.feedback_width, self.feedback_height, ['Nice Job!', 'Click here to go on!'], (84, 194, 92), (39, 90, 43), True, Background(self.launching_rocket, self.feedback_x, self.feedback_y, self.feedback_width / 2, 100))
         self.winScreen.close()
-
-        self.loseScreen = TextItem(self.main.width / 2 - 400, 100, 800, 600, 'Wrong Answer! Try again!', (152, 151, 151), (59, 59, 59), True)
+        self.loseScreen = TextItem(self.feedback_x, self.feedback_y, self.feedback_width, self.feedback_height, ['Oops, that\'s not quite right.', 'Click here and try again.'], (209, 72, 72), (96, 33, 33), True, Background(self.failed_rocket, self.feedback_x, self.feedback_y, self.feedback_width / 2, 100))
         self.loseScreen.close()
 
         # Game screen elements
@@ -104,6 +111,7 @@ class Game(object):
     def renderScreen(self):
         self.main.screen.fill((206, 156, 60))
         self.background.draw(self.main.screen)
+        self.background_rocket.draw(self.main.screen)
         self.goalContainer.draw(self.main.screen)
         for button in self.buttons:
             button.draw(self.main.screen)
@@ -132,12 +140,12 @@ class Game(object):
                 self.arrangeAnswers(level_data["options"], 3, 75, 125, 225, 375)
                 answer = level_data["answer"].split("/")
                 self.goalFill = float(answer[0])/float(answer[1])
-                self.goalDisplay.setText("Fill to: "+answer[0]+"/"+answer[1])
+                self.goalDisplay.setText(["Fill to: "+answer[0]+"/"+answer[1]])
                 print self.goalFill
                 level_file.close()
                 self.level_loaded = True
-                self.background.y = 675 - (self.main.currentLevel * 100)
-                self.levelDisplay.setText("Current Level: " + str(self.main.currentLevel + 1))
+                self.background_rocket.y = 675 - (self.main.currentLevel * 50)
+                self.levelDisplay.setText(["Current Level: " + str(self.main.currentLevel + 1)])
         except IOError:
             new_game = open(path, 'w')
             new_game.close()
