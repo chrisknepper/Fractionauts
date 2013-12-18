@@ -40,6 +40,8 @@ class Help(object):
                             print 'here'
                             self.tutImage.image = pygame.image.load(filepath)
                             self.tutImage.filename = filepath
+                        else:
+                            self.currentScreen = 7
                     elif button == self.backBtn:
                         self.currentScreen-=1
                         if self.currentScreen >= 1:
@@ -47,6 +49,13 @@ class Help(object):
                             print 'here'
                             self.tutImage.image = pygame.image.load(filepath)
                             self.tutImage.filename = filepath
+                        else:
+                            self.currentScreen = 1
+                            filepath = 'assets/tutorial-images/tut'+str(self.currentScreen)+'.jpg'
+                            print 'here'
+                            self.tutImage.image = pygame.image.load(filepath)
+                            self.tutImage.filename = filepath
+
                     
                   
 
