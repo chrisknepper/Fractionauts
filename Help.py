@@ -62,9 +62,18 @@ class Help(object):
     def renderScreen(self):
         self.background.draw(self.main.screen)
         self.tutImage.draw(self.main.screen)
-        for button in self.buttons:
-            #if button != self.backBtn:
-            button.draw(self.main.screen)
+        if(self.currentScreen == 1):
+            for button in self.buttons:
+                if button != self.backBtn:
+                    button.draw(self.main.screen)
+        elif(self.currentScreen == 7):
+            for button in self.buttons:
+                if button != self.nextBtn:
+                    button.draw(self.main.screen)
+        else:
+            for button in self.buttons:
+                button.draw(self.main.screen)
+
 
 
     def enter(self):
