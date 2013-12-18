@@ -36,8 +36,8 @@ class Game(object):
         self.buttons.append(self.doneBtn)
 
         # Game screen text elements
-        self.scoreDisplay = TextItem(700, 0, 200, 75, ['Score: '], showRect = False)
-        self.levelDisplay = TextItem(900, 0, 300, 75, ['Current Level: '], showRect = False)
+        self.scoreDisplay = TextItem(600, 0, 200, 75, ['Score: '], showRect = False)
+        self.levelDisplay = TextItem(800, 0, 300, 75, ['Current Level: '], showRect = False)
         self.goalDisplay = TextItem(950, 240, 177, 60, ['Fill to: '], textColor= (255,255,255), showRect = False)
         self.feedback_width = 600
         self.feedback_height = 200
