@@ -109,6 +109,7 @@ class Game(object):
 
 
     def renderScreen(self):
+
         self.main.screen.fill((206, 156, 60))
         self.background.draw(self.main.screen)
         self.background_rocket.draw(self.main.screen)
@@ -124,7 +125,7 @@ class Game(object):
             if(self.loseScreen.drawing == True):
                 self.loseScreen.draw(self.main.screen)
         if not self.level_loaded:
-            self.main.screen.fill((0, 0, 0))
+            self.main.screen.fill((0, 0, 0)
 
 
 

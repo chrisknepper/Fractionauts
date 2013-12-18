@@ -15,6 +15,7 @@ WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 128)
 
+question = Question("addition")
 
 class FractionautsMain(object):
 
@@ -23,11 +24,6 @@ class FractionautsMain(object):
         self.initialized = False
         self.gameLoaded = False
         self.savePath = os.path.join('assets', 'save.json')
-        self.screen = pygame.display.get_surface()
-        self.height = pygame.display.Info().current_h
-        self.width = pygame.display.Info().current_w
-        self.hcenter = self.width / 2
-        self.vcenter = self.height / 2
         # Set up a clock for managing the frame rate.
         self.clock = pygame.time.Clock()
         
@@ -41,7 +37,6 @@ class FractionautsMain(object):
         self.vy = 0
         self.modes = ['menu', 'play', 'help']
         self.state = 0
-        self.states = [MainMenu(self), Game(self), Help(self)] #initialize all states
         self.paused = False
         self.direction = 1
 
@@ -54,6 +49,13 @@ class FractionautsMain(object):
     def run(self):
         self.running = True
         fontObj = pygame.font.Font('freesansbold.ttf', 32)
+
+        self.screen = pygame.display.get_surface()
+        self.height = pygame.display.Info().current_h
+        self.width = pygame.display.Info().current_w
+        self.hcenter = self.width / 2
+        self.vcenter = self.height / 2
+        self.states = [MainMenu(self), Game(self), Help(self)] #initialize all states
 
         while self.running:
             # Pump GTK messages.
@@ -71,6 +73,7 @@ class FractionautsMain(object):
 
             self.states[self.state].renderScreen()
             pygame.display.flip()
+            self.clock.tick(30)
 
 
     #Load save file, set meta variables
@@ -120,9 +123,8 @@ class FractionautsMain(object):
 # This function is called when the game is run directly from the command line:
 # ./FractionautsMain.py
 def main():
-    question = Question("addition")
     pygame.init()
-    pygame.display.set_mode((1200, 900), pygame.RESIZABLE)
+    pygame.display.set_mode((1200, 900))
     game = FractionautsMain()
     game.run()
 
