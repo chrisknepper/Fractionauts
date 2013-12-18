@@ -33,7 +33,7 @@ class Help(object):
                     if button == self.menuBtn:
                         self.main.set_mode('menu')
                     if button == self.nextBtn:
-                        if self.currentScreen < 7:
+                        if self.currentScreen < 6:
                             self.currentScreen+=1
                             print(self.currentScreen)
                             filepath = 'assets/tutorial-images/tut'+str(self.currentScreen)+'.jpg'
@@ -41,7 +41,7 @@ class Help(object):
                             self.tutImage.image = pygame.image.load(filepath)
                             self.tutImage.filename = filepath
                         else:
-                            self.currentScreen = 7
+                            self.currentScreen = 6
                     elif button == self.backBtn:
                         self.currentScreen-=1
                         if self.currentScreen >= 1:
