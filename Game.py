@@ -22,7 +22,7 @@ class Game(object):
         self.levelWon = False
         self.failed_rocket = os.path.join('assets', 'rocket_down.png')
         self.launching_rocket = os.path.join('assets', 'rocket_launch.png')
-        self.background_image = os.path.join('assets', 'startscreen', 'night_sunset_gradient.png')
+        self.background_image = os.path.join('assets','Background.png')
         self.background = Background(self.background_image)
         self.background_rocket = Background(self.launching_rocket, 800, 675 - (self.main.currentLevel * 100))
         print 'currentLevel is ' + str(self.main.currentLevel)

@@ -19,6 +19,11 @@ class Container(Button):
         self.fill(float(numerator)/float(denominator))
         self.color = color
         self.bg = bg
+        base_filename = "assets/Eigthmeterbase.png"
+        self.base_surface = pygame.image.load(base_filename)
+        shade_filename = "assets/Eigthmetershading.png"
+        self.shade_surface = pygame.image.load(shade_filename)
+
 
     # Take in filled percentage as a decimal, multiply it by the height of
     # container to get pixel height
@@ -33,11 +38,7 @@ class Container(Button):
                 self.x + (self.width / 2), self.y + (self.height / 2))
 
     def draw(self, screen):
-        base_filename = "assets/Eigthmeterbase.png"
-        base_surface = pygame.image.load(base_filename)
-        shade_filename = "assets/Eigthmetershading.png"
-        shade_surface = pygame.image.load(shade_filename)
-        screen.blit(base_surface,(self.x, self.y, 20, self.height))
+        screen.blit(self.base_surface,(self.x, self.y, 20, self.height))
         color = self.bg
         if self.selected:
             color = (0,0,0)
@@ -46,7 +47,7 @@ class Container(Button):
         if self.selected:
             color = (50,50,50)
         pygame.draw.rect(screen, color, (self.x, self.y + (self.height - self.fillHeight), self.width, self.fillHeight), 0)
-        screen.blit(shade_surface,(self.x, self.y, 20, self.height))
+        screen.blit(self.shade_surface,(self.x, self.y, 20, self.height))
         if(self.showText):
             screen.blit(self.textObj, self.textRectObj)
 
