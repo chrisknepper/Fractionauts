@@ -101,6 +101,7 @@ class FractionautsMain(object):
             with open(path, 'r+') as saved_game:
                 save_data = json.load(saved_game)
                 save_data['current_level'] = str(self.currentLevel)
+                save_data['score'] = str(self.score)
                 json_string = json.dumps(save_data, indent=4)
                 print json_string
                 saved_game.seek(0)
