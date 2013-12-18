@@ -71,7 +71,7 @@ class Game(object):
             if self.winScreen.drawing == True and self.winScreen.is_under(pygame.mouse.get_pos()):
                 self.winScreen.close()
                 if(self.checkLevelExists(self.main.currentLevel + 1)):
-                    self.main.currentLevel = self.main.currentLevel + 1
+                    self.main.currentLevel += 1
                     self.main.set_mode('play')
                 else:
                     self.main.currentLevel = 0
@@ -101,7 +101,8 @@ class Game(object):
                     elif button == self.doneBtn:
                         if self.evaluateAnswer():
                             self.winScreen.open()
-                            self.levelWon == True
+                            self.levelWon = True
+                            self.main.score = str(int(self.main.score) + 5)
                         else:
                             self.loseScreen.open()
                             print 'WRONG ANSWER'
@@ -146,6 +147,7 @@ class Game(object):
                 self.level_loaded = True
                 self.background_rocket.y = 675 - (self.main.currentLevel * 50)
                 self.levelDisplay.setText(["Current Level: " + str(self.main.currentLevel + 1)])
+                self.scoreDisplay.setText((["Score: " + str(self.main.score)]))
         except IOError:
             new_game = open(path, 'w')
             new_game.close()
