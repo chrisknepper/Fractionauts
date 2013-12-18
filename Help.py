@@ -13,7 +13,7 @@ class Help(object):
         self.buttons = []
         self.background_image = os.path.join('assets', 'startscreen', 'night_sunset_gradient.png')
         self.background = Background(self.background_image)
-        self.tut = pygame.image.load(os.path.join('assets', 'tutorial-images', 'tut1.jpg'))
+        self.tutImage = Background('assets/tutorial-images/tut1.jpg',self.main.hcenter - 400, 50)
         self.menuBtn = Button(500, 750, 200, 75, 'Menu')
         self.backBtn = Button(300, 650, 200,75, 'Back')
         self.nextBtn = Button(700, 650, 200, 75, 'Next')
@@ -32,16 +32,30 @@ class Help(object):
                     print 'You clicked the ' + button.text + ' button'
                     if button == self.menuBtn:
                         self.main.set_mode('menu')
-
+                    if button == self.nextBtn:
+                        if self.currentScreen < 7:
+                            self.currentScreen+=1
+                            print(self.currentScreen)
+                            filepath = 'assets/tutorial-images/tut'+str(self.currentScreen)+'.jpg'
+                            print 'here'
+                            self.tutImage.image = pygame.image.load(filepath)
+                            self.tutImage.filename = filepath
+                    elif button == self.backBtn:
+                        self.currentScreen-=1
+                        if self.currentScreen >= 1:
+                            filepath = 'assets/tutorial-images/tut'+str(self.currentScreen)+'.jpg'
+                            print 'here'
+                            self.tutImage.image = pygame.image.load(filepath)
+                            self.tutImage.filename = filepath
                     
                   
 
     def renderScreen(self):
         self.background.draw(self.main.screen)
-        self.main.screen.blit(self.tut, (self.main.hcenter - 400, 50))
+        self.tutImage.draw(self.main.screen)
         for button in self.buttons:
-            if button != self.backBtn:
-                button.draw(self.main.screen)
+            #if button != self.backBtn:
+            button.draw(self.main.screen)
 
 
     def enter(self):
