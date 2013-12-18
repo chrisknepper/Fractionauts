@@ -28,8 +28,8 @@ class Game(object):
         print 'currentLevel is ' + str(self.main.currentLevel)
 
         # Game playing screen buttons
-        self.emptyBtn = Button(750, 825, 200, 75, 'Reset', (206, 148, 73), (109, 78, 38))
-        self.menuBtn = Button(950, 825, 250, 75, 'Back to Menu', (202, 198, 82), (85, 83, 34))
+        self.emptyBtn = Button(750, 725, 200, 75, 'Reset', (206, 148, 73), (109, 78, 38))
+        self.menuBtn = Button(950, 725, 250, 75, 'Back to Menu', (202, 198, 82), (85, 83, 34))
         self.doneBtn = Button(915, 625, 250, 75, 'Check Answer', (7,208,226), (4,111,121))
         self.buttons.append(self.menuBtn)
         self.buttons.append(self.emptyBtn)
@@ -145,7 +145,7 @@ class Game(object):
                 print self.goalFill
                 level_file.close()
                 self.level_loaded = True
-                self.background_rocket.y = 675 - (self.main.currentLevel * 50)
+                self.background_rocket.y = 600 - (self.main.currentLevel * 50)
                 self.levelDisplay.setText(["Current Level: " + str(self.main.currentLevel + 1)])
                 self.scoreDisplay.setText((["Score: " + str(self.main.score)]))
         except IOError:
