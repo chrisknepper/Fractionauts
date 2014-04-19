@@ -1,7 +1,7 @@
 import pygame
 import os
 import json
-from gi.repository import Gtk
+import pygtk
 from Button import Button
 from Container import *
 from Question import Question
