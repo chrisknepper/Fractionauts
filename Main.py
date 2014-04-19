@@ -3,7 +3,10 @@
 import pygame
 import os
 import json
-from gi.repository import Gtk
+#from gi.repository import Gtk
+import pygtk
+pygtk.require('2.0')
+import gtk
 from Button import Button
 from Question import Question
 from MainMenu import MainMenu
@@ -59,21 +62,21 @@ class FractionautsMain(object):
 
         while self.running:
             # Pump GTK messages.
-            while Gtk.events_pending():
-                Gtk.main_iteration()
+            while gtk.events_pending():
+                gtk.main_iteration()
 
             # Pump PyGame messages.
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     return
 
-            self.states[self.state].listenForEvents()
+            #self.states[self.state].listenForEvents()
             if self.gameLoaded == False:
                 self.loadGame()
 
             self.states[self.state].renderScreen()
             pygame.display.flip()
-            self.clock.tick(30)
+           # self.clock.tick(30)
 
 
     #Load save file, set meta variables
