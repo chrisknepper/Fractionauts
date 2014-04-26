@@ -55,6 +55,10 @@ class Game(object):
         self.goalContainer = Container(950, 300, 0, 1, 177, 259, False)
         self.goalFill = 1.0 #temporary goal fill amount #the number you are aiming for
 
+        # Timer Bonus
+        self.timer = 0;
+        self.secondsTillNoBonus = 10; 
+        
 
     def listenForEvents(self):
         if self.level_loaded and 1 in pygame.mouse.get_pressed()\
@@ -96,13 +100,22 @@ class Game(object):
                         self.goalContainer.fill(0.0)
 
                     #Done button
-                    #Evaluate the answer. If correct, return to main menu
-                    # if incorrect, do nothing for now
+                    #Evaluate the answer.
+                    #Scores are increased with timer bonus
                     elif button == self.doneBtn:
                         if self.evaluateAnswer():
                             self.winScreen.open()
                             self.levelWon = True
-                            self.main.score = str(int(self.main.score) + 5)
+                            addition = 50;
+                            timerBonus = self.timer + self.secondsTillNoBonus * 1000 - pygame.time.get_ticks();
+                            if timerBonus < 0:
+                                timerBonus = 0;
+                            print "Timer Stuff";
+                            print type(timerBonus);
+                            print type(self.secondsTillNoBonus * 1000);
+                            #add the normalized timer bonus to addition of scores
+                            addition += ( timerBonus / float( self.secondsTillNoBonus * 1000 ) ) * addition;
+                            self.main.score = str(int(self.main.score) + int(addition))
                         else:
                             self.loseScreen.open()
                             print 'WRONG ANSWER'
@@ -191,5 +204,6 @@ class Game(object):
         self.levelWon = False
         self.loadLevel(self.main.currentLevel)
         self.goalContainer.fill(0)
+        self.timer = pygame.time.get_ticks();
 
 
