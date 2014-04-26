@@ -70,7 +70,7 @@ class FractionautsMain(object):
                 if event.type == pygame.QUIT:
                     return
 
-            #self.states[self.state].listenForEvents()
+            self.states[self.state].listenForEvents()
             if self.gameLoaded == False:
                 self.loadGame()
 
