@@ -104,18 +104,16 @@ class Game(object):
                     #Scores are increased with timer bonus
                     elif button == self.doneBtn:
                         if self.evaluateAnswer():
-                            self.winScreen.open()
-                            self.levelWon = True
-                            addition = 50;
-                            timerBonus = self.timer + self.secondsTillNoBonus * 1000 - pygame.time.get_ticks();
-                            if timerBonus < 0:
-                                timerBonus = 0;
-                            print "Timer Stuff";
-                            print type(timerBonus);
-                            print type(self.secondsTillNoBonus * 1000);
-                            #add the normalized timer bonus to addition of scores
-                            addition += ( timerBonus / float( self.secondsTillNoBonus * 1000 ) ) * addition;
-                            self.main.score = str(int(self.main.score) + int(addition))
+                            if self.levelWon != True:
+                                self.winScreen.open()
+                                self.levelWon = True
+                                addition = 50;
+                                timerBonus = self.timer + self.secondsTillNoBonus * 1000 - pygame.time.get_ticks();
+                                if timerBonus < 0:
+                                    timerBonus = 0;
+                                #add the normalized timer bonus to addition of scores
+                                addition += ( timerBonus / float( self.secondsTillNoBonus * 1000 ) ) * addition;
+                                self.main.score = str(int(self.main.score) + int(addition))
                         else:
                             self.loseScreen.open()
                             print 'WRONG ANSWER'
