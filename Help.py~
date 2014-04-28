@@ -18,7 +18,7 @@ class Help(object):
         self.backBtn = Button(300, 650, 200,75, 'Back')
         self.nextBtn = Button(700, 650, 200, 75, 'Next')
 	
-	self.exitBtn = Button(900, 650, 200, 75, 'Exit')
+	self.exitBtn = Button(700, 650, 200, 75, 'Exit')
 
         self.currentScreen = 1
         # Help screen buttons
