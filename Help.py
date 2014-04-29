@@ -1,6 +1,7 @@
 import pygame
 import os
 import pygtk
+import time
 from Button import Button
 from Background import Background
 from TextItem import TextItem
@@ -44,8 +45,10 @@ class Help(object):
                             print 'here'
                             self.tutImage.image = pygame.image.load(filepath)
                             self.tutImage.filename = filepath
+			    time.sleep(.25) #pause for second
                         else:
                             self.currentScreen = 6
+			    time.sleep(.25) #pause for second
                     elif button == self.backBtn:
                         self.currentScreen-=1
                         if self.currentScreen >= 1:
@@ -53,12 +56,14 @@ class Help(object):
                             print 'here'
                             self.tutImage.image = pygame.image.load(filepath)
                             self.tutImage.filename = filepath
+			    time.sleep(.25) #pause for second
                         else:
                             self.currentScreen = 1
                             filepath = 'assets/tutorial-images/tut'+str(self.currentScreen)+'.jpg'
                             print 'here'
                             self.tutImage.image = pygame.image.load(filepath)
                             self.tutImage.filename = filepath
+			    time.sleep(.25) #pause for second
 
                     
                   
