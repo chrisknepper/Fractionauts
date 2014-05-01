@@ -6,9 +6,9 @@ from Background import Background
 from TextItem import TextItem
 
 
-class Help(object):
+class SceneHelp(object):
 
-    def __init__(self, main):
+    def __init__(self, main,screenSize):
         self.main = main
         self.buttons = []
         self.background_image = os.path.join('assets', 'startscreen', 'night_sunset_gradient.png')
@@ -59,7 +59,7 @@ class Help(object):
                     
                   
 
-    def renderScreen(self):
+    def renderScreen(self,screen):
         self.background.draw(self.main.screen)
         self.tutImage.draw(self.main.screen)
         if(self.currentScreen == 1):

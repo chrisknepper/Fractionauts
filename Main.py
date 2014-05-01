@@ -8,10 +8,13 @@ import json
 
 from Button import Button
 from Question import Question
-from MainMenu import MainMenu
-from Game import Game
-from Help import Help
+from SceneGameMenu import SceneGameMenu
+from SceneGame import SceneGame
+from SceneHelp import SceneHelp
 
+#my calls
+import TextureLoader
+import DrawHelper
 
 WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
@@ -42,15 +45,19 @@ class FractionautsMain(object):
 
 
 		pygame.init()
-		self.screen = pygame.display.set_mode((1200, 900))
+		self.screen = pygame.display.set_mode((1200,900))
+		DrawHelper.init(1200,900)
 
-		fontObj = pygame.font.Font('freesansbold.ttf', 32)
+		self.myFont = pygame.font.Font('freesansbold.ttf', 32)
 		self.screen = pygame.display.get_surface()
 		self.height = pygame.display.Info().current_h
 		self.width = pygame.display.Info().current_w
 		self.hcenter = self.width / 2 
 		self.vcenter = self.height / 2
-		self.states = [MainMenu(self), Game(self), Help(self)] #initialize all states
+
+		screenSize = (pygame.display.Info().current_w,pygame.display.Info().current_h) 
+		screenSize = (800,600)
+		self.states = [SceneGameMenu(self,screenSize), SceneGame(self,screenSize), SceneHelp(self,screenSize)] #initialize all states
 		if self.gameLoaded == False:
 				print "gameLoaded"
 				self.loadGame()
@@ -70,9 +77,13 @@ class FractionautsMain(object):
 
 	def loopRender(self):
 		while  self.isRunning:
-			self.states[self.state].renderScreen()
-			pygame.display.flip()
+			self.screen.fill((255, 255, 255))  # 255 for white
+			self.states[self.state].renderScreen(self.screen)
 			self.clock.tick(40);
+			
+			label =  self.myFont.render("FPS "+str(int(self.clock.get_fps()) ) , 1, (255,255,0))
+			self.screen.blit(label, (0, 0))
+			pygame.display.flip()
 
 	def loopUpdate(self):
 		while True:

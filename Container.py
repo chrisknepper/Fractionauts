@@ -5,7 +5,7 @@ class Container(Button):
 
     # Takes in drawing co-ordinates, height/width, background/fill colors, and
     # how much it is filled up
-    def __init__(self, x, y, numerator=0, denominator=0, width=177, height=259, showText = True, \
+    def __init__(self, x, y, numerator=0, denominator=0, width=130, height=200, showText = True, \
                  color=(215, 54, 54), bg=(50, 50, 50)):
         self.fontObj = pygame.font.Font('freesansbold.ttf', 32)
         self.x = x
@@ -20,9 +20,13 @@ class Container(Button):
         self.color = color
         self.bg = bg
         base_filename = "assets/Eigthmeterbase.png"
-        self.base_surface = pygame.image.load(base_filename)
         shade_filename = "assets/Eigthmetershading.png"
-        self.shade_surface = pygame.image.load(shade_filename)
+        self.base_surface = pygame.image.load(base_filename).convert_alpha()
+        self.shade_surface = pygame.image.load(shade_filename).convert_alpha()
+
+        scale = (int(width),int(height));
+        self.base_surface= pygame.transform.scale(self.base_surface, scale)
+        self.shade_surface = pygame.transform.scale(self.shade_surface, scale)
 
 
     # Take in filled percentage as a decimal, multiply it by the height of
