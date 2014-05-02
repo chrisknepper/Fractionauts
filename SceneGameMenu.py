@@ -50,7 +50,7 @@ class SceneGameMenu(SceneBasic):
 			for bttn,event in buttons_event:
 				if bttn.is_under(mouseAt):
 					print 'You clicked the ' + bttn.text + ' button'
-					self.helperRaiseEventHDR(event)
+					self.helperRaiseEvent(event)
 					break
 
 	def renderScreen(s, screen):

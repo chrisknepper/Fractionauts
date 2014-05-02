@@ -10,7 +10,7 @@ import TextureLoader
 class SceneBasic(object):
 	
 	@staticmethod
-	def helperRaiseEventHDR(events): 
+	def helperRaiseEvent(events): 
 		for e in events: e();
 
 	event_scene_change_start =[]
@@ -23,10 +23,10 @@ class SceneBasic(object):
 
 	@staticmethod
 	def EVENT_SCENE_CHANGE_START():
-		SceneBasic.helperRaiseEventHDR(SceneBasic.event_scene_change_start)
+		SceneBasic.helperRaiseEvent(SceneBasic.event_scene_change_start)
 	@staticmethod
 	def EVENT_SCENE_CHANGE_END():
-		SceneBasic.helperRaiseEventHDR(SceneBasic.event_scene_change_end)
+		SceneBasic.helperRaiseEvent(SceneBasic.event_scene_change_end)
 
 	
 	#init methods

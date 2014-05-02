@@ -33,7 +33,7 @@ class SceneHelp(SceneBasic):
                 if button.is_under(pygame.mouse.get_pos()):
                     print 'You clicked the ' + button.text + ' button'
                     if button == self.menuBtn:
-                        self.helperRaiseEventHDR(self.EVENT_MENU)
+                        self.helperRaiseEvent(self.EVENT_MENU)
 
                     if button == self.nextBtn:
                         if self.currentScreen < 6:
