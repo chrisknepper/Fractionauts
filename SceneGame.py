@@ -17,14 +17,17 @@ import DrawHelper
 
 
 class SceneGame(SceneBasic):
-
+	STATE_READY = 0
+	STATE_WINSCREEN = 1
 	def __init__(self, main,screenSize):
 		self.main = main
+		self.myState = self.STATE_READY
+		self.initEvents();
 		self.currentAnswers = []
 		self.last_mousepressed = []
 		self.level_loaded = False
 		self.levelWon = False
-
+		self.initBase()
 		self.initImages(screenSize)
 		#self.failed_rocket = os.path.join('assets', 'rocket_down.png')
 		#self.launching_rocket = os.path.join('assets', 'rocket_launch.png')
@@ -53,6 +56,11 @@ class SceneGame(SceneBasic):
 		
 		self.goalContainer = Container(.67 * screenSize[0], .33*screenSize[1], 0, 1, .12*screenSize[0], .28*screenSize[1], False)
 		self.goalFill = 1.0 #temporary goal fill amount #the number you are aiming for
+
+		self.winScreen = TextItem(self.feedback_x, self.feedback_y, self.feedback_width, self.feedback_height, ['Nice Job!', 'Click here to go on!'])
+		self.winScreen.close()
+		self.loseScreen = TextItem(self.feedback_x, self.feedback_y, self.feedback_width, self.feedback_height, ['Oops, that\'s not quite right.', 'Click here and try again.'])
+		self.loseScreen.close()
 
 		#self.winScreen = TextItem(self.feedback_x, self.feedback_y, self.feedback_width, self.feedback_height, ['Nice Job!', 'Click here to go on!'], (84, 194, 92), (39, 90, 43), True, Background(self.launching_rocket, self.feedback_x, self.feedback_y, self.feedback_width / 2, 100))
 		#self.winScreen.close()
@@ -83,62 +91,101 @@ class SceneGame(SceneBasic):
 		
 		
 		pass;
-	def initEvents(s):
+	def initBase(s):
+		s.isMosueReleased = True
+
+	def listenForEvents(s):
+		mousePressed = pygame.mouse.get_pressed()
+		if(s.isMosueReleased and mousePressed[0] is 1) :
+			s.isMosueReleased = False
+			s.EVENT_CLICK()
+		elif(not s.isMosueReleased and mousePressed[0] is 0):
+			s.isMosueReleased = True
+
+	def EVENT_CLICK_ANSWER(self):
+		pos = pygame.mouse.get_pos()
+		for answer in self.currentAnswers:
+			if answer.is_under(pos):
+				if(answer.helperSelect()):
+					self.goalContainer.fill(self.goalContainer.filled+answer.filled)
+				else: self.goalContainer.fill(self.goalContainer.filled-answer.filled)
 		pass
+	
 
-	def listenForEvents(self):
-		if self.level_loaded and 1 in pygame.mouse.get_pressed()\
-			and not (1 in self.last_mousepressed):
-			for answer in self.currentAnswers:
-				if answer.is_under(pygame.mouse.get_pos()):
-					print 'You clicked the ' + answer.text + ' answer'
-					answer.selected = not answer.selected
-					if answer.selected:
-						self.goalContainer.fill(self.goalContainer.filled+answer.filled)
-					else:
-						self.goalContainer.fill(self.goalContainer.filled-answer.filled)
-
-			if self.winScreen.drawing == True and self.winScreen.is_under(pygame.mouse.get_pos()):
-				self.winScreen.close()
-				if(self.checkLevelExists(self.main.currentLevel + 1)):
-					self.main.currentLevel += 1
-					self.main.set_mode('play')
-				else:
-					self.main.currentLevel = 0
-					self.main.set_mode('menu')
-			if self.loseScreen.drawing == True and self.loseScreen.is_under(pygame.mouse.get_pos()):
-				# close lose screen.
-				self.loseScreen.close()
+	
+	def EVENT_CLICK_WINSCREEN(self):
+		if self.winScreen.drawing == True and self.winScreen.is_under(pygame.mouse.get_pos()):
+			self.winScreen.close()
+			if(self.checkLevelExists(self.main.currentLevel + 1)):
+				self.main.currentLevel += 1
+				self.main.set_mode('play')
+			else:
+				self.main.currentLevel = 0
+				self.main.set_mode('menu')
+		if self.loseScreen.drawing == True and self.loseScreen.is_under(pygame.mouse.get_pos()):
+			# close lose screen.
+			self.loseScreen.close()
 
 			#Play state buttons
-			for button in self.buttons:
-				if button.is_under(pygame.mouse.get_pos()):
-					print 'You clicked the ' + button.text + ' button'
-
-					#Menu button
-					if button == self.bttnMenu:
-						self.main.set_mode('menu')
-
-					#Empty button
-					elif button == self.bttnEmpty:
-						for answer in self.currentAnswers:
-							answer.selected = False
-						self.goalContainer.fill(0.0)
-
-					#Done button
-					#Evaluate the answer. If correct, return to main menu
-					# if incorrect, do nothing for now
-					elif button == self.bttnDone:
-						if self.evaluateAnswer():
-							self.winScreen.open()
-							self.levelWon = True
-							self.main.score = str(int(self.main.score) + 5)
-						else:
-							self.loseScreen.open()
-							print 'WRONG ANSWER'
-		self.last_mousepressed = pygame.mouse.get_pressed()
 		pass
 
+	def registerEvent_menu():pass
+	def registerEvent_empty():pass
+	def registerEvent_done():pass
+
+	def EVENTHDR_DONE(self):
+		if self.evaluateAnswer():
+			self.winScreen.open()
+			self.levelWon = True
+			self.main.score = str(int(self.main.score) + 5)
+		else:
+			self.loseScreen.open()
+			print 'WRONG ANSWER'
+	def EVENTHDR_EMPTY(self):
+		for answer in self.currentAnswers:
+			answer.selected = False
+		self.goalContainer.fill(0.0)
+		#Done button
+		#Evaluate the answer. If correct, return to main menu
+		# if incorrect, do nothing for now
+	def EVENTHDR_DONE(self):
+		if self.evaluateAnswer():
+			self.winScreen.open()
+			self.levelWon = True
+			self.main.score = str(int(self.main.score) + 5)
+		else:
+			self.loseScreen.open()
+			print 'WRONG ANSWER'
+
+	def registerEvent_menu(s,e):s.EVENT_MENU.append(e)
+	def initEvents(s):
+		s.EVENT_MENU=[]
+		s.EVENT_EMPTY=[]
+		s.EVENT_DONE=[]
+
+		s.EVENT_EMPTY.append(s.EVENTHDR_EMPTY)
+		s.EVENT_DONE.append(s.EVENTHDR_DONE)
+	def EVENT_CLICK_BUTTONS(self):
+		mousePos = pygame.mouse.get_pos()
+		bttn_event = [
+			[self.bttnMenu, self.EVENT_MENU],
+			[self.bttnEmpty, self.EVENT_EMPTY],
+			[self.bttnDone, self.EVENT_DONE]]
+		for bttn,event in bttn_event:
+			if( not bttn.is_under(mousePos)):continue
+			SceneBasic.helperRaiseEvent(event)
+			break
+
+
+	def EVENT_CLICK(self):
+		print "EVENT_CLICK"
+		if (self.myState  is self.STATE_READY):
+			self.EVENT_CLICK_ANSWER()
+			self.EVENT_CLICK_BUTTONS()
+			pass
+		elif (self.myState is slef.STATE_WINSCREEN):
+			#self.EVENT_CLICK_WINSCREEN()
+			pass
 
 	def renderScreen(self,screen):
 		DrawHelper.drawAspect(screen,self.textureIdBG, 0,0)

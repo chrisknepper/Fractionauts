@@ -28,6 +28,9 @@ class Container(Button):
         self.base_surface= pygame.transform.scale(self.base_surface, scale)
         self.shade_surface = pygame.transform.scale(self.shade_surface, scale)
 
+    def helperSelect(self):
+        self.selected = not self.selected
+        return self.selected
 
     # Take in filled percentage as a decimal, multiply it by the height of
     # container to get pixel height

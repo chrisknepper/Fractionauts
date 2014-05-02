@@ -67,6 +67,7 @@ class FractionautsMain(object):
 				self.loadGame()
 
 	def EVENTHDR_SCENE_START_MENU(self):
+		self.set_mode('menu');
 		pass
 	def EVENTHDR_SCENE_START_GAME(self):
 		self.set_mode('play');
@@ -94,6 +95,8 @@ class FractionautsMain(object):
 		sceneMenu.registerEvent_play(self.EVENTHDR_SCENE_START_GAME)
 		sceneMenu.registerEvent_help(self.EVENTHDR_SCENE_START_HELP)
 		sceneMenu.registerEvent_quit(self.EVENTHDR_QUIT)
+
+		sceneGame.registerEvent_menu(self.EVENTHDR_SCENE_START_MENU)
 		pass
 
 	def set_paused(self, paused):
