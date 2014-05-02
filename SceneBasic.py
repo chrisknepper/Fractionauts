@@ -8,8 +8,28 @@ from ScrollingImage import ScrollingImage
 import TextureLoader
 
 class SceneBasic(object):
-	#init methods
 	
+	@staticmethod
+	def helperRaiseEvent(events): 
+		for e in events: e();
+
+	eventHandler_scene_change_start =[]
+	eventHandler_scene_change_end =[]
+
+	@staticmethod
+	def registerEvent_sceneChangeStart(e): SceneBasic.eventHandler_scene_change_start.append(e);
+	@staticmethod
+	def registerEvent_sceneChangeEnd(e):SceneBasic.eventHandler_scene_change_end.append(e);
+
+	@staticmethod
+	def EVENT_SCENE_CHANGE_START():
+		pass
+	@staticmethod
+	def EVENT_SCENE_CHANGE_END():
+		pass
+
+	
+	#init methods
 	def __init__(self, main,  resolution):
 		self.main = main
 		self.initEvents();

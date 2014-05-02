@@ -15,6 +15,7 @@ from SceneHelp import SceneHelp
 #my calls
 import TextureLoader
 import DrawHelper
+from SceneBasic import SceneBasic	
 
 WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
@@ -28,7 +29,8 @@ class FractionautsMain(object):
 		self.savePath = os.path.join('assets', 'save.json')
 		# Set up a clock for managing the frame rate.
 		self.clock = pygame.time.Clock()
-		
+		self.lockRender = threading.Lock()
+
 		self.currentLevel = 0;
 		self.score = 0;
 
@@ -58,10 +60,41 @@ class FractionautsMain(object):
 		screenSize = (pygame.display.Info().current_w,pygame.display.Info().current_h) 
 		screenSize = (800,600)
 		self.states = [SceneGameMenu(self,screenSize), SceneGame(self,screenSize), SceneHelp(self,screenSize)] #initialize all states
+		self.registerEvents(self.states[0],self.states[1],self.states[2])
+
 		if self.gameLoaded == False:
 				print "gameLoaded"
 				self.loadGame()
 
+	def EVENTHDR_SCENE_START_MENU(self):
+		pass
+	def EVENTHDR_SCENE_START_GAME(self):
+		self.set_mode('play');
+		pass
+	def EVENTHDR_SCENE_START_HELP(self):
+		self.set_mode('help');
+		pass
+	def EVENTHDR_QUIT(self):
+		self.saveLevel()
+		self.isRunning = False
+		pygame.quit()
+		exit()
+		pass
+
+	def EVENTHDR_SCENE_CHANGE_START(self):
+		self.lockRender.acquire()
+		pass
+	def EVENTHDR_SCENE_CHANGE_END(self):
+		self.lockRender.release()
+		pass
+
+	def registerEvents(self, sceneMenu,sceneGame,sceneHelp):
+		SceneBasic.registerEvent_sceneChangeStart(self.EVENTHDR_SCENE_CHANGE_START)
+		SceneBasic.registerEvent_sceneChangeEnd(self.EVENTHDR_SCENE_CHANGE_END)
+		sceneMenu.registerEvent_play(self.EVENTHDR_SCENE_START_GAME)
+		sceneMenu.registerEvent_help(self.EVENTHDR_SCENE_START_HELP)
+		sceneMenu.registerEvent_quit(self.EVENTHDR_QUIT)
+		pass
 
 	def set_paused(self, paused):
 		self.paused = paused
@@ -77,6 +110,7 @@ class FractionautsMain(object):
 
 	def loopRender(self):
 		while  self.isRunning:
+			self.lockRender.acquire();
 			self.screen.fill((255, 255, 255))  # 255 for white
 			self.states[self.state].renderScreen(self.screen)
 			self.clock.tick(40);
@@ -84,6 +118,7 @@ class FractionautsMain(object):
 			label =  self.myFont.render("FPS "+str(int(self.clock.get_fps()) ) , 1, (255,255,0))
 			self.screen.blit(label, (0, 0))
 			pygame.display.flip()
+			self.lockRender.release();
 
 	def loopUpdate(self):
 		while True:

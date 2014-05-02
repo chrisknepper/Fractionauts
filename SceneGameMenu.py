@@ -6,24 +6,14 @@ class SceneGameMenu(SceneBasic):
 		SceneBasic.__init__(self,main,resolution)
 
 	
+	def registerEvent_play(s,e): s.EVENT_PLAY.append(e); pass
+	def registerEvent_help(s,e):s.EVENT_HELP.append(e);pass
+	def registerEvent_quit(s,e):s.EVENT_QUIT.append(e);pass
 
 	def initEvents(s):
 		s.EVENT_PLAY = [ ];
-		s.EVENT_TUTORIAL = [ ];
+		s.EVENT_HELP = [ ];
 		s.EVENT_QUIT = [ ];
-
-		def ME_EVENT_PLAY(): s.main.set_mode('play'); pass
-		def ME_EVENT_TUTORIAL():s.main.set_mode('help');pass
-		def ME_EVENT_QUIT():
-			s.main.saveLevel()
-			s.running = False
-			pygame.quit()
-			exit()
-			pass
-
-		s.EVENT_PLAY.append(ME_EVENT_PLAY)
-		s.EVENT_TUTORIAL.append(ME_EVENT_TUTORIAL)
-		s.EVENT_QUIT.append(ME_EVENT_QUIT)
 
 	def initImages(s,resolution):
 		s.textureIdLogo =	TextureLoader.load(os.path.join('assets', 'startscreen', 'Title.png'));
@@ -38,7 +28,7 @@ class SceneGameMenu(SceneBasic):
 	def initButtons(s,resolution):
 		center = (resolution[0] *.5,resolution[1]*.5);
 		# Main menu buttons
-		s.bttnPlay =	Button( center[0]- (75 * 1.5),center[1] - 100, 200, 75, 'Play')
+		s.bttnPlay =	Button(center[0] - (75 * 1.5),center[1] - 100, 200, 75, 'Play')
 		s.bttnHow =	Button(center[0] - (75 * 1.5),center[1], 200, 75, 'How to Play')
 		s.bttnQuit =	Button(center[0]  - (75 * 1.5),center[1] + 100, 200, 75, 'Quit')
 
@@ -47,6 +37,35 @@ class SceneGameMenu(SceneBasic):
 		s.buttons.append(s.bttnHow)
 		s.buttons.append(s.bttnQuit)
 
+	def listenForEvents(self):
+		mouseAt = pygame.mouse.get_pos();
+		buttons_event = [
+					[self.bttnQuit ,self.EVENT_QUIT],
+					[self.bttnPlay , self.EVENT_PLAY],
+					[self.bttnHow ,self.EVENT_HELP]
+				]
+
+		if 1 in pygame.mouse.get_pressed():
+			#Menu state buttons
+			for bttn,event in buttons_event:
+				if bttn.is_under(mouseAt):
+					print 'You clicked the ' + bttn.text + ' button'
+					self.helperRaiseEvent(event)
+					break
+
+	def renderScreen(s, screen):
+		DrawHelper.drawAspect(screen, s.textureIdBG, 0,0)
+		DrawHelper.drawAspect(screen, s.textureIdBG_sunsetoverlay, 0,0)
+		tick = pygame.time.get_ticks()
+		for button in s.buttons:
+			button.draw(screen)
+
+	def enter(self):
+		print("entered main menu")
+
+
+
+#def initButtons(s,resolution):
 		#remove all the shit below fuck
 		#Load in Title Image and background images
 	#	
@@ -70,34 +89,10 @@ class SceneGameMenu(SceneBasic):
 		#idiot idiot stupid 
 	#	s.sunsetoverlay = pygame.image.load(os.path.join('assets', 'startscreen', 'sunset_overlay.png'))
 
-	
-
-	def listenForEvents(self):
-		buttons_event = [
-					[self.bttnQuit ,self.EVENT_QUIT],
-					[self.bttnPlay , self.EVENT_PLAY],
-					[self.bttnHow ,self.EVENT_TUTORIAL]
-				]
-
-		if 1 in pygame.mouse.get_pressed():
-			#Menu state buttons
-			mouseAt = pygame.mouse.get_pos();
-			for bttn,event in buttons_event:
-				if bttn.is_under(mouseAt):
-					print 'You clicked the ' + bttn.text + ' button'
-					for e in event : e();
-					break
-
-	def renderScreen(s, screen):
-		DrawHelper.drawAspect(screen, s.textureIdBG, 0,0)
-		DrawHelper.drawAspect(screen, s.textureIdBG_sunsetoverlay, 0,0)
-		tick = pygame.time.get_ticks()
-		for button in s.buttons:
-			button.draw(screen)
 
 
-		
-		#s.main.screen.blit(s.startbg, (0, 0))
+#def renderScreen(s, screen):
+#s.main.screen.blit(s.startbg, (0, 0))
 		#self.stars_tiny.draw(self.main.screen,tick) ;
 		#self.stars_small.draw(self.main.screen, tick);
 		#self.stars_medium.draw(self.main.screen,tick);
@@ -106,8 +101,6 @@ class SceneGameMenu(SceneBasic):
 		#self.main.screen.blit(self.sunsetoverlay, (0, 0)) # this might make it too dim
 	 	 # self.main.screen.blit(self.logo, (self.main.hcenter - 300, 150))
 
-	def enter(self):
-		print("entered main menu")
 
 
 # woooha no please
