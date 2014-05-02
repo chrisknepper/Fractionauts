@@ -44,10 +44,17 @@ class SceneBasic(object):
 		pass
 	def initOthers(s,screenSize):
 		pass
+	def initBase(s):
+		s.isMosueReleased = True
 
-	#in main loop
-	def listenForEvents(self):
-		pass
+	def listenForEvents(s):
+		mousePressed = pygame.mouse.get_pressed()
+		if(s.isMosueReleased and mousePressed[0] is 1) :
+			s.isMosueReleased = False
+			s.EVENT_CLICK()
+		elif(not s.isMosueReleased and mousePressed[0] is 0):
+			s.isMosueReleased = True
+
 	def updateStatic(self):
 		pass
 
