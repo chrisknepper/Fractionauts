@@ -79,7 +79,7 @@ class Game(object):
                     self.main.set_mode('play')
                 else:
                     self.main.currentLevel = 0
-                    self.main.set_mode('menu')
+                    self.main.set_mode('scoreboard')
             if self.loseScreen.drawing == True and self.loseScreen.is_under(pygame.mouse.get_pos()):
                 # close lose screen.
                 self.loseScreen.close()

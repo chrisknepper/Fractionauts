@@ -10,6 +10,7 @@ from Question import Question
 from MainMenu import MainMenu
 from Game import Game
 from Help import Help
+from Scoreboard import Scoreboard
 
 
 WHITE = (255, 255, 255)
@@ -36,7 +37,7 @@ class FractionautsMain(object):
 
         self.vx = 10
         self.vy = 0
-        self.modes = ['menu', 'play', 'help']
+        self.modes = ['menu', 'play', 'help', 'scoreboard']
         self.state = 0
         self.paused = False
         self.direction = 1
@@ -56,7 +57,7 @@ class FractionautsMain(object):
         self.width = pygame.display.Info().current_w
         self.hcenter = self.width / 2
         self.vcenter = self.height / 2
-        self.states = [MainMenu(self), Game(self), Help(self)] #initialize all states
+        self.states = [MainMenu(self), Game(self), Help(self), Scoreboard(self)] #initialize all states
 
         while self.running:
             # Pump GTK messages.
