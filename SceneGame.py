@@ -19,8 +19,7 @@ import DrawHelper
 class SceneGame(SceneBasic):
 	STATE_READY = 0
 	STATE_WINSCREEN = 1
-	def __init__(self, main,screenSize):
-		self.main = main
+	def __init__(self,screenSize):
 		self.myState = self.STATE_READY
 		self.initEvents();
 		self.currentAnswers = []
@@ -33,7 +32,6 @@ class SceneGame(SceneBasic):
 		#self.launching_rocket = os.path.join('assets', 'rocket_launch.png')
 		#self.background_image = os.path.join('assets','Background.png')
 
-		print 'currentLevel is ' + str(self.main.currentLevel)
 
 		# Game playing screen buttons
 		self.initButtons(screenSize);
@@ -47,8 +45,8 @@ class SceneGame(SceneBasic):
 		self.goalDisplay = TextItem(.67 *screenSize[0],.26*screenSize[1], .12*screenSize[0], .08*screenSize[1], ['Fill to: '], textColor= (255,255,255), showRect = False)
 		self.feedback_width = .42 *screenSize[0]
 		self.feedback_height = .22*screenSize[1]
-		self.feedback_x = (self.main.width / 2) - (self.feedback_width / 2)
-		self.feedback_y = (self.main.height / 2) - (self.feedback_height / 2)
+		self.feedback_x = (screenSize[0] / 2) - (self.feedback_width / 2)
+		self.feedback_y = (screenSize[1] / 2) - (self.feedback_height / 2)
 		self.gameScreenUI = []
 		self.gameScreenUI.append(self.goalDisplay)
 		self.gameScreenUI.append(self.scoreDisplay)
@@ -112,32 +110,33 @@ class SceneGame(SceneBasic):
 		pass
 	
 
-	
+
 	def EVENT_CLICK_WINSCREEN(self):
-		if self.winScreen.drawing == True and self.winScreen.is_under(pygame.mouse.get_pos()):
+		print "WINSCREEN"
+		pos = pygame.mouse.get_pos()
+		if(self.winScreen.is_under(pos) or self.loseScreen.is_under(pos)):
 			self.winScreen.close()
-			if(self.checkLevelExists(self.main.currentLevel + 1)):
-				self.main.currentLevel += 1
-				self.main.set_mode('play')
-			else:
-				self.main.currentLevel = 0
-				self.main.set_mode('menu')
-		if self.loseScreen.drawing == True and self.loseScreen.is_under(pygame.mouse.get_pos()):
-			# close lose screen.
 			self.loseScreen.close()
+			self.myState = self.STATE_READY
+			if(self.evaluateAnswer()):
+				self.EVENT_NEW_GAME();
+			#if user won
+			#if(self.checkLevelExists(self.main.currentLevel + 1)):
+			#	self.main.currentLevel += 1
+			#	self.main.set_mode('play')
+			#else:
+			#	self.main.currentLevel = 0
+			#	self.main.set_mode('menu')
 
-			#Play state buttons
-		pass
-
-	def registerEvent_menu():pass
-	def registerEvent_empty():pass
-	def registerEvent_done():pass
+	
+	
 
 	def EVENTHDR_DONE(self):
+		self.myState = self.STATE_WINSCREEN
 		if self.evaluateAnswer():
 			self.winScreen.open()
 			self.levelWon = True
-			self.main.score = str(int(self.main.score) + 5)
+			#self.main.score = str(int(self.main.score) + 5)
 		else:
 			self.loseScreen.open()
 			print 'WRONG ANSWER'
@@ -148,16 +147,10 @@ class SceneGame(SceneBasic):
 		#Done button
 		#Evaluate the answer. If correct, return to main menu
 		# if incorrect, do nothing for now
-	def EVENTHDR_DONE(self):
-		if self.evaluateAnswer():
-			self.winScreen.open()
-			self.levelWon = True
-			self.main.score = str(int(self.main.score) + 5)
-		else:
-			self.loseScreen.open()
-			print 'WRONG ANSWER'
 
 	def registerEvent_menu(s,e):s.EVENT_MENU.append(e)
+	def registerEvent_empty():pass
+	def registerEvent_done():pass
 	def initEvents(s):
 		s.EVENT_MENU=[]
 		s.EVENT_EMPTY=[]
@@ -183,29 +176,29 @@ class SceneGame(SceneBasic):
 			self.EVENT_CLICK_ANSWER()
 			self.EVENT_CLICK_BUTTONS()
 			pass
-		elif (self.myState is slef.STATE_WINSCREEN):
-			#self.EVENT_CLICK_WINSCREEN()
+		elif (self.myState is self.STATE_WINSCREEN):
+			self.EVENT_CLICK_WINSCREEN()
 			pass
 
 	def renderScreen(self,screen):
 		DrawHelper.drawAspect(screen,self.textureIdBG, 0,0)
 		#
 		#self.background_rocket.draw(self.main.screen) idiotic rocket rising
-		self.goalContainer.draw(self.main.screen)
+		self.goalContainer.draw(screen)
 		for button in self.buttons:
-			button.draw(self.main.screen)
+			button.draw(screen)
 		for answer in self.currentAnswers:
-			answer.draw(self.main.screen)
+			answer.draw(screen)
 
 		for item in self.gameScreenUI:
-			item.draw(self.main.screen)
-			#if(self.winScreen.drawing == True):
-			#	self.winScreen.draw(self.main.screen)
-			#if(self.loseScreen.drawing == True):
-			#	self.loseScreen.draw(self.main.screen)
+			item.draw(screen)
+			if(self.winScreen.drawing == True):
+				self.winScreen.draw(screen)
+			if(self.loseScreen.drawing == True):
+				self.loseScreen.draw(screen)
 
 		if not self.level_loaded:
-			self.main.screen.fill((0, 0, 0)) #wtf idiot stop this stupid shit
+			screen.fill((0, 0, 0)) #wtf idiot stop this stupid shit
 
 
 
@@ -226,8 +219,8 @@ class SceneGame(SceneBasic):
 				level_file.close()
 				self.level_loaded = True
 				#self.background_rocket.y = 600 - (self.main.currentLevel * 50)
-				self.levelDisplay.setText(["Current Level: " + str(self.main.currentLevel + 1)])
-				self.scoreDisplay.setText((["Score: " + str(self.main.score)]))
+				#self.levelDisplay.setText(["Current Level: " + str(self.main.currentLevel + 1)])
+				#self.scoreDisplay.setText((["Score: " + str(self.main.score)]))
 		except IOError:
 			new_game = open(path, 'w')
 			new_game.close()
@@ -265,10 +258,15 @@ class SceneGame(SceneBasic):
 		return round(self.goalContainer.filled, 5) == round(self.goalFill, 5)
 
 
-	def enter(self):
-		print("entered play state")
+	def EVENT_NEW_GAME(self, level =0):
+		self.EVENT_SCENE_CHANGE_START()
 		self.levelWon = False
-		self.loadLevel(self.main.currentLevel)
+		self.loadLevel(level)
 		self.goalContainer.fill(0)
+		self.EVENT_SCENE_CHANGE_END()
+
+	def EVENT_SCENE_START(self):
+		print("entered play state")
+		self.EVENT_NEW_GAME()
 
 

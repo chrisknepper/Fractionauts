@@ -2,8 +2,8 @@ from  SceneBasic import *
 import DrawHelper
 
 class SceneGameMenu(SceneBasic):	
-	def __init__(self, main,  resolution):
-		SceneBasic.__init__(self,main,resolution)
+	def __init__(self,  resolution):
+		SceneBasic.__init__(self,resolution)
 
 	
 	def registerEvent_play(s,e): s.EVENT_PLAY.append(e); pass
@@ -60,7 +60,7 @@ class SceneGameMenu(SceneBasic):
 		for button in s.buttons:
 			button.draw(screen)
 
-	def enter(self):
+	def EVENT_SCENE_START(self):
 		print("entered main menu")
 
 

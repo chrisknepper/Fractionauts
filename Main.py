@@ -59,7 +59,7 @@ class FractionautsMain(object):
 
 		screenSize = (pygame.display.Info().current_w,pygame.display.Info().current_h) 
 		screenSize = (800,600)
-		self.states = [SceneGameMenu(self,screenSize), SceneGame(self,screenSize), SceneHelp(self,screenSize)] #initialize all states
+		self.states = [SceneGameMenu(screenSize), SceneGame(screenSize), SceneHelp(self,screenSize)] #initialize all states
 		self.registerEvents(self.states[0],self.states[1],self.states[2])
 
 		if self.gameLoaded == False:
@@ -174,7 +174,7 @@ class FractionautsMain(object):
 
 	def set_mode(self, mode):
 		self.state = self.modes.index(mode)
-		self.states[self.state].enter()
+		self.states[self.state].EVENT_SCENE_START()
 
 
 # This function is called when the game is run directly from the command line:
