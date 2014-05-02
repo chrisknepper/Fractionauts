@@ -166,7 +166,7 @@ class SceneGame(SceneBasic):
 			[self.bttnDone, self.EVENT_DONE]]
 		for bttn,event in bttn_event:
 			if( not bttn.is_under(mousePos)):continue
-			SceneBasic.helperRaiseEvent(event)
+			SceneBasic.helperRaiseEventHDR(event)
 			break
 
 

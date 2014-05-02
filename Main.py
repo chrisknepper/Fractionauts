@@ -59,7 +59,7 @@ class FractionautsMain(object):
 
 		screenSize = (pygame.display.Info().current_w,pygame.display.Info().current_h) 
 		screenSize = (800,600)
-		self.states = [SceneGameMenu(screenSize), SceneGame(screenSize), SceneHelp(self,screenSize)] #initialize all states
+		self.states = [SceneGameMenu(screenSize), SceneGame(screenSize), SceneHelp(screenSize)] #initialize all states
 		self.registerEvents(self.states[0],self.states[1],self.states[2])
 
 		if self.gameLoaded == False:
@@ -97,6 +97,7 @@ class FractionautsMain(object):
 		sceneMenu.registerEvent_quit(self.EVENTHDR_QUIT)
 
 		sceneGame.registerEvent_menu(self.EVENTHDR_SCENE_START_MENU)
+		sceneHelp.registerEvent_menu(self.EVENTHDR_SCENE_START_MENU)
 		pass
 
 	def set_paused(self, paused):
