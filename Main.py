@@ -47,8 +47,9 @@ class FractionautsMain(object):
 
 
 		pygame.init()
-		self.screen = pygame.display.set_mode((1200,900))
-		DrawHelper.init(1200,900)
+		screenSize = (800,600)
+		self.screen = pygame.display.set_mode(screenSize)
+		DrawHelper.init(screenSize[0],screenSize[1])
 
 		self.myFont = pygame.font.Font('freesansbold.ttf', 32)
 		self.screen = pygame.display.get_surface()
@@ -57,8 +58,6 @@ class FractionautsMain(object):
 		self.hcenter = self.width / 2 
 		self.vcenter = self.height / 2
 
-		screenSize = (pygame.display.Info().current_w,pygame.display.Info().current_h) 
-		screenSize = (800,600)
 		self.states = [SceneGameMenu(screenSize), SceneGame(screenSize), SceneHelp(screenSize)] #initialize all states
 		self.registerEvents(self.states[0],self.states[1],self.states[2])
 
