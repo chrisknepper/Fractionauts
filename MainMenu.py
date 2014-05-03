@@ -55,7 +55,7 @@ class MainMenu(object):
                     
                     #Quit button
                     if button == self.quitBtn:
-                        self.main.saveLevel()
+                        # self.main.saveLevel()
                         self.running = False
                         pygame.quit()
                         exit()
@@ -63,6 +63,7 @@ class MainMenu(object):
                     #Play button
                     elif button == self.playBtn:
                         self.main.set_mode('play')
+                        self.main.score = 0;
                         #self.loadLevel(int(self.currentLevel))
 
                     #How button

@@ -203,5 +203,3 @@ class Game(object):
         self.loadLevel(self.main.currentLevel)
         self.goalContainer.fill(0)
         self.timer = pygame.time.get_ticks();
-
-
