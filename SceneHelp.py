@@ -1,6 +1,6 @@
 import pygame
 import os
-import pygtk
+#import pygtk
 from Button import Button
 from Background import Background
 from TextItem import TextItem

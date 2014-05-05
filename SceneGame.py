@@ -2,7 +2,7 @@ from SceneBasic import *
 import pygame
 import os
 import json
-import pygtk
+#import pygtk
 from Button import Button
 from Container import *
 from Question import Question
@@ -31,6 +31,9 @@ class SceneGame(SceneBasic):
 		#self.failed_rocket = os.path.join('assets', 'rocket_down.png')
 		#self.launching_rocket = os.path.join('assets', 'rocket_launch.png')
 		#self.background_image = os.path.join('assets','Background.png')
+		
+		# Question class testing
+		self.questionMaker = Question("addition")
 
 
 		# Game playing screen buttons
@@ -205,6 +208,10 @@ class SceneGame(SceneBasic):
 	#Load the level-th JSON file in the levels folder
 	def loadLevel(self, level):
 		print 'loading level'
+		
+		# testing Question Class
+		self.questionMaker.makeAddQuest(level)
+		
 		load_file = str(level) + '.json'
 		path = os.path.join('assets/levels', load_file)
 		try:

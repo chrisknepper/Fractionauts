@@ -21,7 +21,7 @@ WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 128)
 
-question = Question("addition")
+#question = Question("addition")
 	
 class FractionautsMain(object):
 	def __init__(self):

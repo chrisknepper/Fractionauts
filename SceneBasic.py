@@ -1,6 +1,6 @@
 import pygame
 import os
-import pygtk #Considfer removing this import call, I don't think you need this TBH 
+#import pygtk #Considfer removing this import call, I don't think you need this TBH 
 from Button import Button
 from Background import Background
 from TextItem import TextItem
