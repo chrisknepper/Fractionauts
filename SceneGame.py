@@ -2,7 +2,7 @@ from SceneBasic import *
 import pygame
 import os
 import json
-#import pygtk
+import pygtk
 from Button import Button
 from Container import *
 from Question import Question
@@ -31,9 +31,6 @@ class SceneGame(SceneBasic):
 		#self.failed_rocket = os.path.join('assets', 'rocket_down.png')
 		#self.launching_rocket = os.path.join('assets', 'rocket_launch.png')
 		#self.background_image = os.path.join('assets','Background.png')
-		
-		# Question class testing
-		self.questionMaker = Question("addition")
 
 
 		# Game playing screen buttons
@@ -82,7 +79,6 @@ class SceneGame(SceneBasic):
 		self.textureIdBG =		TextureLoader.load(os.path.join('assets','Background.png') ,screenSize)
 		self.textureIdRocketFail =	TextureLoader.load( os.path.join('assets', 'rocket_down.png'))
 		self.textureIdRocketLaunch =	TextureLoader.load(os.path.join('assets', 'rocket_launch.png'))
-
 		#self.failed_rocket = os.path.join('assets', 'rocket_down.png')
 		#self.launching_rocket = os.path.join('assets', 'rocket_launch.png')
 		#self.background_image = os.path.join('assets','Background.png')
@@ -132,9 +128,19 @@ class SceneGame(SceneBasic):
 			#	self.main.set_mode('menu')
 
 	
-	
 
-	def EVENTHDR_DONE(self):
+	def registerEvent_menu(s,e):s.EVENT_MENU.append(e)
+	def initEvents(s):
+		s.EVENT_MENU=[]
+
+	def EVENT_CLICK_BUTTON_MENU(self):
+		self.helperRaiseEvent(self.EVENT_MENU)
+	def EVENT_CLICK_BUTTON_EMPTY(self):
+		for answer in self.currentAnswers:
+			answer.selected = False
+		self.goalContainer.fill(0.0)
+
+	def EVENT_CLICK_BUTTON_DONE(self):
 		self.myState = self.STATE_WINSCREEN
 		if self.evaluateAnswer():
 			self.winScreen.open()
@@ -143,33 +149,16 @@ class SceneGame(SceneBasic):
 		else:
 			self.loseScreen.open()
 			print 'WRONG ANSWER'
-	def EVENTHDR_EMPTY(self):
-		for answer in self.currentAnswers:
-			answer.selected = False
-		self.goalContainer.fill(0.0)
-		#Done button
-		#Evaluate the answer. If correct, return to main menu
-		# if incorrect, do nothing for now
 
-	def registerEvent_menu(s,e):s.EVENT_MENU.append(e)
-	def registerEvent_empty():pass
-	def registerEvent_done():pass
-	def initEvents(s):
-		s.EVENT_MENU=[]
-		s.EVENT_EMPTY=[]
-		s.EVENT_DONE=[]
-
-		s.EVENT_EMPTY.append(s.EVENTHDR_EMPTY)
-		s.EVENT_DONE.append(s.EVENTHDR_DONE)
 	def EVENT_CLICK_BUTTONS(self):
 		mousePos = pygame.mouse.get_pos()
 		bttn_event = [
-			[self.bttnMenu, self.EVENT_MENU],
-			[self.bttnEmpty, self.EVENT_EMPTY],
-			[self.bttnDone, self.EVENT_DONE]]
+			[self.bttnMenu, self.EVENT_CLICK_BUTTON_MENU],
+			[self.bttnEmpty, self.EVENT_CLICK_BUTTON_EMPTY],
+			[self.bttnDone, self.EVENT_CLICK_BUTTON_DONE]]
 		for bttn,event in bttn_event:
 			if( not bttn.is_under(mousePos)):continue
-			SceneBasic.helperRaiseEvent(event)
+			event();
 			break
 
 
@@ -208,10 +197,6 @@ class SceneGame(SceneBasic):
 	#Load the level-th JSON file in the levels folder
 	def loadLevel(self, level):
 		print 'loading level'
-		
-		# testing Question Class
-		self.questionMaker.makeAddQuest(level)
-		
 		load_file = str(level) + '.json'
 		path = os.path.join('assets/levels', load_file)
 		try:
