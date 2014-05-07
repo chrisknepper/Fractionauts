@@ -10,7 +10,8 @@ from AnswerButton import AnswerButton
 from Background import Background
 from TextItem import TextItem
 import DrawHelper
-
+import HelperVec2
+from IcnBars import IcnBars
 #class Background keeps rescaling itself
 #instances of holder for temporary values being saved as class componenet
 #having fucking long ridiculous listen function call idiotic
@@ -59,6 +60,8 @@ class SceneGame(SceneBasic):
 		self.winScreen.close()
 		self.loseScreen = TextItem(self.feedback_x, self.feedback_y, self.feedback_width, self.feedback_height, ['Oops, that\'s not quite right.', 'Click here and try again.'])
 		self.loseScreen.close()
+
+		self.IcnBars = IcnBars(0,0, 100,300,10)
 
 		#self.winScreen = TextItem(self.feedback_x, self.feedback_y, self.feedback_width, self.feedback_height, ['Nice Job!', 'Click here to go on!'], (84, 194, 92), (39, 90, 43), True, Background(self.launching_rocket, self.feedback_x, self.feedback_y, self.feedback_width / 2, 100))
 		#self.winScreen.close()
@@ -171,26 +174,18 @@ class SceneGame(SceneBasic):
 		elif (self.myState is self.STATE_WINSCREEN):
 			self.EVENT_CLICK_WINSCREEN()
 			pass
+	def renderScreenBegin(self,screen):
+		screen.fill((255, 255, 255)) 
+		pygame.display.update()
+		print "HI SCREEN BEGIN HERE "
+		pass
 
 	def renderScreen(self,screen):
-		DrawHelper.drawAspect(screen,self.textureIdBG, 0,0)
-		#
-		#self.background_rocket.draw(self.main.screen) idiotic rocket rising
-		self.goalContainer.draw(screen)
-		for button in self.buttons:
-			button.draw(screen)
-		for answer in self.currentAnswers:
-			answer.draw(screen)
+		self.IcnBars.draw(screen)
+		self.IcnBars.drawEnd()
+		pass
 
-		for item in self.gameScreenUI:
-			item.draw(screen)
-			if(self.winScreen.drawing == True):
-				self.winScreen.draw(screen)
-			if(self.loseScreen.drawing == True):
-				self.loseScreen.draw(screen)
 
-		if not self.level_loaded:
-			screen.fill((0, 0, 0)) #wtf idiot stop this stupid shit
 
 
 

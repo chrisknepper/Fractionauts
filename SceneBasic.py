@@ -2,6 +2,7 @@ import pygame
 import os
 #import pygtk #Considfer removing this import call, I don't think you need this TBH 
 from Button import Button
+from KButton import KButton
 from Background import Background
 from TextItem import TextItem
 from ScrollingImage import ScrollingImage
@@ -59,6 +60,8 @@ class SceneBasic(object):
 		pass
 
 	#in a thread 
+	def renderScreenBegin(self,screen):
+		pass
 	def renderScreen(self,screen):
 		pass
 	def updateRender(self):
