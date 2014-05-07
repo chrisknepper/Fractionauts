@@ -1,7 +1,8 @@
 from  SceneBasic import *
 import DrawHelper
+import HelperVec2
 
-class SceneGameMenu(SceneBasic):	
+class SceneMenu(SceneBasic):	
 	def __init__(self,  resolution):
 		SceneBasic.__init__(self,resolution)
 
@@ -16,21 +17,21 @@ class SceneGameMenu(SceneBasic):
 		s.EVENT_QUIT = [ ];
 
 	def initImages(s,resolution):
-		s.textureIdLogo =	TextureLoader.load(os.path.join('assets', 'startscreen', 'Title.png'));
-		s.textureIdBG =		TextureLoader.load(os.path.join('assets', 'startscreen', 'night_sunset_gradient.png') ,scale = resolution);
-		s.textureIdBG_sunsetoverlay = TextureLoader.load(os.path.join('assets', 'startscreen', 'stars_big.png') );
-
-		s.textureIdStarTiny =  	TextureLoader.load(os.path.join('assets', 'startscreen', 'stars_tiny.png')) ;
-		s.textureIdStarSmall= 	TextureLoader.load(os.path.join('assets', 'startscreen', 'stars_small.png')) ;
-		s.textureIdStarMedium= TextureLoader.load(os.path.join('assets', 'startscreen', 'stars_medium.png')) ;
-		s.textureIdStarBig = 	TextureLoader.load(os.path.join('assets', 'startscreen', 'stars_big.png')) ;
+		s.textureIdTitle =	TextureLoader.load(os.path.join('assets', 'screenStart', 'title.png'), HelperVec2.mult(resolution, (.5,.5)))
+		s.textureIdBG =		TextureLoader.load(os.path.join('assets', 'screenStart', 'background.png') ,resolution);
+		s.textureIdBttn = 	TextureLoader.load(os.path.join('assets', 'screenStart', 'bttn.png') );
+		#s.textureIdBG_sunsetoverlay = TextureLoader.load(os.path.join('assets', 'startscreen', 'stars_big.png') );
+		#s.textureIdStarTiny =  	TextureLoader.load(os.path.join('assets', 'startscreen', 'stars_tiny.png')) ;
+		#s.textureIdStarSmall= 	TextureLoader.load(os.path.join('assets', 'startscreen', 'stars_small.png')) ;
+		#s.textureIdStarMedium= TextureLoader.load(os.path.join('assets', 'startscreen', 'stars_medium.png')) ;
+		#s.textureIdStarBig = 	TextureLoader.load(os.path.join('assets', 'startscreen', 'stars_big.png')) ;
 		
 	def initButtons(s,resolution):
 		center = (resolution[0] *.5,resolution[1]*.5);
 		# Main menu buttons
-		s.bttnPlay =	Button(center[0] - (75 * 1.5),center[1] - 100, 200, 75, 'Play')
-		s.bttnHow =	Button(center[0] - (75 * 1.5),center[1], 200, 75, 'How to Play')
-		s.bttnQuit =	Button(center[0]  - (75 * 1.5),center[1] + 100, 200, 75, 'Quit')
+		s.bttnPlay =	KButton(center[0]-100, center[1] - 100, 200, 75,s.textureIdBttn,(200,75))
+		s.bttnHow =	KButton(center[0]  -100,center[1], 200, 75,s.textureIdBttn,(200,75))
+		s.bttnQuit =	KButton(center[0]  -100,center[1] + 100, 200, 75,s.textureIdBttn,( 200,75))
 
 		s.buttons = []
 		s.buttons.append(s.bttnPlay)
@@ -48,17 +49,27 @@ class SceneGameMenu(SceneBasic):
 		if 1 in pygame.mouse.get_pressed():
 			#Menu state buttons
 			for bttn,event in buttons_event:
-				if bttn.is_under(mouseAt):
-					print 'You clicked the ' + bttn.text + ' button'
+				if bttn.isUnder(mouseAt):
 					self.helperRaiseEvent(event)
 					break
 
+	def renderScreenBegin(s,screen):
+		screen.fill((255, 255, 255)) 
+		DrawHelper.drawAspect(screen, s.textureIdBG,0,0)
+		DrawHelper.drawAspect(screen, s.textureIdTitle,0,0)
+		pygame.display.update()
+		pass
+
 	def renderScreen(s, screen):
-		DrawHelper.drawAspect(screen, s.textureIdBG, 0,0)
-		DrawHelper.drawAspect(screen, s.textureIdBG_sunsetoverlay, 0,0)
+		#DrawHelper.drawAspect(screen, s.textureIdBG, 0,0)
+		#DrawHelper.drawAspect(screen, s.textureIdBG_sunsetoverlay, 0,0)
+		#DrawHelper.drawAspect(screen, s.textureIdBG,0,0)
+		#DrawHelper.drawAspect(screen, s.textureIdTitle,0,0)
 		tick = pygame.time.get_ticks()
 		for button in s.buttons:
 			button.draw(screen)
+		for button in s.buttons:
+			button.drawEnd()
 
 	def EVENT_SCENE_START(self):
 		print("entered main menu")

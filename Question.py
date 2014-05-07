@@ -6,20 +6,14 @@ import random
 class Question:
 
 	def __init__(self,questionType):
-		##The number of total answers
+		self.init();
+
+	def init(self):
 		self.numChoices = 5
-		##Give us a random number representing the number of correct answers
-		#numCorrect = random.randint(2, 4)
-		self.typing = questionType
 		self.mixedAnswers = []
 		self.goalFract = 0.1
-		#correctAnswers = []
-		#incorrectAnswers = []
-		#print numCorrect
 
-		##break 1 into x amount of sections(number of correct answers)
-		#section = float(1) / float(numCorrect)
-
+<<<<<<< HEAD
 		##generate the correct answers (pulls out a chunk from section)
 		#for i in range(0, numCorrect):
 			#fraction = round(random.uniform(0.1, section), 2)
@@ -42,21 +36,19 @@ class Question:
 			#incorrectAnswers.append(fraction)
 
 		#print incorrectAnswers
+=======
+	def getNumCorrect(self, level):
+		#lessen number of correct answers if level four (three?) or lower.
+		if(level < 3) :return 2;
+		return random.randint(2, 4)
+>>>>>>> 205d1b70c28c7c35a1f5754d590f832b312bef39
 
 	def makeAddQuest(self, level):
 		#clear your answerSet and instantiate necessary temporary variables
+		self.init()
 		correctAnswers = []
 		incorrectAnswers = []
-		self.mixedAnswers = []
-		self.goalFract = 0.1
-		numCorrect = random.randint(2, 4)
-		
-		
-		
-		#lessen number of correct answers if level four (three?) or lower.
-		if(level < 3) :
-			numCorrect = 2
-		
+		numCorrect = self.getNumCorrect(level)
 		numIncorrect = self.numChoices - numCorrect
 		remainingInCorrect = numCorrect
 		
@@ -227,9 +219,39 @@ class Question:
 				remainingInCorrect = remainingInCorrect - 1
 				
 			remainingVars = remainingVars - 1
-			
-	def getAddQuestAnswers(self):
-		return self.mixedAnswers
-	
-	def getAddQuestGoalFloat(self):
-		return self.goalFract
+		
+
+
+#def __init__(self,questionType):
+		##The number of total answers
+		##Give us a random number representing the number of correct answers
+		#numCorrect = random.randint(2, 4)
+		#correctAnswers = []
+		#incorrectAnswers = []
+		#print numCorrect
+
+		##break 1 into x amount of sections(number of correct answers)
+		#section = float(1) / float(numCorrect)
+
+		##generate the correct answers (pulls out a chunk from section)
+		#for i in range(0, numCorrect):
+			#fraction = round(random.uniform(0.1, section), 2)
+			#correctAnswers.append(fraction)
+			#print(fraction)
+
+		#print correctAnswers
+
+		##add correct answers together to get goal decimal
+		#goal = sum(correctAnswers)
+		#print goal
+
+		##how many incorrect answers should we generate? (toal number of questions minus correct answers)
+		#dummyQuestions = numChoices - numCorrect
+		#print dummyQuestions
+
+		##generate dummy questions
+		#for i in range(0, dummyQuestions):
+			#fraction = round(random.uniform(0.1, 0.9), 2)
+			#incorrectAnswers.append(fraction)
+
+		#print incorrectAnswers
