@@ -3,7 +3,7 @@ import TextureLoader
 import HelperTexture
 
 class IcnBasic:
-	def __init__(self,x,y,w,h,textureID=-1,textureSize =()):
+	def __init__(self,x,y,w,h,textureID=-1,isTextureRescaled = False):
 		self.pos = (x,y)
 		self.size = (w,h)
 		self.textureID = textureID
@@ -11,7 +11,7 @@ class IcnBasic:
 		self.mySurface = None
 		if(self.textureID != -1):
 			self.mySurface= TextureLoader.get(textureID)
-			if(textureSize != () ) : self.mySurface =HelperTexture.scale(self.mySurface, textureSize)
+			if(isTextureRescaled ) : self.mySurface =HelperTexture.scale(self.mySurface, self.size)
 		pass
 	def draw(self,screen):
 		if(self.mySurface != None ): self.rect  = screen.blit(self.mySurface,self.pos)
