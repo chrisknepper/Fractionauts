@@ -111,8 +111,8 @@ class FractionautsMain(object):
 		threadRender.join();#wait for the thread to complete, then game over
 	def displayFPS(self,myFont):
 		label =  myFont.render("FPS "+str(int(self.clock.get_fps()) ) , 1, (255,255,0))
-		pygame.draw.rect(self.screen, (0,0,0) , (0,0, 300,200))
-		rectFPS = self.screen.blit(label,(0, 0))
+		rectFPS = pygame.draw.rect(self.screen, (0,0,0) , (0,0, 130,30))
+		self.screen.blit(label,(0, 0))
 		pygame.display.update(rectFPS)
 
 	def helperRenderScene(self, scene):

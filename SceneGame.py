@@ -14,6 +14,7 @@ import DrawHelper
 import HelperVec2
 from KButton import KButton
 from IcnOil import IcnOil
+from IcnRocket import IcnRocket
 #class Background keeps rescaling itself
 #instances of holder for temporary values being saved as class componenet
 #having fucking long ridiculous listen function call idiotic
@@ -102,7 +103,7 @@ class SceneGame(SceneBasic):
 		self.textureIdRocket = TextureLoader.load( os.path.join('assets', 'screenGame','icnRocket.png'),size)
 		self.textureIdRocketBar = TextureLoader.load( os.path.join('assets', 'screenGame','bar.png'),(100,30))
 
-		self.icnRocket = self.helperGetIcnOil(pos,size, (.5-.25,.5-.2), (.5,.4) ,self.textureIdRocket ,self.textureIdRocketBar )
+		self.icnRocket =  IcnRocket( pos,size, HelperVec2.mult(size, (.5-.25,.5-.2)),HelperVec2.mult(size, (.5,.4) ),self.textureIdRocket ,self.textureIdRocketBar)
 		pass
 
 	def initButtons(s,screenSize):
@@ -124,12 +125,8 @@ class SceneGame(SceneBasic):
 		#self.failed_rocket = os.path.join('assets', 'rocket_down.png')
 		#self.launching_rocket = os.path.join('assets', 'rocket_launch.png')
 		#self.background_image = os.path.join('assets','Background.png')
-
 		#self.background = Background(self.background_image)
 		#self.background_rocket = Background(self.launching_rocket, 800, 675 - (self.main.currentLevel * 100))
-		
-		
-		pass;
 	def initBase(s):
 		s.isMosueReleased = True
 
@@ -141,16 +138,22 @@ class SceneGame(SceneBasic):
 		elif(not s.isMosueReleased and mousePressed[0] is 0):
 			s.isMosueReleased = True
 
+	def EVENT_NEW_ANSWER(self):
+		if(self.isGameOver() ): print "HEY GAME IS OVER"
+		else : print "GAME IS NOT YET OVER!" 
+
+
 	def EVENT_CLICK_ANSWER(self):
 		pos = pygame.mouse.get_pos()
-		for answer in self.currentAnswers:
-			if answer.isUnder(pos):
-				if(answer.helperSelect()):
-					self.goalContainer.fill(self.goalContainer.filled+answer.filled)
-				else: self.goalContainer.fill(self.goalContainer.filled-answer.filled)
-		pass
+		for i in range(0, len( self.arrIcnOils  )) :
+			icn = self.arrIcnOils[i]
+			if(icn.isUnder(pos)):
+				if(icn.select()): 
+					icn.display(0)
+				else :  icn.display(self.questionChoices[i][0])
+				return True
+		return False
 	
-
 
 	def EVENT_CLICK_WINSCREEN(self):
 		print "WINSCREEN"
@@ -199,17 +202,17 @@ class SceneGame(SceneBasic):
 			[self.bttnEmpty, self.EVENT_CLICK_BUTTON_EMPTY],
 			[self.bttnDone, self.EVENT_CLICK_BUTTON_DONE]]
 		for bttn,event in bttn_event:
-			if( not bttn.is_under(mousePos)):continue
-			event();
-			break
+			if( not bttn.isUnder(mousePos)):continue
+			event()
+			return  True
+		return False
 
 
 	def EVENT_CLICK(self):
 		print "EVENT_CLICK"
 		if (self.myState  is self.STATE_READY):
-			self.EVENT_CLICK_ANSWER()
-			self.EVENT_CLICK_BUTTONS()
-			pass
+			if(self.EVENT_CLICK_ANSWER()) : self.EVENT_NEW_ANSWER()
+			elif (self.EVENT_CLICK_BUTTONS()):pass
 		elif (self.myState is self.STATE_WINSCREEN):
 			self.EVENT_CLICK_WINSCREEN()
 			pass
@@ -233,54 +236,31 @@ class SceneGame(SceneBasic):
 
 
 
+	def loadNewQuestion(self,choices,answers,answerNum):
+		self.questionChoices	= choices
+		self.questionAnswers	= answers
 
+		for i in range(0,3):
+			self.arrIcnOils[i].display(choices[i][0],choices[i][1])
+		self.icnRocket.display(answerNum[0],answerNum[1])
+
+		pass
 
 	#Load the level-th JSON file in the levels folder
 	def loadLevel(self, level):
-		print 'loading level'
-		load_file = str(level) + '.json'
-		path = os.path.join('assets/levels', load_file)
+		print 'loading level' + str(level)
+		path = os.path.join('assets/levels', str(level) + '.json')
 		try:
-			with open(path) as level_file:
-				level_data = json.load(level_file)
-				self.currentAnswers = []
-				self.arrangeAnswers(level_data["options"], 3, 10,50, 150, 210)
-				answer = level_data["answer"].split("/")
-				self.goalFill = float(answer[0])/float(answer[1])
-				self.goalDisplay.setText(["Fill to: "+answer[0]+"/"+answer[1]])
-				print self.goalFill
-				level_file.close()
-				self.level_loaded = True
-				#self.background_rocket.y = 600 - (self.main.currentLevel * 50)
-				#self.levelDisplay.setText(["Current Level: " + str(self.main.currentLevel + 1)])
-				#self.scoreDisplay.setText((["Score: " + str(self.main.score)]))
+			with open(path) as fileQuestion:
+				data = json.load(fileQuestion)
+				self.loadNewQuestion(data["CHOICES"],data["ANSWERS"],data["ANSWER_NUM"]  )
+				fileQuestion.close()
 		except IOError:
 			new_game = open(path, 'w')
 			new_game.close()
 
-	def checkLevelExists(self, level):
-		return os.path.exists(os.path.join('assets/levels', str(level) + '.json'))
 
-	#Arrange passed-in answers array in a grid with sensible default options
-	def arrangeAnswers(self, answers, perRow , base_x,  base_y , h_spacing, v_spacing):
-		#Starting our counter variables at 1 to avoid an additional if block 
-		#(because we can never divide by 0 this way)
-		counter = 1
-		currentRow = 1
-		posInCurrentRow = -1 #Initialize current row position to -1 
-							 #so first answer isn't offset incorrectly
-		for answer in answers:
-			answer = answer.split("/")#get numerator and denominator
-			if(counter > currentRow * perRow):
-				currentRow = currentRow + 1
-				posInCurrentRow = 0
-			else:
-				posInCurrentRow = posInCurrentRow + 1
-			answer_x = base_x + (h_spacing * posInCurrentRow)
-			answer_y = base_y + ((currentRow - 1) * v_spacing)
-			temp = Container(answer_x, answer_y, int(answer[0]), int(answer[1]))
-			self.currentAnswers.append(temp)
-			counter = counter + 1
+	
 
 
 	#Compare the main container's current filled percentage with the goal filled percentage
@@ -289,6 +269,23 @@ class SceneGame(SceneBasic):
 		print str(round(self.goalContainer.filled, 5))+" == "+str(round(self.goalFill, 5))
 		print round(self.goalContainer.filled, 5) == round(self.goalFill, 5)
 		return round(self.goalContainer.filled, 5) == round(self.goalFill, 5)
+	def helperIsSameArray(self, arrA, arrB):
+		print "SCENEGAME helperIsSameArray"
+		print arrB
+		if(len(arrA) is not len(arrB)): return False
+		for i in range(0, len(arrA)):
+			if( arrA[i] is not arrB[i]) :return False
+		return True
+
+
+	def isGameOver(self):
+		answerState = []
+		for icn in self.arrIcnOils:answerState.append(icn.isSelected)
+		print "SCENEGAME "
+		print answerState
+		for a  in self.questionAnswers:
+			if(self.helperIsSameArray(answerState, a) ) :return True
+		return False
 
 
 	def EVENT_NEW_GAME(self, level =0):

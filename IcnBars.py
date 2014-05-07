@@ -30,7 +30,7 @@ class IcnBars (IcnBasic):
 
 		#in case n is greater than self.count, limit.
 		n = max(min( n, self.count),0)
-		print "OHHHHHH " + str(n)
+		print "IcnBars : displaying " + str(n)
 		self.mySurface.fill((0, 0, 0)) 
 		self.helperFillBars(self.mySurface, self.cellHeight, self.textureBar, 0, n)
 		pass

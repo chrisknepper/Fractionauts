@@ -9,7 +9,7 @@ class IcnOil(IcnBasic):
 		self.posBars = posBar
 
 	def display(self, numDisplay, numTotal = -1):
-		if(numTotal != -1 ) : self.posBars.setCount(numTotal)
+		if(numTotal != -1 ) : self.myBars.setCount(numTotal)
 		self.myBars.display(numDisplay)
 
 	def draw(self, screen):
