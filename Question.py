@@ -13,7 +13,7 @@ class Question:
 		self.mixedAnswers = []
 		self.goalFract = 0.1
 
-<<<<<<< HEAD
+
 		##generate the correct answers (pulls out a chunk from section)
 		#for i in range(0, numCorrect):
 			#fraction = round(random.uniform(0.1, section), 2)
@@ -36,12 +36,11 @@ class Question:
 			#incorrectAnswers.append(fraction)
 
 		#print incorrectAnswers
-=======
+
 	def getNumCorrect(self, level):
 		#lessen number of correct answers if level four (three?) or lower.
 		if(level < 3) :return 2;
 		return random.randint(2, 4)
->>>>>>> 205d1b70c28c7c35a1f5754d590f832b312bef39
 
 	def makeAddQuest(self, level):
 		#clear your answerSet and instantiate necessary temporary variables
