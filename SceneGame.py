@@ -257,6 +257,7 @@ class SceneGame(SceneBasic):
 		print str(self.questionMaker.getAddQuestChoices()) + " List of Choices Mixed Up"
 		print str(self.questionMaker.getAddQuestAnswers()) + " List of Answers"
 		print str(self.questionMaker.getAddQuestGoalFloat()) + " The Goal Amount"
+		#HangedMan
 		
 		load_file = str(level) + '.json'
 		path = os.path.join('assets/levels', load_file)
