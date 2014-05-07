@@ -41,6 +41,12 @@ class Question:
 		#lessen number of correct answers if level four (three?) or lower.
 		if(level < 3) :return 2;
 		return random.randint(2, 4)
+		
+	def getAddQuestAnswers(self):
+		return self.mixedAnswers
+		
+	def getAddQuestGoalFloat(self):
+		return self.goalFract
 
 	def makeAddQuest(self, level):
 		#clear your answerSet and instantiate necessary temporary variables

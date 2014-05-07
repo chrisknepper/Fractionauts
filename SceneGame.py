@@ -2,7 +2,7 @@ from SceneBasic import *
 import pygame
 import os
 import json
-import pygtk
+#import pygtk
 from Button import Button
 from Container import *
 from Question import Question
@@ -35,6 +35,7 @@ class SceneGame(SceneBasic):
 		self.initBase()
 		self.arrIcnOils =[]
 		self.icnRocket =0
+		self.questionMaker = Question("addition")
 
 		self.initIcnOils(self.arrIcnOils,screenSize);
 		self.initIcnRocket(screenSize);
@@ -248,7 +249,7 @@ class SceneGame(SceneBasic):
 
 	#Load the level-th JSON file in the levels folder
 	def loadLevel(self, level):
-<<<<<<< HEAD
+
 		print 'loading level'
 		
 		# testing Question Class
@@ -258,10 +259,10 @@ class SceneGame(SceneBasic):
 		
 		load_file = str(level) + '.json'
 		path = os.path.join('assets/levels', load_file)
-=======
+
 		print 'loading level' + str(level)
 		path = os.path.join('assets/levels', str(level) + '.json')
->>>>>>> 205d1b70c28c7c35a1f5754d590f832b312bef39
+
 		try:
 			with open(path) as fileQuestion:
 				data = json.load(fileQuestion)
