@@ -42,10 +42,8 @@ class Question:
 			#incorrectAnswers.append(fraction)
 
 		#print incorrectAnswers
-		print self.typing
 
 	def makeAddQuest(self, level):
-		print self.typing
 		#clear your answerSet and instantiate necessary temporary variables
 		correctAnswers = []
 		incorrectAnswers = []
@@ -60,7 +58,6 @@ class Question:
 			numCorrect = 2
 		
 		numIncorrect = self.numChoices - numCorrect
-		print numIncorrect
 		remainingInCorrect = numCorrect
 		
 		#generate non-zero goal numerator
@@ -69,7 +66,6 @@ class Question:
 		if(goalMod != 0) :
 			goal = goal - 1
 		
-		print str(goal) + " goal amount"
 		#save the goal fraction's float value
 		self.goalFract = float(goal) / 40.0
 		
@@ -91,10 +87,8 @@ class Question:
 			else :
 				value = goal
 			
-			print str(value) + " value"
 			#subtract our value from the goal before we change it to a fraction
 			goal = goal - value
-			print str(goal) + " goal after value"
 			
 			#get a denominator and numerator value (maximum is fortieths)
 			extra = 0
@@ -147,7 +141,6 @@ class Question:
 			
 			#Now turn the denominator and value into a string for a fraction 
 			tempString = str(value) + "/" + str(denom)
-			print tempString
 			correctAnswers.append(tempString)
 			
 		
@@ -217,7 +210,6 @@ class Question:
 			
 			#Now turn the denominator and value into a string for a fraction 
 			tempString = str(value) + "/" + str(denom)
-			print tempString
 			incorrectAnswers.append(tempString)
 		
 		#Now mix the answers together to ensure that one can't guess based on order.
@@ -225,22 +217,12 @@ class Question:
 		for i in range(1,self.numChoices + 1):
 			
 			nextIndex = random.randint(1,remainingVars)
-			print self.goalFract
-			print nextIndex
-			print remainingVars
-			print remainingInCorrect
-			print incorrectAnswers
-			print correctAnswers
 			
 			if(nextIndex > remainingInCorrect) :
 				nextIndex = nextIndex - (remainingInCorrect + 2)
-				print str(nextIndex) + " went to incorrect"
-				print incorrectAnswers
 				self.mixedAnswers.append(incorrectAnswers.pop(nextIndex))
 			else:
 				nextIndex = nextIndex - 1
-				print str(nextIndex) + " went to correct"
-				print correctAnswers
 				self.mixedAnswers.append(correctAnswers.pop(nextIndex))
 				remainingInCorrect = remainingInCorrect - 1
 				
