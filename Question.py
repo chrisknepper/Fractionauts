@@ -12,6 +12,7 @@ class Question:
 		self.numChoices = 5
 		self.mixedAnswers = []
 		self.goalFract = 0.1
+		self.correctAnswerSet = []
 
 
 		##generate the correct answers (pulls out a chunk from section)
@@ -42,15 +43,19 @@ class Question:
 		if(level < 3) :return 2;
 		return random.randint(2, 4)
 		
-	def getAddQuestAnswers(self):
+	def getAddQuestChoices(self):
 		return self.mixedAnswers
 		
 	def getAddQuestGoalFloat(self):
 		return self.goalFract
+	
+	def getAddQuestAnswers(self):
+		return self.correctAnswerSet
 
 	def makeAddQuest(self, level):
 		#clear your answerSet and instantiate necessary temporary variables
 		self.init()
+		self.correctAnswerSet = []
 		correctAnswers = []
 		incorrectAnswers = []
 		numCorrect = self.getNumCorrect(level)
@@ -209,6 +214,7 @@ class Question:
 			tempString = str(value) + "/" + str(denom)
 			incorrectAnswers.append(tempString)
 		
+		self.correctAnswerSet.extend(correctAnswers) 
 		#Now mix the answers together to ensure that one can't guess based on order.
 		remainingVars = self.numChoices
 		for i in range(1,self.numChoices + 1):
