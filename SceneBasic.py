@@ -32,6 +32,7 @@ class SceneBasic(object):
 	
 	#init methods
 	def __init__(self,  resolution):
+		self.initBase()
 		self.initEvents();
 		self.initImages(resolution);
 		self.initButtons(resolution)
@@ -46,8 +47,23 @@ class SceneBasic(object):
 	def initOthers(s,screenSize):
 		pass
 	def initBase(s):
-		s.isMosueReleased = True
+		s.isMosueReleased = False
 
+
+	def updateStatic(self):
+		pass
+
+	#in a thread 
+	def renderScreenBegin(self,screen):
+		screen.fill((255, 255, 255)) 
+		pygame.display.update()
+		pass
+	def renderScreen(self,screen):
+		pass
+	def updateRender(self):
+		pass
+
+	#BasicEvents
 	def listenForEvents(s):
 		mousePressed = pygame.mouse.get_pressed()
 		if(s.isMosueReleased and mousePressed[0] is 1) :
@@ -56,19 +72,11 @@ class SceneBasic(object):
 		elif(not s.isMosueReleased and mousePressed[0] is 0):
 			s.isMosueReleased = True
 
-	def updateStatic(self):
+	def EVENT_CLICK(self):
 		pass
 
-	#in a thread 
-	def renderScreenBegin(self,screen):
-		pass
-	def renderScreen(self,screen):
-		pass
-	def updateRender(self):
-		pass
-
-	def enter(self):
-		print("entered main menu")
+	def EVENT_SCENE_START(self):
+		print("SCENE_BASIC_ENTER")
 
 
 

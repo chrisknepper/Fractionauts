@@ -1,11 +1,10 @@
 {   
-    "type": "Addition",
-    "options": [
-        "4/5",
-        "1/3",
-        "2/10",
-        "4/10",
-        "3/10"
+    "TYPES": "Addition",
+    "CHOICES": [
+		[5,10],
+		[4,8],
+		[2,10]
     ],  
-    "answer": "8/10"
+	"ANSWERS" : [[true,false,false] , [false,true,false] ],
+    "ANSWER_NUM": [1,2]
 }  

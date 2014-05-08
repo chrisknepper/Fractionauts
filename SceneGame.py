@@ -2,7 +2,7 @@ from SceneBasic import *
 import pygame
 import os
 import json
-#import pygtk
+import pygtk
 from Button import Button
 from Container import *
 from Question import Question
@@ -26,16 +26,15 @@ class SceneGame(SceneBasic):
 	ICN_RATIO_BARS = (.1, .3)
 
 	def __init__(self,screenSize):
+		SceneBasic.__init__(self,screenSize)
+
 		self.myState = self.STATE_READY
-		self.initEvents();
 		self.currentAnswers = []
 		self.last_mousepressed = []
 		self.level_loaded = False
 		self.levelWon = False
-		self.initBase()
 		self.arrIcnOils =[]
 		self.icnRocket =0
-		self.questionMaker = Question("addition")
 
 		self.initIcnOils(self.arrIcnOils,screenSize);
 		self.initIcnRocket(screenSize);
@@ -105,7 +104,6 @@ class SceneGame(SceneBasic):
 		self.textureIdRocketBar = TextureLoader.load( os.path.join('assets', 'screenGame','bar.png'),(100,30))
 
 		self.icnRocket =  IcnRocket( pos,size, HelperVec2.mult(size, (.5-.25,.5-.2)),HelperVec2.mult(size, (.5,.4) ),self.textureIdRocket ,self.textureIdRocketBar)
-		pass
 
 	def initButtons(s,screenSize):
 		size = HelperVec2.mult(screenSize, (.1 ,.1 ))
@@ -128,8 +126,7 @@ class SceneGame(SceneBasic):
 		#self.background_image = os.path.join('assets','Background.png')
 		#self.background = Background(self.background_image)
 		#self.background_rocket = Background(self.launching_rocket, 800, 675 - (self.main.currentLevel * 100))
-	def initBase(s):
-		s.isMosueReleased = True
+
 
 	def listenForEvents(s):
 		mousePressed = pygame.mouse.get_pressed()
@@ -139,9 +136,9 @@ class SceneGame(SceneBasic):
 		elif(not s.isMosueReleased and mousePressed[0] is 0):
 			s.isMosueReleased = True
 
-	def EVENT_NEW_ANSWER(self):
-		if(self.isGameOver() ): print "HEY GAME IS OVER"
-		else : print "GAME IS NOT YET OVER!" 
+	def EVENT_SUBMITT_ANSWER(self):
+		if(self.isGameOver() ) : self.helperRaiseEvent(self.EVENT_WIN)
+		else : print "GAME IS NOT YET OVER! DISPLAY SOME \"Lets try again GRAPHIC\" "  
 
 
 	def EVENT_CLICK_ANSWER(self):
@@ -156,28 +153,14 @@ class SceneGame(SceneBasic):
 		return False
 	
 
-	def EVENT_CLICK_WINSCREEN(self):
-		print "WINSCREEN"
-		pos = pygame.mouse.get_pos()
-		if(self.winScreen.is_under(pos) or self.loseScreen.is_under(pos)):
-			self.winScreen.close()
-			self.loseScreen.close()
-			self.myState = self.STATE_READY
-			if(self.evaluateAnswer()):
-				self.EVENT_NEW_GAME();
-			#if user won
-			#if(self.checkLevelExists(self.main.currentLevel + 1)):
-			#	self.main.currentLevel += 1
-			#	self.main.set_mode('play')
-			#else:
-			#	self.main.currentLevel = 0
-			#	self.main.set_mode('menu')
-
+	
 	
 
 	def registerEvent_menu(s,e):s.EVENT_MENU.append(e)
+	def registerEvent_win(s,e):s.EVENT_WIN.append(e)
 	def initEvents(s):
 		s.EVENT_MENU=[]
+		s.EVENT_WIN=[]
 
 	def EVENT_CLICK_BUTTON_MENU(self):
 		self.helperRaiseEvent(self.EVENT_MENU)
@@ -187,14 +170,9 @@ class SceneGame(SceneBasic):
 		self.goalContainer.fill(0.0)
 
 	def EVENT_CLICK_BUTTON_DONE(self):
-		self.myState = self.STATE_WINSCREEN
-		if self.evaluateAnswer():
-			self.winScreen.open()
-			self.levelWon = True
-			#self.main.score = str(int(self.main.score) + 5)
-		else:
-			self.loseScreen.open()
-			print 'WRONG ANSWER'
+		#call button animation here
+		self.EVENT_SUBMITT_ANSWER()#then process event 
+
 
 	def EVENT_CLICK_BUTTONS(self):
 		mousePos = pygame.mouse.get_pos()
@@ -212,11 +190,9 @@ class SceneGame(SceneBasic):
 	def EVENT_CLICK(self):
 		print "EVENT_CLICK"
 		if (self.myState  is self.STATE_READY):
-			if(self.EVENT_CLICK_ANSWER()) : self.EVENT_NEW_ANSWER()
+			if(self.EVENT_CLICK_ANSWER()) : pass
 			elif (self.EVENT_CLICK_BUTTONS()):pass
-		elif (self.myState is self.STATE_WINSCREEN):
-			self.EVENT_CLICK_WINSCREEN()
-			pass
+		elif (self.myState is self.STATE_WINSCREEN): pass
 	def renderScreenBegin(self,screen):
 		screen.fill((255, 255, 255)) 
 		pygame.display.update()
@@ -249,22 +225,8 @@ class SceneGame(SceneBasic):
 
 	#Load the level-th JSON file in the levels folder
 	def loadLevel(self, level):
-
-		print 'loading level'
-		
-		# testing Question Class
-		self.questionMaker.makeAddQuest(level)
-		print str(self.questionMaker.getAddQuestChoices()) + " List of Choices Mixed Up"
-		print str(self.questionMaker.getAddQuestAnswers()) + " List of Answers"
-		print str(self.questionMaker.getAddQuestGoalFloat()) + " The Goal Amount"
-		#HangedMan
-		
-		load_file = str(level) + '.json'
-		path = os.path.join('assets/levels', load_file)
-
 		print 'loading level' + str(level)
 		path = os.path.join('assets/levels', str(level) + '.json')
-
 		try:
 			with open(path) as fileQuestion:
 				data = json.load(fileQuestion)
@@ -274,19 +236,14 @@ class SceneGame(SceneBasic):
 			new_game = open(path, 'w')
 			new_game.close()
 
-
-	
-
-
 	#Compare the main container's current filled percentage with the goal filled percentage
 	def evaluateAnswer(self):
 		#later we should have a more solid way to deal with float errors
 		print str(round(self.goalContainer.filled, 5))+" == "+str(round(self.goalFill, 5))
 		print round(self.goalContainer.filled, 5) == round(self.goalFill, 5)
 		return round(self.goalContainer.filled, 5) == round(self.goalFill, 5)
+	
 	def helperIsSameArray(self, arrA, arrB):
-		print "SCENEGAME helperIsSameArray"
-		print arrB
 		if(len(arrA) is not len(arrB)): return False
 		for i in range(0, len(arrA)):
 			if( arrA[i] is not arrB[i]) :return False
@@ -296,8 +253,6 @@ class SceneGame(SceneBasic):
 	def isGameOver(self):
 		answerState = []
 		for icn in self.arrIcnOils:answerState.append(icn.isSelected)
-		print "SCENEGAME "
-		print answerState
 		for a  in self.questionAnswers:
 			if(self.helperIsSameArray(answerState, a) ) :return True
 		return False

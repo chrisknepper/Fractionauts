@@ -6,75 +6,61 @@ import os
 import json
 #from gi.repository import Gtk
 
-from Button import Button
-from Question import Question
+#Logics
 from SceneMenu import SceneMenu
 from SceneGame import SceneGame
 from SceneHelp import SceneHelp
+from SceneWin import SceneWin
 
-#my calls
+#utility helpers
 import TextureLoader
 import DrawHelper
-from SceneBasic import SceneBasic	
-
-WHITE = (255, 255, 255)
-GREEN = (0, 255, 0)
-BLUE = (0, 0, 128)
-
-#question = Question("addition")
+from SceneBasic import SceneBasic
 	
 class FractionautsMain(object):
+	STATE_MENU = 0
+	STATE_GAME = 1
+	STATE_WIN_SCREEN =2
+	STATE_HELP = 3
+
 	def __init__(self):
+		screenSize = (800,600)
+
+		pygame.init()
+		self.screen = pygame.display.set_mode(screenSize)
+		DrawHelper.init(screenSize[0],screenSize[1])
+		self.myFont = pygame.font.Font('freesansbold.ttf', 32)
 
 		self.isRunning = True
 		self.isRenderFirstFrame = True
 
-		self.gameLoaded = False
-		self.savePath = os.path.join('assets', 'save.json')
-		# Set up a clock for managing the frame rate.
-		self.clock = pygame.time.Clock()
+		self.myState = self.STATE_MENU
 		self.lockRender = threading.Lock()
+		self.savePath = os.path.join('assets', 'save.json') 
+		self.clock = pygame.time.Clock()# Set up a clock for managing the frame rate.
 
-		self.currentLevel = 0;
-		self.score = 0;
+		scnMenu 	= SceneMenu(screenSize)
+		scnGame 	= SceneGame(screenSize)
+		scnWin 		= SceneWin(screenSize)
+		scnHelp 	= SceneHelp(screenSize)
 
-		self.x = -100
-		self.y = 100
-
-		self.vx = 10
-		self.vy = 0
-		self.modes = ['menu', 'play', 'help']
-		self.state = 0
-		self.paused = False
-		self.direction = 1
-
-
-
-		pygame.init()
-		screenSize = (800,600)
-		self.screen = pygame.display.set_mode(screenSize)
-		DrawHelper.init(screenSize[0],screenSize[1])
-
-		self.myFont = pygame.font.Font('freesansbold.ttf', 32)
-		self.screen = pygame.display.get_surface()
-		self.height = pygame.display.Info().current_h
-		self.width = pygame.display.Info().current_w
-		self.hcenter = self.width / 2 
-		self.vcenter = self.height / 2
-
-		self.states = [SceneMenu(screenSize), SceneGame(screenSize), SceneHelp(screenSize)] #initialize all states
-		self.registerEvents(self.states[0],self.states[1],self.states[2])
-
+		self.registerEvents(scnMenu,scnGame,scnHelp)
+		self.dicScenes ={self.STATE_MENU: scnMenu,
+				self.STATE_GAME: scnGame ,
+				self.STATE_WIN_SCREEN: scnWin,
+				self.STATE_HELP:  scnHelp}
 
 	def EVENTHDR_SCENE_START_MENU(self):
-		self.set_mode('menu');
-		pass
+		self.changeState(self.STATE_MENU)
+
 	def EVENTHDR_SCENE_START_GAME(self):
-		self.set_mode('play');
-		pass
+		self.changeState(self.STATE_GAME)
+
 	def EVENTHDR_SCENE_START_HELP(self):
-		self.set_mode('help');
-		pass
+		self.changeState(self.STATE_HELP)
+	def EVENTHDR_SCENE_START_WIN(self):
+		self.changeState(self.STATE_WIN_SCREEN)
+
 	def EVENTHDR_QUIT(self):
 		self.saveLevel()
 		self.isRunning = False
@@ -95,6 +81,8 @@ class FractionautsMain(object):
 		sceneMenu.registerEvent_quit(self.EVENTHDR_QUIT)
 
 		sceneGame.registerEvent_menu(self.EVENTHDR_SCENE_START_MENU)
+		sceneGame.registerEvent_win(self.EVENTHDR_SCENE_START_WIN)
+
 		sceneHelp.registerEvent_menu(self.EVENTHDR_SCENE_START_MENU)
 		pass
 
@@ -109,6 +97,7 @@ class FractionautsMain(object):
 		self.loopUpdate();
 		self.isRunning = False;
 		threadRender.join();#wait for the thread to complete, then game over
+
 	def displayFPS(self,myFont):
 		label =  myFont.render("FPS "+str(int(self.clock.get_fps()) ) , 1, (255,255,0))
 		rectFPS = pygame.draw.rect(self.screen, (0,0,0) , (0,0, 130,30))
@@ -124,7 +113,7 @@ class FractionautsMain(object):
 	def loopRender(self):
 		while  self.isRunning:
 			self.lockRender.acquire();
-			self.helperRenderScene( self.states[self.state])
+			self.helperRenderScene( self.dicScenes[self.myState])
 			
 			self.clock.tick(100);
 			self.displayFPS(self.myFont);
@@ -136,16 +125,12 @@ class FractionautsMain(object):
 			for event in eventStack:
 				if event.type == pygame.QUIT:
 					return
-			self.states[self.state].listenForEvents()
+			self.dicScenes[self	.myState].listenForEvents()
 
-
-
-
-
-	def set_mode(self, mode):
+	def changeState(self, stateNew):
 		self.isRenderFirstFrame = True;
-		self.state = self.modes.index(mode)
-		self.states[self.state].EVENT_SCENE_START()
+		self.myState = stateNew
+		self.dicScenes[self.myState].EVENT_SCENE_START()
 
 
 # This function is called when the game is run directly from the command line:
@@ -156,3 +141,12 @@ def main():
 
 if __name__ == '__main__':
 	main()
+
+
+#garbage
+
+
+		#self.height = pygame.display.Info().current_h
+		#self.width = pygame.display.Info().current_w
+		#self.hcenter = self.width / 2 
+		#self.vcenter = self.height / 2
