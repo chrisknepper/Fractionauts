@@ -14,6 +14,9 @@ class IcnBasic:
 			self.mySurface= TextureLoader.get(textureID)
 			if(isTextureRescaled ) : self.mySurface =HelperTexture.scale(self.mySurface, self.size)
 		pass
+	def setSelect(s,value):
+		s.isSelected = value
+		
 	def isUnder(self,pos):
 		x, y = pos
 		if (self.pos[0] < x and

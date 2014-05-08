@@ -44,7 +44,7 @@ class FractionautsMain(object):
 		scnWin 		= SceneWin(screenSize)
 		scnHelp 	= SceneHelp(screenSize)
 
-		self.registerEvents(scnMenu,scnGame,scnHelp)
+		self.registerEvents(scnMenu,scnGame,scnWin,scnHelp)
 		self.dicScenes ={self.STATE_MENU: scnMenu,
 				self.STATE_GAME: scnGame ,
 				self.STATE_WIN_SCREEN: scnWin,
@@ -73,7 +73,7 @@ class FractionautsMain(object):
 		self.lockRender.release()
 		pass
 
-	def registerEvents(self, sceneMenu,sceneGame,sceneHelp):
+	def registerEvents(self, sceneMenu,sceneGame,sceneWin, sceneHelp):
 		SceneBasic.registerEvent_sceneChangeStart(self.EVENTHDR_SCENE_CHANGE_START)
 		SceneBasic.registerEvent_sceneChangeEnd(self.EVENTHDR_SCENE_CHANGE_END)
 		sceneMenu.registerEvent_play(self.EVENTHDR_SCENE_START_GAME)
@@ -82,6 +82,8 @@ class FractionautsMain(object):
 
 		sceneGame.registerEvent_menu(self.EVENTHDR_SCENE_START_MENU)
 		sceneGame.registerEvent_win(self.EVENTHDR_SCENE_START_WIN)
+
+		sceneWin.registerEvent_finished(self.EVENTHDR_SCENE_START_GAME)
 
 		sceneHelp.registerEvent_menu(self.EVENTHDR_SCENE_START_MENU)
 		pass
