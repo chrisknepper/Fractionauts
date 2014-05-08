@@ -63,9 +63,7 @@ class SceneGame(SceneBasic):
 		s.arrButtons =	[s.bttnMenu,s.bttnEmpty,s.bttnDone]
 
 	def initImages(self,screenSize):
-		self.textureIdBG =		TextureLoader.load(os.path.join('assets','Background.png') ,screenSize)
-		self.textureIdRocketFail =	TextureLoader.load( os.path.join('assets', 'rocket_down.png'))
-		self.textureIdRocketLaunch =	TextureLoader.load(os.path.join('assets', 'rocket_launch.png'))
+		pass
 
 	def helperLoadData(self,path):
 		file = open(path) 
