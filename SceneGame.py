@@ -54,7 +54,6 @@ class SceneGame(SceneBasic):
 		size = (100,300)
 		sizeBar = (size[0]*.5,size[1]*.4)
 
-
 		self.textureOil = TextureLoader.load( os.path.join('assets', 'screenGame','icnOil.png'),size)
 		self.textureBar = TextureLoader.load( os.path.join('assets', 'screenGame','bar.png'),(100,30))
 
@@ -87,12 +86,6 @@ class SceneGame(SceneBasic):
 		self.textureIdBG =		TextureLoader.load(os.path.join('assets','Background.png') ,screenSize)
 		self.textureIdRocketFail =	TextureLoader.load( os.path.join('assets', 'rocket_down.png'))
 		self.textureIdRocketLaunch =	TextureLoader.load(os.path.join('assets', 'rocket_launch.png'))
-		#self.failed_rocket = os.path.join('assets', 'rocket_down.png')
-		#self.launching_rocket = os.path.join('assets', 'rocket_launch.png')
-		#self.background_image = os.path.join('assets','Background.png')
-		#self.background = Background(self.background_image)
-		#self.background_rocket = Background(self.launching_rocket, 800, 675 - (self.main.currentLevel * 100))
-
 
 	def listenForEvents(s):
 		mousePressed = pygame.mouse.get_pressed()
@@ -103,7 +96,10 @@ class SceneGame(SceneBasic):
 			s.isMosueReleased = True
 
 	def EVENT_SUBMITT_ANSWER(self):
-		if(self.isGameOver() ) : self.helperRaiseEvent(self.EVENT_WIN)
+		if(self.isGameOver() ) : 
+			#Submitted answer is correct advnace to the next level and raise win event
+			self.questionLevel += 1
+			self.helperRaiseEvent(self.EVENT_WIN)
 		else : print "GAME IS NOT YET OVER! DISPLAY SOME \"Lets try again GRAPHIC\" "  
 
 

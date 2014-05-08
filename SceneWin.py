@@ -14,6 +14,9 @@ class SceneWin(SceneBasic):
 	def initImages(s,screenSize):
 		s.textureIdBG = TextureLoader.load(os.path.join('assets', 'screenWin', 'win00.png'))
 		pass;
+	def initEvents(s):
+		EVENT_FINISHED = []
+
 	def renderScreenBegin(s,screen):
 		DrawHelper.drawAspect(screen,s.textureIdBG, 0,0)
 		pygame.display.update()
