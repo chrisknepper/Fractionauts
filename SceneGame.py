@@ -2,22 +2,15 @@ from SceneBasic import *
 import pygame
 import os
 import json
-import pygtk
-from Button import Button
-from Container import *
-from Question import Question
-from AnswerButton import AnswerButton
-from Background import Background
-from TextItem import TextItem
 
+#Utility
 import DrawHelper
 import HelperVec2
+
+#Logic
 from KButton import KButton
 from IcnOil import IcnOil
 from IcnRocket import IcnRocket
-#class Background keeps rescaling itself
-#instances of holder for temporary values being saved as class componenet
-#having fucking long ridiculous listen function call idiotic
 
 
 class SceneGame(SceneBasic):
@@ -34,15 +27,14 @@ class SceneGame(SceneBasic):
 		self.level_loaded = False
 		self.levelWon = False
 		self.arrIcnOils =[]
-		self.icnRocket =0
+
+		self.questionLevel = 0
+		self.questionChoices = []
+		self.questionAnswers = []
 
 		self.initIcnOils(self.arrIcnOils,screenSize);
 		self.initIcnRocket(screenSize);
 		self.initImages(screenSize)
-
-		#self.failed_rocket = os.path.join('assets', 'rocket_down.png')
-		#self.launching_rocket = os.path.join('assets', 'rocket_launch.png')
-		#self.background_image = os.path.join('assets','Background.png')
 
 
 		# Game playing screen buttons
@@ -52,38 +44,12 @@ class SceneGame(SceneBasic):
 		# Game screen elements
 
 	def initOthers(self,screenSize):
-		self.scoreDisplay = TextItem(.5 *screenSize[0],	0, .14*screenSize[0], .08*screenSize[1], ['Score: '], showRect = False)
-		self.levelDisplay = TextItem(.64*screenSize[0],	0  , .21*screenSize[0], .08*screenSize[1], ['Current Level: '], showRect = False)
-		self.goalDisplay = TextItem(.67 *screenSize[0],.26*screenSize[1], .12*screenSize[0], .08*screenSize[1], ['Fill to: '], textColor= (255,255,255), showRect = False)
-		self.feedback_width = .42 *screenSize[0]
-		self.feedback_height = .22*screenSize[1]
-		self.feedback_x = (screenSize[0] / 2) - (self.feedback_width / 2)
-		self.feedback_y = (screenSize[1] / 2) - (self.feedback_height / 2)
-		self.gameScreenUI = []
-		self.gameScreenUI.append(self.goalDisplay)
-		self.gameScreenUI.append(self.scoreDisplay)
-		self.gameScreenUI.append(self.levelDisplay)
-		
-		self.goalContainer = Container(.67 * screenSize[0], .33*screenSize[1], 0, 1, .12*screenSize[0], .28*screenSize[1], False)
-		self.goalFill = 1.0 #temporary goal fill amount #the number you are aiming for
-
-		self.winScreen = TextItem(self.feedback_x, self.feedback_y, self.feedback_width, self.feedback_height, ['Nice Job!', 'Click here to go on!'])
-		self.winScreen.close()
-		self.loseScreen = TextItem(self.feedback_x, self.feedback_y, self.feedback_width, self.feedback_height, ['Oops, that\'s not quite right.', 'Click here and try again.'])
-		self.loseScreen.close()
-
-
-		#self.winScreen = TextItem(self.feedback_x, self.feedback_y, self.feedback_width, self.feedback_height, ['Nice Job!', 'Click here to go on!'], (84, 194, 92), (39, 90, 43), True, Background(self.launching_rocket, self.feedback_x, self.feedback_y, self.feedback_width / 2, 100))
-		#self.winScreen.close()
-		#self.loseScreen = TextItem(self.feedback_x, self.feedback_y, self.feedback_width, self.feedback_height, ['Oops, that\'s not quite right.', 'Click here and try again.'], (209, 72, 72), (96, 33, 33), True, Background(self.failed_rocket, self.feedback_x, self.feedback_y, self.feedback_width / 2, 100))
-		#self.loseScreen.close()
 		pass
 
 	def helperGetIcnOil(self, pos,size, ratioPos,ratioSize,textureOil,textureBar):
 		return IcnOil(pos, size,HelperVec2.mult(size,ratioPos), HelperVec2.mult(size, ratioSize ),textureOil,textureBar )
 
 	def initIcnOils(self,list,screenSize):
-		#self.IcnBars = IcnBar(100,  100,100, 300,10,TextureLoader.get(self.textureBar ) ) 
 		pos = (50,100)
 		size = (100,300)
 		sizeBar = (size[0]*.5,size[1]*.4)
@@ -236,12 +202,7 @@ class SceneGame(SceneBasic):
 			new_game = open(path, 'w')
 			new_game.close()
 
-	#Compare the main container's current filled percentage with the goal filled percentage
-	def evaluateAnswer(self):
-		#later we should have a more solid way to deal with float errors
-		print str(round(self.goalContainer.filled, 5))+" == "+str(round(self.goalFill, 5))
-		print round(self.goalContainer.filled, 5) == round(self.goalFill, 5)
-		return round(self.goalContainer.filled, 5) == round(self.goalFill, 5)
+	
 	
 	def helperIsSameArray(self, arrA, arrB):
 		if(len(arrA) is not len(arrB)): return False
@@ -258,11 +219,11 @@ class SceneGame(SceneBasic):
 		return False
 
 
-	def EVENT_NEW_GAME(self, level =0):
+	def EVENT_NEW_GAME(self, level =-1):
 		self.EVENT_SCENE_CHANGE_START()
 		self.levelWon = False
+		if(level is -1 ) : level = self.questionLevel
 		self.loadLevel(level)
-		self.goalContainer.fill(0)
 		self.EVENT_SCENE_CHANGE_END()
 
 	def EVENT_SCENE_START(self):
