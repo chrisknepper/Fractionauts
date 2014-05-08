@@ -29,20 +29,23 @@ class SceneGame(SceneBasic):
 		self.initImages(screenSize)
 		self.initButtons(screenSize)
 
-	def helperGetIcnOil(self, pos,size, ratioPos,ratioSize,textureOil,textureBar):
-		return IcnOil(pos, size,HelperVec2.mult(size,ratioPos), HelperVec2.mult(size, ratioSize ),textureOil,textureBar )
+	def helperGetIcnOil(self, pos,size, ratioPos,ratioSize,textureBG,textureDiv, textureFill):
+		return IcnOil(pos, size,HelperVec2.mult(size,ratioPos), HelperVec2.mult(size, ratioSize ),textureBG,textureDiv,textureFill )
 
 	def initIcnOils(self,list,screenSize):
 		pos = (50,100)
 		size = (100,300)
 		sizeBar = (size[0]*.5,size[1]*.4)
 
-		self.textureOil = TextureLoader.load( os.path.join('assets', 'screenGame','icnOil.png'),size)
-		self.textureBar = TextureLoader.load( os.path.join('assets', 'screenGame','bar.png'),(100,30))
+
+		self.textureIdFuelBG = TextureLoader.load( os.path.join('assets', 'screenGame','fuelBG.png' ))
+		self.textureIdFuelDiv = TextureLoader.load( os.path.join('assets', 'screenGame','fuelDiv.png'))
+		self.textureIdFuelFill = TextureLoader.load( os.path.join('assets', 'screenGame','fuelFill.png'))
+
 
 		for i in range(0,3):
 			posNew = HelperVec2.add(pos, HelperVec2.mult( size, ((1.11)*i ,0) )  )
-			list.append(self.helperGetIcnOil(posNew,size, (.5-.25,.5-.2), (.5,.4) ,self.textureOil ,self.textureBar ))
+			list.append(self.helperGetIcnOil(posNew,size, (.5-.25,.5-.2), (.5,.4) ,self.textureIdFuelBG ,self.textureIdFuelDiv , self.textureIdFuelFill ))
 
 	def initIcnRocket(self,screenSize):
 		pos = (500,100)
@@ -50,6 +53,7 @@ class SceneGame(SceneBasic):
 
 		self.textureIdRocket = TextureLoader.load( os.path.join('assets', 'screenGame','icnRocket.png'),size)
 		self.textureIdRocketBar = TextureLoader.load( os.path.join('assets', 'screenGame','bar.png'),(100,30))
+
 
 		self.icnRocket =  IcnRocket( pos,size, HelperVec2.mult(size, (.5-.25,.5-.2)),HelperVec2.mult(size, (.5,.4) ),self.textureIdRocket ,self.textureIdRocketBar)
 
@@ -62,7 +66,10 @@ class SceneGame(SceneBasic):
 		s.bttnDone =	KButton(.5 *screenSize[0], .9*screenSize[1], .5*screenSize[0], .1*screenSize[1], s.textureIdButton,True)
 		s.arrButtons =	[s.bttnMenu,s.bttnEmpty,s.bttnDone]
 
-	def initImages(self,screenSize):
+	def initImages(s,screenSize):
+		s.textureIDBG = TextureLoader.load( os.path.join('assets', 'screenGame','background.png'),screenSize)
+
+
 		pass
 
 	def helperLoadData(self,path):
@@ -174,6 +181,7 @@ class SceneGame(SceneBasic):
 
 	def renderScreenBegin(self,screen):
 		screen.fill((255, 255, 255)) 
+		DrawHelper.drawAspect(screen,self.textureIDBG, 0,0 )
 		pygame.display.update()
 		print "HI SCREEN BEGIN HERE "
 		pass
@@ -186,8 +194,11 @@ class SceneGame(SceneBasic):
 		for icn in self.arrIcnOils:
 			icn.draw(screen);
 			icn.drawEnd();
+			icn.drawUpdate(.01)
+
 		self.icnRocket.draw(screen)
 		self.icnRocket.drawEnd()
+
 		pass
 
 

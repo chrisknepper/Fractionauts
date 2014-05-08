@@ -5,15 +5,38 @@ import TextureLoader
 import HelperTexture
 
 class IcnBars (IcnBasic):
-	def __init__(self, x, y, w, h, count=10 ,textureID=-1, isTextureNeedResize = False):
+	RATIO_DIV_HEIGHT  = .1
+	def __init__(self, x, y, w, h, count=10 ,textureIdDiv=-1,textureIdFill = -1, isTextureNeedResize = False):
 		IcnBasic.__init__(self,x,y,w,h)
+		
+		self.fillRatio  = 0
+		self.fillRatioTo  = 0
+		self.fillRate = 0;
 		self.count = count;
 		self.mySurface = pygame.Surface((w,h))
+		self.surfaceTop = pygame.Surface( (w,h),pygame.SRCALPHA  )
 		self.cellHeight = h/ count
-		self.textureBar = pygame.Surface((0,0)) if textureID is -1 else TextureLoader.get(textureID);
-		if(isTextureNeedResize): self.textureBar = HelperTexture.scale(self.textureBar,(w,self.cellHeight) )
+		self.textureDiv = pygame.Surface((0,0)) if textureIdDiv is -1 else TextureLoader.get(textureIdDiv);
+		self.textureFill = pygame.Surface((0,0)) if textureIdFill is -1 else TextureLoader.get(textureIdFill);
+		print "height  is "+str( self.textureDiv.get_height() )
+		print "but my height  is " + str(self.cellHeight)
+		#surface to overdrawn on top ok?
+
+		#if(isTextureNeedResize): self.textureDiv = HelperTexture.scale(self.textureDiv,( w , self.textureDiv.get_height() ) )
 		pass
+
+	def renderDivs(self, surface, texture,  nums):
+		surface.fill((0,0,0,0) )
+		barHeight = self.size[1] / nums
+		for i in range (1,nums):
+			surface.blit(texture,  (0, barHeight * i ) )	
+
+		pass
+
+	#currently takiing number of sticks to draw
+	#render percentage! not blocks needs dratstic changes to be made 
 	def helperFillBars(self,surface, height, texture , indexFrom,indexTo):
+		surface.fill((0,0,0) )
 		for i in range(indexFrom,indexTo):
 			surface.blit(texture, (0,   height * self.count -height* (i+1) ) )
 			#pygame.draw.rect(surface,(200,100,0), (0, height* i, 1000, height ))
@@ -24,13 +47,23 @@ class IcnBars (IcnBasic):
 	def setCount(self, n ):
 		self.count = n
 		self.cellHeight = self.size[1] / n
-		self.textureBar = HelperTexture.scale(self.textureBar,(self.size[0],self.cellHeight) )
+		#self.textureDiv = HelperTexture.scale(self.textureDiv,(self.size[0],self.cellHeight) )
 
 	def display(self, n ):
-
-		#in case n is greater than self.count, limit.
-		n = max(min( n, self.count),0)
+		self.fillRatioTo = max(min( n, 1),0)
+		self.fillRate = self.fillRatioTo - self.fillRatio
 		print "IcnBars : displaying " + str(n)
+
+		self.renderDivs(self.surfaceTop,self.textureDiv,  self.count)
+		#self.helperFillBars(self.mySurface, self.cellHeight, self.textureDiv, 0, n)
+
+		self.mySurface.blit(self.surfaceTop,(0,0))
+
+	def drawUpdate(self, timeElapsed ):
+		self.fillRatio += ( self.fillRate) * timeElapsed 
+		self.fillRatio = max( min( self.fillRatio, 1),0)
+		
 		self.mySurface.fill((0, 0, 0)) 
-		self.helperFillBars(self.mySurface, self.cellHeight, self.textureBar, 0, n)
+		self.mySurface.blit(self.textureFill , (0, self.size[1] - self.size[1] * self.fillRatio ) )
+		self.mySurface.blit(self.surfaceTop,(0,0))
 		pass

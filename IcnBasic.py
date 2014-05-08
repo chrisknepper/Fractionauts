@@ -36,3 +36,5 @@ class IcnBasic:
 	def drawEnd(self):
 		pygame.display.update(self.rect )
 		pass
+	def drawUpdate(self, timeElapsed):
+		pass

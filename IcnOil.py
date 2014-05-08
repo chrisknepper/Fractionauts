@@ -2,10 +2,11 @@ import pygame
 from IcnBasic import IcnBasic
 from IcnBars import IcnBars
 import HelperVec2
+
 class IcnOil(IcnBasic):
-	def __init__(self,pos,size,posBar,sizeBar, textureMe, textureBar):
+	def __init__(self,pos,size,posBar,sizeBar, textureMe,textureDiv, textureBar):
 		IcnBasic.__init__(self,pos[0],pos[1], size[0], size[1], textureMe)
-		self.myBars = IcnBars(posBar[0],posBar[1],sizeBar[0],sizeBar[1],10,textureBar,True) 
+		self.myBars = IcnBars(posBar[0],posBar[1],sizeBar[0],sizeBar[1],10,textureDiv,textureBar,True) 
 		self.posBars = posBar
 
 	def display(self, numDisplay, numTotal = -1):
@@ -19,3 +20,5 @@ class IcnOil(IcnBasic):
 	def drawEnd(self):
 		IcnBasic.drawEnd(self)
 		#self.myBars.drawEnd()
+	def drawUpdate(self, timeElapsed):
+		self.myBars.drawUpdate(timeElapsed)
