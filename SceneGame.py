@@ -21,6 +21,7 @@ class SceneGame(SceneBasic):
 
 		self.arrIcnFuels =[]
 
+		self.score = 0
 		self.questionLevel = 0
 		self.questionChoices = []
 		self.questionAnswers = []
@@ -63,10 +64,10 @@ class SceneGame(SceneBasic):
 		self.icnRocket =  IcnRocket( pos,size, oilPos,oilSize,\
 			self.textureIdRocket ,self.textureIdRocketFuel,self.textureIdRocketFuelDiv,self.textureIdRocketFuelFill,self.textureIdRocketFuelWave)
 	def initIcnText(s,screenSize):
-		textLevel = IcnTextBox(0.05*screenSize[0],0, 200,100 ,"Level 0")
-		textScore = IcnTextBox(.8 *screenSize[0],0, 200,100, "Score 0 ")
+		s.icnTextLevel = IcnTextBox(0.01*screenSize[0],0, .15*screenSize[0],.05*screenSize[1] ,"Level 0")
+		s.icnTextScore = IcnTextBox(.85*screenSize[0],0, .15*screenSize[0],.05*screenSize[1], "Score 0 ")
 
-		s.arrIcnText = [textLevel,textScore]
+		s.arrIcnText = [s.icnTextLevel,s.icnTextScore]
 		pass
 
 	def initButtons(s,screenSize):
@@ -93,16 +94,16 @@ class SceneGame(SceneBasic):
 		self.levelWon = False
 		self.EVENT_SCENE_CHANGE_START()
 
+		
 
 		try:
-			data = self.helperLoadData(path)
-			print "LOADED DATA"
-			self.loadNewQuestion(data[0],data[1],data[2])
+			data = self.helperLoadData(os.path.join('assets/levels',str(self.questionLevel)+ '.json'))
+			self.loadNewQuestion(self.questionLevel, data[0],data[1],data[2])
 		except :
-			print "SceneGame CRITICAL ERROR. CANNOT LOAD LEVEL ! LOADING EMERGENCY LEVEL"
+			print "SceneGame CRITICAL ERROR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!SOMETHING NOT RIGHT HERE. CANNOT LOAD LEVEL ! LOADING EMERGENCY LEVEL"
 			try : 
 				data = self.helperLoadData( os.path.join('assets/levels','0.json'))
-				self.loadNewQuestion(data[0],data[1],data[2])
+				self.loadNewQuestion(self.questionLevel,data[0],data[1],data[2])
 			except : "SceneGame I failed. I cannot load anything. We are doomed!"
 
 		self.EVENT_SCENE_CHANGE_END()
@@ -116,7 +117,7 @@ class SceneGame(SceneBasic):
 		DrawHelper.drawAspect(surface,s.textureIDBG, 0,0 )
 		pass
 
-	def loadNewQuestion(self,choices,answers,answerNum):
+	def loadNewQuestion(self,level,choices,answers,answerNum):
 		self.questionChoices	= choices
 		self.questionAnswers	= answers
 
@@ -124,6 +125,7 @@ class SceneGame(SceneBasic):
 			self.arrIcnFuels[i].setSelect(False)
 			self.arrIcnFuels[i].display(choices[i][0],choices[i][1] )
 		self.icnRocket.display(0,answerNum[1])
+		self.icnTextLevel.setContent("Level "+str(level) )
 
 		pass
 	
@@ -137,6 +139,7 @@ class SceneGame(SceneBasic):
 		if(self.isGameOver() ) : 
 			#Submitted answer is correct advnace to the next level and raise win event
 			self.questionLevel += 1
+			self.score += 10
 			self.helperRaiseEvent(self.EVENT_WIN)
 		else : print "GAME IS NOT YET OVER! DISPLAY SOME \"Lets try again GRAPHIC\" "  
 
@@ -199,6 +202,9 @@ class SceneGame(SceneBasic):
 			return  True
 		return False
 
+	def renderScreenClean(self,screen):
+		self.helperClean(screen, self.icnTextLevel)
+		self.helperClean(screen, self.icnTextScore)
 
 	def renderScreen(self,screen):
 		for icn in self.arrButtons:
@@ -209,6 +215,8 @@ class SceneGame(SceneBasic):
 			icn.draw(screen);
 			icn.drawEnd();
 
+
+
 		for icn in self.arrIcnText:
 			icn.draw(screen);
 			icn.drawEnd();
@@ -217,6 +225,8 @@ class SceneGame(SceneBasic):
 		self.icnRocket.drawEnd()
 
 	def renderUpdate(self, timeElapsed):
+		self.icnTextScore.setContent("Score " + str( self.score))
+
 
 		for icn in self.arrIcnFuels:icn.drawUpdate(timeElapsed)
 		for icn in self.arrIcnText:icn.drawUpdate(timeElapsed)

@@ -29,7 +29,11 @@ class SceneBasic(object):
 	def EVENT_SCENE_CHANGE_END():
 		SceneBasic.helperRaiseEvent(SceneBasic.event_scene_change_end)
 
-	
+	#helperMethods that will come handy
+	def helperClean(self, screen, obj):
+		screen.blit(self.myBackground, obj.pos,obj.rect)
+
+
 	#init methods
 	def __init__(self,  resolution):
 		self.initBase()
@@ -72,7 +76,7 @@ class SceneBasic(object):
 		pass
 	def renderScreen(self,screen):
 		pass
-		
+
 	def renderUpdate(self, timeElapsed):
 		pass
 
