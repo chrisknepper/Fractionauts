@@ -10,7 +10,7 @@ import HelperTexture
 
 #Logic
 from KButton import KButton
-from IcnOil import IcnOil
+from IcnFuel import IcnFuel
 from IcnRocket import IcnRocket
 from IcnTextBox import IcnTextBox
 
@@ -19,22 +19,22 @@ class SceneGame(SceneBasic):
 	def __init__(self,screenSize):
 		SceneBasic.__init__(self,screenSize)
 
-		self.arrIcnOils =[]
+		self.arrIcnFuels =[]
 
 		self.questionLevel = 0
 		self.questionChoices = []
 		self.questionAnswers = []
 
-		self.initIcnOils(self.arrIcnOils,screenSize);
+		self.initIcnFuels(self.arrIcnFuels,screenSize);
 		self.initIcnRocket(screenSize);
 		self.initImages(screenSize)
 		self.initIcnText(screenSize)
 		self.initButtons(screenSize)
 
-	def helperGetIcnOil(self, pos,size, ratioPos,ratioSize,textureBG,textureDiv, textureFill,textureWave):
-		return IcnOil(pos, size,HelperVec2.mult(size,ratioPos), HelperVec2.mult(size, ratioSize ),textureBG,textureDiv,textureFill,textureWave )
+	def helperGetIcnFuel(self, pos,size, ratioPos,ratioSize,textureBG,textureDiv, textureFill,textureWave):
+		return IcnFuel(pos, size,HelperVec2.mult(size,ratioPos), HelperVec2.mult(size, ratioSize ),textureBG,textureDiv,textureFill,textureWave )
 
-	def initIcnOils(s,list,screenSize):
+	def initIcnFuels(s,list,screenSize):
 		pos = (50,100)
 		size = (100,300)
 		sizeBar = (size[0]*.5,size[1]*.4)
@@ -46,7 +46,7 @@ class SceneGame(SceneBasic):
 
 		for i in range(0,3):
 			posNew = HelperVec2.add(pos, HelperVec2.mult( size, ((1.11)*i ,0) )  )
-			list.append(s.helperGetIcnOil(posNew,size, (.5-.25,.5-.2), (.5,.4) ,s.textureIdFuelBG ,s.textureIdFuelDiv , s.textureIdFuelFill,s.textureIdFuelWave ))
+			list.append(s.helperGetIcnFuel(posNew,size, (.5-.25,.5-.2), (.5,.4) ,s.textureIdFuelBG ,s.textureIdFuelDiv , s.textureIdFuelFill,s.textureIdFuelWave ))
 
 	def initIcnRocket(self,screenSize):
 		pos = (500,100)
@@ -125,8 +125,8 @@ class SceneGame(SceneBasic):
 		self.questionAnswers	= answers
 
 		for i in range(0,3):
-			self.arrIcnOils[i].setSelect(False)
-			self.arrIcnOils[i].display(choices[i][0],choices[i][1] )
+			self.arrIcnFuels[i].setSelect(False)
+			self.arrIcnFuels[i].display(choices[i][0],choices[i][1] )
 		self.icnRocket.display(answerNum[0],answerNum[1])
 
 		pass
@@ -146,7 +146,7 @@ class SceneGame(SceneBasic):
 
 	def isGameOver(self):
 		answerState = []
-		for icn in self.arrIcnOils:answerState.append(icn.isSelected)
+		for icn in self.arrIcnFuels:answerState.append(icn.isSelected)
 		for a  in self.questionAnswers:
 			if(self.helperIsSameArray(answerState, a) ) :return True
 		return False
@@ -162,8 +162,8 @@ class SceneGame(SceneBasic):
 
 	def CLICK_ANSWER(self):
 		pos = pygame.mouse.get_pos()
-		for i in range(0, len( self.arrIcnOils  )) :
-			icn = self.arrIcnOils[i]
+		for i in range(0, len( self.arrIcnFuels  )) :
+			icn = self.arrIcnFuels[i]
 			choice = self.questionChoices[i]
 			if(icn.isUnder(pos)):
 				if(icn.select()): icn.displayFillBar(0)
@@ -198,7 +198,7 @@ class SceneGame(SceneBasic):
 			icn.draw(screen);
 			icn.drawEnd();
 
-		for icn in self.arrIcnOils:
+		for icn in self.arrIcnFuels:
 			icn.draw(screen);
 			icn.drawEnd();
 			icn.drawUpdate(.01)

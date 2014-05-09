@@ -3,7 +3,7 @@ from IcnBasic import IcnBasic
 from IcnBars import IcnBars
 import HelperVec2
 
-class IcnOil(IcnBasic):
+class IcnFuel(IcnBasic):
 	def __init__(self,pos,size,posBar,sizeBar, \
 			textureMe=-1,textureDiv=-1, textureBar =-1,textureIdFuelWave = -1):
 		IcnBasic.__init__(self,pos[0],pos[1], size[0], size[1], textureMe)
