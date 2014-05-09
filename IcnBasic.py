@@ -10,6 +10,8 @@ class IcnBasic:
 		self.textureID = textureID
 		self.rect = (0,0,0,0);
 		self.mySurface = None
+		if(self.textureID == 1):
+			pass
 		if(self.textureID != -1):
 			self.mySurface= TextureLoader.get(textureID)
 			if(isTextureRescaled ) : self.mySurface =HelperTexture.scale(self.mySurface, self.size)

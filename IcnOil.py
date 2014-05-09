@@ -8,10 +8,19 @@ class IcnOil(IcnBasic):
 		IcnBasic.__init__(self,pos[0],pos[1], size[0], size[1], textureMe)
 		self.myBars = IcnBars(posBar[0],posBar[1],sizeBar[0],sizeBar[1],10,textureDiv,textureBar,True) 
 		self.posBars = posBar
+		self.numNuno = 0
+		self.numDeno = 1
 
-	def display(self, numDisplay, numTotal = -1):
-		if(numTotal != -1 ) : self.myBars.setCount(numTotal)
-		self.myBars.display(numDisplay)
+	def displayFillBar(self, percentage):
+		self.myBars.display(percentage)
+
+	def display(self, numerator, denominator = -1):
+		self.numNuno = numerator
+		if(denominator != -1 ) : 
+			self.numDeno  = denominator
+			self.myBars.setCount(denominator)
+		self.myBars.fillRatio = 0
+		self.myBars.display(self.numNuno / float(self.numDeno) )
 
 	def draw(self, screen):
 		IcnBasic.draw(self,screen)

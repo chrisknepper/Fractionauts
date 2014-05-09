@@ -11,11 +11,14 @@ from SceneMenu import SceneMenu
 from SceneGame import SceneGame
 from SceneHelp import SceneHelp
 from SceneWin import SceneWin
+#for static variable initialization
+from IcnTextBox import IcnTextBox
 
 #utility helpers
 import TextureLoader
 import DrawHelper
 from SceneBasic import SceneBasic
+
 	
 class FractionautsMain(object):
 	STATE_MENU = 0
@@ -29,7 +32,8 @@ class FractionautsMain(object):
 		pygame.init()
 		self.screen = pygame.display.set_mode(screenSize)
 		DrawHelper.init(screenSize[0],screenSize[1])
-		self.myFont = pygame.font.Font('freesansbold.ttf', 32)
+		self.myFont = pygame.font.Font(os.path.join('assets', 'Minecraftia.ttf') , 24)
+		IcnTextBox.setFont( self.myFont)
 
 		self.isRunning = True
 		self.isRenderFirstFrame = True
@@ -118,7 +122,7 @@ class FractionautsMain(object):
 			self.helperRenderScene( self.dicScenes[self.myState])
 			
 			self.clock.tick(100);
-			self.displayFPS(self.myFont);
+			#self.displayFPS(self.myFont);
 			self.lockRender.release();
 
 	def loopUpdate(self):

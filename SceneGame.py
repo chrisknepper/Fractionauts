@@ -11,7 +11,7 @@ import HelperVec2
 from KButton import KButton
 from IcnOil import IcnOil
 from IcnRocket import IcnRocket
-
+from IcnTextBox import IcnTextBox
 
 class SceneGame(SceneBasic):
 
@@ -27,6 +27,7 @@ class SceneGame(SceneBasic):
 		self.initIcnOils(self.arrIcnOils,screenSize);
 		self.initIcnRocket(screenSize);
 		self.initImages(screenSize)
+		self.initIcnText(screenSize)
 		self.initButtons(screenSize)
 
 	def helperGetIcnOil(self, pos,size, ratioPos,ratioSize,textureBG,textureDiv, textureFill):
@@ -36,7 +37,6 @@ class SceneGame(SceneBasic):
 		pos = (50,100)
 		size = (100,300)
 		sizeBar = (size[0]*.5,size[1]*.4)
-
 
 		self.textureIdFuelBG = TextureLoader.load( os.path.join('assets', 'screenGame','fuelBG.png' ))
 		self.textureIdFuelDiv = TextureLoader.load( os.path.join('assets', 'screenGame','fuelDiv.png'))
@@ -53,24 +53,24 @@ class SceneGame(SceneBasic):
 
 		self.textureIdRocket = TextureLoader.load( os.path.join('assets', 'screenGame','icnRocket.png'),size)
 		self.textureIdRocketBar = TextureLoader.load( os.path.join('assets', 'screenGame','bar.png'),(100,30))
-
-
 		self.icnRocket =  IcnRocket( pos,size, HelperVec2.mult(size, (.5-.25,.5-.2)),HelperVec2.mult(size, (.5,.4) ),self.textureIdRocket ,self.textureIdRocketBar)
+	def initIcnText(s,screenSize):
+		textLevel = IcnTextBox(0.05*screenSize[0],0, 200,100 ,"Level 0")
+		textScore = IcnTextBox(.8 *screenSize[0],0, 200,100, "Score 0 ")
+
+		s.arrIcnText = [textLevel,textScore]
+		pass
 
 	def initButtons(s,screenSize):
 		size = HelperVec2.mult(screenSize, (.1 ,.1 ))
 		s.textureIdButton = TextureLoader.load( os.path.join('assets', 'screenGame','bttn.png'),size)
 
-		s.bttnEmpty =	KButton(.0*screenSize[0],.10*screenSize[1], .15*screenSize[0], .08*screenSize[1],  s.textureIdButton,True)
 		s.bttnMenu =	KButton(0*screenSize[0], .90*screenSize[1], .5*screenSize[0], .1*screenSize[1],  s.textureIdButton,True)
 		s.bttnDone =	KButton(.5 *screenSize[0], .9*screenSize[1], .5*screenSize[0], .1*screenSize[1], s.textureIdButton,True)
-		s.arrButtons =	[s.bttnMenu,s.bttnEmpty,s.bttnDone]
+		s.arrButtons =	[s.bttnMenu,s.bttnDone]
 
 	def initImages(s,screenSize):
 		s.textureIDBG = TextureLoader.load( os.path.join('assets', 'screenGame','background.png'),screenSize)
-
-
-		pass
 
 	def helperLoadData(self,path):
 		file = open(path) 
@@ -112,7 +112,7 @@ class SceneGame(SceneBasic):
 
 		for i in range(0,3):
 			self.arrIcnOils[i].setSelect(False)
-			self.arrIcnOils[i].display(choices[i][0],choices[i][1])
+			self.arrIcnOils[i].display(choices[i][0],choices[i][1] )
 		self.icnRocket.display(answerNum[0],answerNum[1])
 
 		pass
@@ -150,10 +150,10 @@ class SceneGame(SceneBasic):
 		pos = pygame.mouse.get_pos()
 		for i in range(0, len( self.arrIcnOils  )) :
 			icn = self.arrIcnOils[i]
+			choice = self.questionChoices[i]
 			if(icn.isUnder(pos)):
-				if(icn.select()): 
-					icn.display(0)
-				else :  icn.display(self.questionChoices[i][0])
+				if(icn.select()): icn.displayFillBar(0)
+				else :  icn.displayFillBar(choice[0]/float(choice[1]))
 				return True
 		return False
 
@@ -171,7 +171,6 @@ class SceneGame(SceneBasic):
 		mousePos = pygame.mouse.get_pos()
 		bttn_event = [
 			[self.bttnMenu, self.CLICK_BUTTON_MENU],
-			[self.bttnEmpty, self.CLICK_BUTTON_EMPTY],
 			[self.bttnDone, self.CLICK_BUTTON_DONE]]
 		for bttn,event in bttn_event:
 			if( not bttn.isUnder(mousePos)):continue
@@ -192,6 +191,11 @@ class SceneGame(SceneBasic):
 			icn.drawEnd();
 
 		for icn in self.arrIcnOils:
+			icn.draw(screen);
+			icn.drawEnd();
+			icn.drawUpdate(.01)
+
+		for icn in self.arrIcnText:
 			icn.draw(screen);
 			icn.drawEnd();
 			icn.drawUpdate(.01)

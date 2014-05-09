@@ -10,8 +10,12 @@ class IcnBars (IcnBasic):
 		IcnBasic.__init__(self,x,y,w,h)
 		
 		self.fillRatio  = 0
+		self.fillRatioBegin = 0
 		self.fillRatioTo  = 0
 		self.fillRate = 0;
+		self.isAnimation = False
+		self.aniTimeElapsed = 0
+		self.aniTimeMax = 0
 		self.count = count;
 		self.mySurface = pygame.Surface((w,h))
 		self.surfaceTop = pygame.Surface( (w,h),pygame.SRCALPHA  )
@@ -46,22 +50,29 @@ class IcnBars (IcnBasic):
 	#work on it if issue rises
 	def setCount(self, n ):
 		self.count = n
-		self.cellHeight = self.size[1] / n
+		self.renderDivs(self.surfaceTop,self.textureDiv,  self.count)
+		self.mySurface.blit(self.surfaceTop,(0,0))
 		#self.textureDiv = HelperTexture.scale(self.textureDiv,(self.size[0],self.cellHeight) )
 
 	def display(self, n ):
+		self.fillRatioBegin = self.fillRatio
 		self.fillRatioTo = max(min( n, 1),0)
-		self.fillRate = self.fillRatioTo - self.fillRatio
-		print "IcnBars : displaying " + str(n)
+		self.fillRate = self.fillRatioTo - self.fillRatioBegin
 
-		self.renderDivs(self.surfaceTop,self.textureDiv,  self.count)
+		self.isAnimation = True
+		self.aniTimeElapsed = 0
+		self.aniTimeMax = 1.0
+
 		#self.helperFillBars(self.mySurface, self.cellHeight, self.textureDiv, 0, n)
 
-		self.mySurface.blit(self.surfaceTop,(0,0))
 
 	def drawUpdate(self, timeElapsed ):
-		self.fillRatio += ( self.fillRate) * timeElapsed 
-		self.fillRatio = max( min( self.fillRatio, 1),0)
+		if(self.isAnimation):
+			self.aniTimeElapsed += timeElapsed
+			progress = self.aniTimeElapsed / float(self.aniTimeMax)
+			progress = min(progress,1.0)
+			self.fillRatio = self.fillRatioBegin + self.fillRate * progress
+			self.isAnimation = progress != 1.0
 		
 		self.mySurface.fill((0, 0, 0)) 
 		self.mySurface.blit(self.textureFill , (0, self.size[1] - self.size[1] * self.fillRatio ) )
