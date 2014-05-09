@@ -47,7 +47,7 @@ class SceneMenu(SceneBasic):
 		s.buttons.append(s.bttnHow)
 		s.buttons.append(s.bttnQuit)
 
-	def listenForEvents(self):
+	def EVENT_CLICK(self):
 		mouseAt = pygame.mouse.get_pos();
 		buttons_event = [
 					[self.bttnQuit ,self.EVENT_QUIT],
@@ -71,17 +71,6 @@ class SceneMenu(SceneBasic):
 			button.drawEnd()
 		pygame.display.update()
 		pass
-
-	def renderScreen(s, screen):
-		pass
-		#DrawHelper.drawAspect(screen, s.textureIdBG, 0,0)
-		#DrawHelper.drawAspect(screen, s.textureIdBG_sunsetoverlay, 0,0)
-		#DrawHelper.drawAspect(screen, s.textureIdBG,0,0)
-		#DrawHelper.drawAspect(screen, s.textureIdTitle,0,0)
-		
-
-	def EVENT_SCENE_START(self):
-		print("entered main menu")
 
 
 

@@ -58,7 +58,7 @@ class SceneGame(SceneBasic):
 		self.textureIdRocketFuel = TextureLoader.load( os.path.join('assets', 'screenGame','fuelBG.png'),oilSize)
 		self.textureIdRocketFuelDiv = TextureLoader.load( os.path.join('assets', 'screenGame','fuelDiv.png'),(oilSize[0],3))
 		self.textureIdRocketFuelFill = TextureLoader.load( os.path.join('assets', 'screenGame','fuelFill.png'),oilSize)
-		self.textureIdRocketFuelWave = TextureLoader.load( os.path.join('assets', 'screenGame','wave.png'),(oilSize[0],3))
+		self.textureIdRocketFuelWave = TextureLoader.load( os.path.join('assets', 'screenGame','wave.png'),(oilSize[0],oilSize[1] * .1))
 
 		self.icnRocket =  IcnRocket( pos,size, oilPos,oilSize,\
 			self.textureIdRocket ,self.textureIdRocketFuel,self.textureIdRocketFuelDiv,self.textureIdRocketFuelFill,self.textureIdRocketFuelWave)
@@ -93,21 +93,17 @@ class SceneGame(SceneBasic):
 		self.levelWon = False
 		self.EVENT_SCENE_CHANGE_START()
 
-		print 'loading level ' + str(level)
-		path = os.path.join('assets/levels', str(level) + '.json')
-		data = self.helperLoadData(path)
-		self.loadNewQuestion(data[0],data[1],data[2])
 
-		#try:
-		#	data = self.helperLoadData(path)
-		#	print "LOADED DATA"
-		#	self.loadNewQuestion(data[0],data[1],data[2])
-		#except :
-		#	print "SceneGame CRITICAL ERROR. CANNOT LOAD LEVEL ! LOADING EMERGENCY LEVEL"
-		#	try : 
-		#		data = self.helperLoadData( os.path.join('assets/levels','0.json'))
-		#		self.loadNewQuestion(data[0],data[1],data[2])
-		#	except : "SceneGame I failed. I cannot load anything. We are doomed!"
+		try:
+			data = self.helperLoadData(path)
+			print "LOADED DATA"
+			self.loadNewQuestion(data[0],data[1],data[2])
+		except :
+			print "SceneGame CRITICAL ERROR. CANNOT LOAD LEVEL ! LOADING EMERGENCY LEVEL"
+			try : 
+				data = self.helperLoadData( os.path.join('assets/levels','0.json'))
+				self.loadNewQuestion(data[0],data[1],data[2])
+			except : "SceneGame I failed. I cannot load anything. We are doomed!"
 
 		self.EVENT_SCENE_CHANGE_END()
 
@@ -127,7 +123,7 @@ class SceneGame(SceneBasic):
 		for i in range(0,3):
 			self.arrIcnFuels[i].setSelect(False)
 			self.arrIcnFuels[i].display(choices[i][0],choices[i][1] )
-		self.icnRocket.display(answerNum[0],answerNum[1])
+		self.icnRocket.display(0,answerNum[1])
 
 		pass
 	
@@ -150,10 +146,21 @@ class SceneGame(SceneBasic):
 		for a  in self.questionAnswers:
 			if(self.helperIsSameArray(answerState, a) ) :return True
 		return False
+	def doUpdateAnswer(self):
+		sum = 0
+		for i in range(0, len( self.arrIcnFuels )):
+			if(self.arrIcnFuels[i].isSelected):
+				sum += self.questionChoices[i][0] / float(self.questionChoices[i][1])
+		print "updating rocket "  + str(sum)
+		self.icnRocket.displayPercent(sum)
+
+		pass
+
 
 	def EVENT_CLICK(self):
 		print "EVENT_CLICK"
-		if(self.CLICK_ANSWER()) : pass
+		if(self.CLICK_ANSWER()) : 
+			self.doUpdateAnswer()
 		elif (self.CLICK_BUTTONS()):pass
 
 	def EVENT_SCENE_START(self):
@@ -166,8 +173,8 @@ class SceneGame(SceneBasic):
 			icn = self.arrIcnFuels[i]
 			choice = self.questionChoices[i]
 			if(icn.isUnder(pos)):
-				if(icn.select()): icn.displayFillBar(0)
-				else :  icn.displayFillBar(choice[0]/float(choice[1]))
+				if(icn.select()): icn.displayPercent(0)
+				else :  icn.displayPercent(choice[0]/float(choice[1]))
 				return True
 		return False
 
@@ -201,16 +208,18 @@ class SceneGame(SceneBasic):
 		for icn in self.arrIcnFuels:
 			icn.draw(screen);
 			icn.drawEnd();
-			icn.drawUpdate(.01)
 
 		for icn in self.arrIcnText:
 			icn.draw(screen);
 			icn.drawEnd();
-			icn.drawUpdate(.01)
 
 		self.icnRocket.draw(screen)
 		self.icnRocket.drawEnd()
 
-		pass
+	def renderUpdate(self, timeElapsed):
+
+		for icn in self.arrIcnFuels:icn.drawUpdate(timeElapsed)
+		for icn in self.arrIcnText:icn.drawUpdate(timeElapsed)
+		self.icnRocket.drawUpdate(timeElapsed)
 
 

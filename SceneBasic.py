@@ -68,13 +68,12 @@ class SceneBasic(object):
 	def render(self,screen):
 		self.renderScreenClean(screen)
 		self.renderScreen(screen)
-
-	def renderScreen(self,screen):
-		pass
-
 	def renderScreenClean(self,screen):
 		pass
-	def updateRender(self):
+	def renderScreen(self,screen):
+		pass
+		
+	def renderUpdate(self, timeElapsed):
 		pass
 
 	#BasicEvents

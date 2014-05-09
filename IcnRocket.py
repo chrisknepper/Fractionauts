@@ -11,20 +11,23 @@ class  IcnRocket(IcnBasic):
 		self.posFuel = fuelPos
 		barPos = HelperVec2.mult(fuelSize, (.1,.1))
 		barSize = HelperVec2.mult(fuelSize, (.8,.8))
-		self.IcnFuel = IcnFuel(HelperVec2.add(pos,self.posFuel) ,fuelSize,barPos,barSize, \
+		self.myFuel = IcnFuel(HelperVec2.add(pos,self.posFuel) ,fuelSize,barPos,barSize, \
 			textureOil,textureDiv, textureBar,textureFuelWave)
 		
 		#self.IcnFuel = IcnFuel(fuelPos,fuelSize,HelperVec2.mult( fuelSize, (.1,.1) ),HelperVec2(fuelSize, (.8,.8) ), textureOil,textureDiv, textureBar,textureFuelWave)
 	def fill(number):
 		pass
+	def displayPercent(self, percentage):
+		self.myFuel.displayPercent(percentage)
+		pass
 	def display(self, numerator,denominator):
-		self.IcnFuel.display(numerator,denominator)
+		self.myFuel.display(numerator,denominator)
 		pass
 	def draw(self, screen):
 		IcnBasic.draw(self,screen)
-		self.IcnFuel.draw(screen)
+		self.myFuel.draw(screen)
 		pass
 	def drawUpdate(self, timeElapsed):
-		self.IcnFuel.pos = HelperVec2.add(self.pos, self.posFuel)
-		self.IcnFuel.drawUpdate(timeElapsed)
+		self.myFuel.pos = HelperVec2.add(self.pos, self.posFuel)
+		self.myFuel.drawUpdate(timeElapsed)
 		pass

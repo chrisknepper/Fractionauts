@@ -13,7 +13,7 @@ class IcnFuel(IcnBasic):
 		self.numNuno = 0
 		self.numDeno = 1
 
-	def displayFillBar(self, percentage):
+	def displayPercent(self, percentage):
 		self.myBars.display(percentage)
 
 	def display(self, numerator, denominator = -1):
