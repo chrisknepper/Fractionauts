@@ -36,18 +36,21 @@ class SceneGame(SceneBasic):
 		return IcnFuel(pos, size,HelperVec2.mult(size,ratioPos), HelperVec2.mult(size, ratioSize ),textureBG,textureDiv,textureFill,textureWave )
 
 	def initIcnFuels(s,list,screenSize):
-		pos = (50,100)
-		size = (100,300)
+		pos = HelperVec2.mult(screenSize, (.1, .3) )
+		size = HelperVec2.mult(screenSize, (.1, .3) )
+		barPos =  HelperVec2.mult(size, (.25, .2) )
+		barSize = HelperVec2.mult(size, (.5, .4) )
 		sizeBar = (size[0]*.5,size[1]*.4)
 
-		s.textureIdFuelBG = TextureLoader.load( os.path.join('assets', 'screenGame','fuelBG.png' ))
-		s.textureIdFuelWave = TextureLoader.load( os.path.join('assets', 'screenGame','wave.png'))
-		s.textureIdFuelDiv = TextureLoader.load( os.path.join('assets', 'screenGame','fuelDiv.png'))
-		s.textureIdFuelFill = TextureLoader.load( os.path.join('assets', 'screenGame','fuelFill.png'))
+		s.textureIdFuelBG = TextureLoader.load( os.path.join('assets', 'screenGame','fuelBG.png' ),size)
+		s.textureIdFuelWave = TextureLoader.load( os.path.join('assets', 'screenGame','wave.png'), (barSize[0] , 3) )
+		s.textureIdFuelDiv = TextureLoader.load( os.path.join('assets', 'screenGame','fuelDiv.png'),(barSize[0] , 1))
+		s.textureIdFuelFill = TextureLoader.load( os.path.join('assets', 'screenGame','fuelFill.png'),barSize)
 
 		for i in range(0,3):
-			posNew = HelperVec2.add(pos, HelperVec2.mult( size, ((1.11)*i ,0) )  )
-			list.append(s.helperGetIcnFuel(posNew,size, (.5-.25,.5-.2), (.5,.4) ,s.textureIdFuelBG ,s.textureIdFuelDiv , s.textureIdFuelFill,s.textureIdFuelWave ))
+			posNew = HelperVec2.add(pos, HelperVec2.mult( size, ((1.31)*i ,0) )  )
+			list.append(IcnFuel(posNew, size,barPos, barSize,s.textureIdFuelBG ,s.textureIdFuelDiv , s.textureIdFuelFill,s.textureIdFuelWave ))
+			#list.append(s.helperGetIcnFuel(posNew,size, (.5-.25,.5-.2), (.5,.4) ,s.textureIdFuelBG ,s.textureIdFuelDiv , s.textureIdFuelFill,s.textureIdFuelWave ))
 
 	def initIcnRocket(self,screenSize):
 		pos = (500,100)
