@@ -4,9 +4,10 @@ from IcnBars import IcnBars
 import HelperVec2
 
 class IcnOil(IcnBasic):
-	def __init__(self,pos,size,posBar,sizeBar, textureMe,textureDiv, textureBar):
+	def __init__(self,pos,size,posBar,sizeBar, \
+			textureMe=-1,textureDiv=-1, textureBar =-1,textureIdFuelWave = -1):
 		IcnBasic.__init__(self,pos[0],pos[1], size[0], size[1], textureMe)
-		self.myBars = IcnBars(posBar[0],posBar[1],sizeBar[0],sizeBar[1],10,textureDiv,textureBar,True) 
+		self.myBars = IcnBars(posBar[0],posBar[1],sizeBar[0],sizeBar[1],10,textureDiv,textureBar,textureIdFuelWave,True) 
 		self.posBars = posBar
 		self.numNuno = 0
 		self.numDeno = 1

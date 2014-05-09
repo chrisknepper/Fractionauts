@@ -114,7 +114,7 @@ class FractionautsMain(object):
 		if(self.isRenderFirstFrame):
 			scene.renderScreenBegin(self.screen)
 			self.isRenderFirstFrame = False
-		scene.renderScreen(self.screen)
+		scene.render(self.screen)
 
 	def loopRender(self):
 		while  self.isRunning:

@@ -30,8 +30,8 @@ class SceneGame(SceneBasic):
 		self.initIcnText(screenSize)
 		self.initButtons(screenSize)
 
-	def helperGetIcnOil(self, pos,size, ratioPos,ratioSize,textureBG,textureDiv, textureFill):
-		return IcnOil(pos, size,HelperVec2.mult(size,ratioPos), HelperVec2.mult(size, ratioSize ),textureBG,textureDiv,textureFill )
+	def helperGetIcnOil(self, pos,size, ratioPos,ratioSize,textureBG,textureDiv, textureFill,textureWave):
+		return IcnOil(pos, size,HelperVec2.mult(size,ratioPos), HelperVec2.mult(size, ratioSize ),textureBG,textureDiv,textureFill,textureWave )
 
 	def initIcnOils(self,list,screenSize):
 		pos = (50,100)
@@ -39,13 +39,14 @@ class SceneGame(SceneBasic):
 		sizeBar = (size[0]*.5,size[1]*.4)
 
 		self.textureIdFuelBG = TextureLoader.load( os.path.join('assets', 'screenGame','fuelBG.png' ))
+		self.textureIdFuelWave = TextureLoader.load( os.path.join('assets', 'screenGame','wave.png'))
 		self.textureIdFuelDiv = TextureLoader.load( os.path.join('assets', 'screenGame','fuelDiv.png'))
 		self.textureIdFuelFill = TextureLoader.load( os.path.join('assets', 'screenGame','fuelFill.png'))
 
 
 		for i in range(0,3):
 			posNew = HelperVec2.add(pos, HelperVec2.mult( size, ((1.11)*i ,0) )  )
-			list.append(self.helperGetIcnOil(posNew,size, (.5-.25,.5-.2), (.5,.4) ,self.textureIdFuelBG ,self.textureIdFuelDiv , self.textureIdFuelFill ))
+			list.append(self.helperGetIcnOil(posNew,size, (.5-.25,.5-.2), (.5,.4) ,self.textureIdFuelBG ,self.textureIdFuelDiv , self.textureIdFuelFill,self.textureIdFuelWave ))
 
 	def initIcnRocket(self,screenSize):
 		pos = (500,100)
@@ -105,6 +106,9 @@ class SceneGame(SceneBasic):
 	def initEvents(s):
 		s.EVENT_MENU=[]
 		s.EVENT_WIN=[]
+	def initBackground(s,surface,resolution):
+		DrawHelper.drawAspect(surface,s.textureIDBG, 0,0 )
+		pass
 
 	def loadNewQuestion(self,choices,answers,answerNum):
 		self.questionChoices	= choices
@@ -178,12 +182,6 @@ class SceneGame(SceneBasic):
 			return  True
 		return False
 
-	def renderScreenBegin(self,screen):
-		screen.fill((255, 255, 255)) 
-		DrawHelper.drawAspect(screen,self.textureIDBG, 0,0 )
-		pygame.display.update()
-		print "HI SCREEN BEGIN HERE "
-		pass
 
 	def renderScreen(self,screen):
 		for icn in self.arrButtons:

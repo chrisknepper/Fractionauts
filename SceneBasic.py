@@ -38,6 +38,9 @@ class SceneBasic(object):
 		self.initButtons(resolution)
 		self.initOthers(resolution)
 
+		self.myBackground = pygame.Surface( resolution)
+		self.initBackground(self.myBackground,resolution)
+
 	def initButtons(s,screenSize):
 		pass
 	def initImages(s,screenSize):
@@ -49,6 +52,9 @@ class SceneBasic(object):
 	def initBase(s):
 		s.isMosueReleased = False
 
+	def initBackground(s,surface,resolution):
+		pass
+
 
 	def updateStatic(self):
 		pass
@@ -56,9 +62,17 @@ class SceneBasic(object):
 	#in a thread 
 	def renderScreenBegin(self,screen):
 		screen.fill((255, 255, 255)) 
+		screen.blit(self.myBackground,(0,0))
 		pygame.display.update()
 		pass
+	def render(self,screen):
+		self.renderScreenClean(screen)
+		self.renderScreen(screen)
+
 	def renderScreen(self,screen):
+		pass
+
+	def renderScreenClean(self,screen):
 		pass
 	def updateRender(self):
 		pass
