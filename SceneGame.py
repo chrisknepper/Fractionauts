@@ -6,6 +6,7 @@ import json
 #Utility
 import DrawHelper
 import HelperVec2
+import HelperTexture
 
 #Logic
 from KButton import KButton
@@ -33,28 +34,34 @@ class SceneGame(SceneBasic):
 	def helperGetIcnOil(self, pos,size, ratioPos,ratioSize,textureBG,textureDiv, textureFill,textureWave):
 		return IcnOil(pos, size,HelperVec2.mult(size,ratioPos), HelperVec2.mult(size, ratioSize ),textureBG,textureDiv,textureFill,textureWave )
 
-	def initIcnOils(self,list,screenSize):
+	def initIcnOils(s,list,screenSize):
 		pos = (50,100)
 		size = (100,300)
 		sizeBar = (size[0]*.5,size[1]*.4)
 
-		self.textureIdFuelBG = TextureLoader.load( os.path.join('assets', 'screenGame','fuelBG.png' ))
-		self.textureIdFuelWave = TextureLoader.load( os.path.join('assets', 'screenGame','wave.png'))
-		self.textureIdFuelDiv = TextureLoader.load( os.path.join('assets', 'screenGame','fuelDiv.png'))
-		self.textureIdFuelFill = TextureLoader.load( os.path.join('assets', 'screenGame','fuelFill.png'))
-
+		s.textureIdFuelBG = TextureLoader.load( os.path.join('assets', 'screenGame','fuelBG.png' ))
+		s.textureIdFuelWave = TextureLoader.load( os.path.join('assets', 'screenGame','wave.png'))
+		s.textureIdFuelDiv = TextureLoader.load( os.path.join('assets', 'screenGame','fuelDiv.png'))
+		s.textureIdFuelFill = TextureLoader.load( os.path.join('assets', 'screenGame','fuelFill.png'))
 
 		for i in range(0,3):
 			posNew = HelperVec2.add(pos, HelperVec2.mult( size, ((1.11)*i ,0) )  )
-			list.append(self.helperGetIcnOil(posNew,size, (.5-.25,.5-.2), (.5,.4) ,self.textureIdFuelBG ,self.textureIdFuelDiv , self.textureIdFuelFill,self.textureIdFuelWave ))
+			list.append(s.helperGetIcnOil(posNew,size, (.5-.25,.5-.2), (.5,.4) ,s.textureIdFuelBG ,s.textureIdFuelDiv , s.textureIdFuelFill,s.textureIdFuelWave ))
 
 	def initIcnRocket(self,screenSize):
 		pos = (500,100)
 		size = (200,400)
+		oilPos = HelperVec2.mult(size, (.5-.25,.5-.2))
+		oilSize = HelperVec2.mult(size, (.5,.4) )
 
 		self.textureIdRocket = TextureLoader.load( os.path.join('assets', 'screenGame','icnRocket.png'),size)
-		self.textureIdRocketBar = TextureLoader.load( os.path.join('assets', 'screenGame','bar.png'),(100,30))
-		self.icnRocket =  IcnRocket( pos,size, HelperVec2.mult(size, (.5-.25,.5-.2)),HelperVec2.mult(size, (.5,.4) ),self.textureIdRocket ,self.textureIdRocketBar)
+		self.textureIdRocketFuel = TextureLoader.load( os.path.join('assets', 'screenGame','fuelBG.png'),oilSize)
+		self.textureIdRocketFuelDiv = TextureLoader.load( os.path.join('assets', 'screenGame','fuelDiv.png'),(oilSize[0],3))
+		self.textureIdRocketFuelFill = TextureLoader.load( os.path.join('assets', 'screenGame','fuelFill.png'),oilSize)
+		self.textureIdRocketFuelWave = TextureLoader.load( os.path.join('assets', 'screenGame','wave.png'),(oilSize[0],3))
+
+		self.icnRocket =  IcnRocket( pos,size, oilPos,oilSize,\
+			self.textureIdRocket ,self.textureIdRocketFuel,self.textureIdRocketFuelDiv,self.textureIdRocketFuelFill,self.textureIdRocketFuelWave)
 	def initIcnText(s,screenSize):
 		textLevel = IcnTextBox(0.05*screenSize[0],0, 200,100 ,"Level 0")
 		textScore = IcnTextBox(.8 *screenSize[0],0, 200,100, "Score 0 ")
@@ -88,16 +95,19 @@ class SceneGame(SceneBasic):
 
 		print 'loading level ' + str(level)
 		path = os.path.join('assets/levels', str(level) + '.json')
-		try:
-			data = self.helperLoadData(path)
-			print "LOADED DATA"
-			self.loadNewQuestion(data[0],data[1],data[2])
-		except :
-			print "SceneGame CRITICAL ERROR. CANNOT LOAD LEVEL ! LOADING EMERGENCY LEVEL"
-			try : 
-				data = self.helperLoadData( os.path.join('assets/levels','0.json'))
-				self.loadNewQuestion(data[0],data[1],data[2])
-			except : "SceneGame I failed. I cannot load anything. We are doomed!"
+		data = self.helperLoadData(path)
+		self.loadNewQuestion(data[0],data[1],data[2])
+
+		#try:
+		#	data = self.helperLoadData(path)
+		#	print "LOADED DATA"
+		#	self.loadNewQuestion(data[0],data[1],data[2])
+		#except :
+		#	print "SceneGame CRITICAL ERROR. CANNOT LOAD LEVEL ! LOADING EMERGENCY LEVEL"
+		#	try : 
+		#		data = self.helperLoadData( os.path.join('assets/levels','0.json'))
+		#		self.loadNewQuestion(data[0],data[1],data[2])
+		#	except : "SceneGame I failed. I cannot load anything. We are doomed!"
 
 		self.EVENT_SCENE_CHANGE_END()
 
