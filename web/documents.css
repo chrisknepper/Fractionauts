@@ -1,0 +1,25 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #333;
+    background: #bfbfbf;
+}
+
+#main {
+    background: #ccc;
+    width: 80%;
+    padding: 10px 25px;
+    margin: 25px auto;
+}
+
+th {
+    background: #d8d8d8;
+    border-bottom: 1px solid #333;
+}
+
+td {
+    background: #e5e5e5;
+}
+
+td, th {
+    padding: 5px 10px;
+}

@@ -1,0 +1,10 @@
+{   
+    "TYPES": "Addition",
+    "CHOICES": [
+		[5,10],
+		[4,8],
+		[2,10]
+    ],  
+	"ANSWERS" : [[true,false,false] , [false,true,false] ],
+    "ANSWER_NUM": [1,2]
+}  
