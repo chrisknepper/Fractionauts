@@ -2,7 +2,7 @@ from IcnParticleNoTexture import IcnParticleNoTexture
 import random
 import pygame
 class IcnParticleDistort(IcnParticleNoTexture):
-	def __init__(s, x,y,w,h, texture):
+	def __init__(s, x,y,w,h, texture ):
 		IcnParticleNoTexture.__init__(s,x,y,w,h)
 		s.velo = (-10 +20* random.random(),-10+20* random.random())
 		s.texture = texture

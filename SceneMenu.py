@@ -3,6 +3,7 @@ import DrawHelper
 import HelperVec2
 import random
 from IcnParticleShootingStar import IcnParticleShootingStar 
+from IcnParticleDistortCustomRange import IcnParticleDistortCustomRange
 
 class SceneMenu(SceneBasic):	
 	def __init__(self,  resolution):
@@ -50,6 +51,11 @@ class SceneMenu(SceneBasic):
 
 	def initParticles(s,resolution):
 		s.arrShootingStars = []
+		s.distortH = IcnParticleDistortCustomRange(0,80,resolution[0],50, s.myBackground,1,0 )
+		s.distortV = IcnParticleDistortCustomRange(100, 0,resolution[0],10, s.myBackground,-1,0 )
+		s.arrShootingStars.append(s.distortH)
+		s.arrShootingStars.append(s.distortV)
+
 		for i in range(0, 10):
 			textureId = s.textureIdShootingStar_00 if random.random() <.5\
 					else  s.textureIdShootingStar_01
@@ -57,6 +63,9 @@ class SceneMenu(SceneBasic):
 			size = (texture.get_width() , texture.get_height() )
 			p = IcnParticleShootingStar( random.random()  * resolution[0] ,random.random()  * -resolution[1],size[0],size[1],textureId,resolution)
 			s.arrShootingStars.append(p)
+		#s.distortH = IcnParticleDistortCustomRange(0,80,resolution[0],15, s.myBackground,1,0 )
+		#s.distortV = IcnParticleDistortCustomRange(100, 0,15,resolution[1], s.myBackground,1,0 )
+		
 
 		pass
 	def EVENT_SCENE_START(self):
@@ -84,9 +93,18 @@ class SceneMenu(SceneBasic):
 			button.draw(screen)
 			button.drawEnd()
 		pygame.display.update()
+
 		pass
+	ratio = 0
 
 	def renderUpdate(s,timeElapsed):
+
+		s.ratio = (s.ratio+.05 ) % 2.5
+		s.distortH.range = (s.ratio , 0)
+		#s.distortH.pos = (0,pygame.mouse.get_pos()[1]) 
+		#s.distortV.pos = (pygame.mouse.get_pos()[0],0) 
+		s.distortH.pos =(0, pygame.mouse.get_pos()[1]-25)
+		s.distortV.pos = (0,pygame.mouse.get_pos()[1])
 		for icn in s.arrShootingStars:
 			icn.drawUpdate(timeElapsed)
 

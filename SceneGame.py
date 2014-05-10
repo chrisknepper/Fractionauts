@@ -107,6 +107,7 @@ class SceneGame(SceneBasic):
 			p =IcnParticleDistort(pos[0] ,pos[1],80,80, s.myBackground)
 			s.arrParticleDistort.append(p)
 			pass
+			
 
 		pass
 	def initIcnText(s,screenSize):
@@ -121,11 +122,11 @@ class SceneGame(SceneBasic):
 	def initButtons(s,screenSize):
 		size = HelperVec2.mult(screenSize, (.1 ,.1 ))
 		sizeLaunch = (115,32)
-		sizeBack = (119,43)
-		s.textureIdButton = TextureLoader.load( os.path.join('assets', 'screenGame','game-btn-back.png'),size)
+		sizeMenu = (119,43)
 		s.textureIdButtonLaunch = TextureLoader.load( os.path.join('assets', 'screenGame','bttnLaunch.png'),sizeLaunch)
+		s.textureIdButtonMenu = TextureLoader.load( os.path.join('assets', 'screenGame','bttnBack.png'),sizeLaunch)
 
-		s.bttnMenu =	KButton(0, 554, sizeBack[0], sizeBack[1],  s.textureIdButton,True)
+		s.bttnMenu =	KButton(0, 554, sizeMenu[0],sizeMenu[1],  s.textureIdButtonMenu,True)
 		s.bttnDone =	KButton(552,508, sizeLaunch[0],sizeLaunch[1], s.textureIdButtonLaunch,True)
 		s.arrButtons =	[s.bttnMenu,s.bttnDone]
 
