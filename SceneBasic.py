@@ -68,6 +68,7 @@ class SceneBasic(object):
 		screen.fill((255, 255, 255)) 
 		screen.blit(self.myBackground,(0,0))
 		pygame.display.update()
+		self.renderUpdate(0)
 		pass
 	def render(self,screen):
 		self.renderScreenClean(screen)

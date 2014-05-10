@@ -9,8 +9,9 @@ class IcnBasic:
 		self.size = (w,h)
 		self.textureID = textureID
 		self.rect = (0,0,0,0);
-		self.mySurface = pygame.Surface((0,0)) if textureID is -1 else TextureLoader.get(textureID)
+		self.mySurface = pygame.Surface((w,h),pygame.SRCALPHA) if textureID is -1 else TextureLoader.get(textureID)
 		if(isTextureRescaled ) : self.mySurface =HelperTexture.scale(self.mySurface, self.size)
+		
 	def setSelect(s,value):
 		s.isSelected = value
 		
@@ -33,5 +34,5 @@ class IcnBasic:
 	def drawEnd(self):
 		pygame.display.update(self.rect )
 		pass
-	def drawUpdate(self, timeElapsed):
+	def drawUpdate(self, timeElapsed=0):
 		pass
