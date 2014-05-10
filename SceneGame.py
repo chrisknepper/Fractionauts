@@ -14,7 +14,8 @@ from IcnFuel import IcnFuel
 from IcnRocket import IcnRocket
 from IcnTextBox import IcnTextBox
 from IcnTextFraction import IcnTextFraction
-from IcnParticleDistort import IcnParticleDistort 
+from IcnParticleDistort import IcnParticleDistort
+from Question import QuestionMaker 
 #more for drawing helper 
 #consider wrapping these classes into whole?
 from EasyLine import EasyLine
@@ -224,7 +225,7 @@ class SceneGame(SceneBasic):
 		return sum
 	def doCheckAnswer(self):
 		if(self.isGameOver() ) : 
-			#Submitted answer is correct advnace to the next level and raise win event
+			#Submitted answer is correct advance to the next level and raise win event
 			self.questionLevel += 1
 			self.score += 10
 			self.helperRaiseEvent(self.EVENT_WIN)
