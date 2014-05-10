@@ -5,6 +5,7 @@ import HelperVec2
 class SceneMenu(SceneBasic):	
 	def __init__(self,  resolution):
 		SceneBasic.__init__(self,resolution)
+		self.initParticles(resolution)
 
 	
 	def registerEvent_play(s,e): s.EVENT_PLAY.append(e); pass
@@ -20,33 +21,29 @@ class SceneMenu(SceneBasic):
 		#s.textureIdTitle =	TextureLoader.load(os.path.join('assets', 'screenStart', 'title.png'), HelperVec2.mult(resolution, (.7,.13)))
 		s.textureIdTitle =	TextureLoader.load(os.path.join('assets', 'screenStart', 'title.png') )
 		s.textureIdBG =		TextureLoader.load(os.path.join('assets', 'screenStart', 'background.png') ,resolution);
-		s.textureIdBGTEST =	TextureLoader.load(os.path.join('assets', 'screenStart', 'star.png') ,resolution);
-		s.textureIdBttn = 	TextureLoader.load(os.path.join('assets', 'screenStart', 'bttn.png') );
 
 		s.textureIdBttnStart = 	TextureLoader.load(os.path.join('assets', 'screenStart', 'bttnStart.png') );
 		s.textureIdBttnHelp = 	TextureLoader.load(os.path.join('assets', 'screenStart', 'bttnHelp.png') );
 		s.textureIdBttnExit = 	TextureLoader.load(os.path.join('assets', 'screenStart', 'bttnExit.png') );
-		#s.textureIdBG_sunsetoverlay = TextureLoader.load(os.path.join('assets', 'startscreen', 'stars_big.png') );
-		#s.textureIdStarTiny =  	TextureLoader.load(os.path.join('assets', 'startscreen', 'stars_tiny.png')) ;
-		#s.textureIdStarSmall= 	TextureLoader.load(os.path.join('assets', 'startscreen', 'stars_small.png')) ;
-		#s.textureIdStarMedium= TextureLoader.load(os.path.join('assets', 'startscreen', 'stars_medium.png')) ;
-		#s.textureIdStarBig = 	TextureLoader.load(os.path.join('assets', 'startscreen', 'stars_big.png')) ;
+
+		s.textureIdShootingStar_00 = TextureLoader.load(os.path.join('assets', 'screenCommon', 'shootingStar00.png') );
+		s.textureIdShootingStar_01 = TextureLoader.load(os.path.join('assets', 'screenCommon', 'shootingStar01.png') );
 	def helperInitKButton(s, center, textureID):
 		texture = TextureLoader.get( textureID)
 		size = (texture.get_width(),texture.get_height())
 		return KButton(center[0] -size[0] *.5,center[1]-size[1]*.5,size[0],size[1], textureID )
 
 	def initButtons(s,resolution):
-		center = (resolution[0] *.5,resolution[1]*.5);
+		center = HelperVec2.mult(resolution, (.5,.5) ) 
 		# Main menu buttons
 		s.bttnPlay =	s.helperInitKButton ((center[0],center[1]-60),s.textureIdBttnStart)# KButton(center[0]-100, center[1] - 100, 200, 75,s.textureIdBttnStart)
 		s.bttnHow =	s.helperInitKButton ((center[0],center[1]), s.textureIdBttnHelp) 
 		s.bttnQuit =	s.helperInitKButton ((center[0],center[1]+60), s.textureIdBttnExit)  #KButton(center[0]  -100,center[1] + 100, 200, 75,s.textureIdBttnExit)
 
-		s.buttons = []
-		s.buttons.append(s.bttnPlay)
-		s.buttons.append(s.bttnHow)
-		s.buttons.append(s.bttnQuit)
+		s.buttons = [s.bttnPlay,s.bttnHow,s.bttnQuit]
+
+	def initParticles(s,resolution):
+		pass
 
 	def EVENT_CLICK(self):
 		mouseAt = pygame.mouse.get_pos();
@@ -61,7 +58,7 @@ class SceneMenu(SceneBasic):
 				self.helperRaiseEvent(event)
 				break
 
-	def renderScreenBegin(s,screen):
+	def initBackground(s,screen,size):
 		screen.fill((255, 255, 255)) 
 		DrawHelper.drawAspect(screen, s.textureIdBG,0,0)
 		DrawHelper.drawAspect(screen, s.textureIdTitle,.12,.1)
@@ -70,9 +67,6 @@ class SceneMenu(SceneBasic):
 			button.drawEnd()
 		pygame.display.update()
 		pass
-	def renderScreen(s,screen):
-		DrawHelper.drawAspect(screen, s.textureIdBGTEST,0,0)
-		DrawHelper.drawAspect(screen, s.textureIdBGTEST,0,0)
 
 
 
