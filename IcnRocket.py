@@ -26,7 +26,8 @@ class  IcnRocket(IcnBasic):
 	def draw(self, screen):
 		IcnBasic.draw(self,screen)
 		self.myFuel.draw(screen)
-		pass
+		
+		return self.rect
 	def drawUpdate(self, timeElapsed):
 		self.myFuel.pos = HelperVec2.add(self.pos, self.posFuel)
 		self.myFuel.drawUpdate(timeElapsed)

@@ -43,21 +43,24 @@ class FractionautsMain(object):
 		self.savePath = os.path.join('assets', 'save.json') 
 		self.clock = pygame.time.Clock()# Set up a clock for managing the frame rate.
 
-		scnMenu 	= SceneMenu(screenSize)
-		scnGame 	= SceneGame(screenSize)
-		scnWin 		= SceneWin(screenSize)
-		scnHelp 	= SceneHelp(screenSize)
+		self.scnMenu 	= SceneMenu(screenSize)
+		self.scnGame 	= SceneGame(screenSize)
+		self.scnWin 		= SceneWin(screenSize)
+		self.scnHelp 	= SceneHelp(screenSize)
 
-		self.registerEvents(scnMenu,scnGame,scnWin,scnHelp)
-		self.dicScenes ={self.STATE_MENU: scnMenu,
-				self.STATE_GAME: scnGame ,
-				self.STATE_WIN_SCREEN: scnWin,
-				self.STATE_HELP:  scnHelp}
+		self.registerEvents(self.scnMenu,self.scnGame,self.scnWin,self.scnHelp)
+		self.dicScenes ={self.STATE_MENU: self.scnMenu,
+				self.STATE_GAME: self.scnGame ,
+				self.STATE_WIN_SCREEN: self.scnWin,
+				self.STATE_HELP:  self.scnHelp}
 
 	def EVENTHDR_SCENE_START_MENU(self):
 		self.changeState(self.STATE_MENU)
 
 	def EVENTHDR_SCENE_START_GAME(self):
+		self.scnGame.EVENT_INITIALIZE()
+		self.changeState(self.STATE_GAME)
+	def EVENTHDR_SCENE_CONTINUE_GAME(self):
 		self.changeState(self.STATE_GAME)
 
 	def EVENTHDR_SCENE_START_HELP(self):
@@ -80,6 +83,7 @@ class FractionautsMain(object):
 	def registerEvents(self, sceneMenu,sceneGame,sceneWin, sceneHelp):
 		SceneBasic.registerEvent_sceneChangeStart(self.EVENTHDR_SCENE_CHANGE_START)
 		SceneBasic.registerEvent_sceneChangeEnd(self.EVENTHDR_SCENE_CHANGE_END)
+		
 		sceneMenu.registerEvent_play(self.EVENTHDR_SCENE_START_GAME)
 		sceneMenu.registerEvent_help(self.EVENTHDR_SCENE_START_HELP)
 		sceneMenu.registerEvent_quit(self.EVENTHDR_QUIT)
@@ -87,7 +91,7 @@ class FractionautsMain(object):
 		sceneGame.registerEvent_menu(self.EVENTHDR_SCENE_START_MENU)
 		sceneGame.registerEvent_win(self.EVENTHDR_SCENE_START_WIN)
 
-		sceneWin.registerEvent_finished(self.EVENTHDR_SCENE_START_GAME)
+		sceneWin.registerEvent_finished(self.EVENTHDR_SCENE_CONTINUE_GAME)
 
 		sceneHelp.registerEvent_menu(self.EVENTHDR_SCENE_START_MENU)
 		pass

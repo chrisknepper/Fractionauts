@@ -27,6 +27,7 @@ class IcnFuel(IcnBasic):
 	def draw(self, screen):
 		IcnBasic.draw(self,screen)
 		self.myBars.draw(screen)
+		return self.rect 
 	def drawEnd(self):
 		IcnBasic.drawEnd(self)
 		#self.myBars.drawEnd()

@@ -14,6 +14,10 @@ from IcnFuel import IcnFuel
 from IcnRocket import IcnRocket
 from IcnTextBox import IcnTextBox
 from IcnTextFraction import IcnTextFraction
+#more for drawing helper 
+#consider wrapping these classes into whole?
+from EasyLine import EasyLine
+
 
 class SceneGame(SceneBasic):
 
@@ -32,6 +36,17 @@ class SceneGame(SceneBasic):
 		self.initImages(screenSize)
 		self.initIcnText(screenSize)
 		self.initButtons(screenSize)
+		self.initLines(screenSize)
+
+		self.renderScreenObjects.append(self.icnRocket)
+		self.renderScreenObjects.append(self.icnRocketLabelFraction)
+		self.renderScreenObjects.append(self.icnTextBottom)
+
+		self.renderScreenObjects.extend(self.arrIcnFuels)
+		self.renderScreenObjects.extend(self.arrIcnText)
+		self.renderScreenObjects.extend(self.arrIcnFuelLabelFraction)
+		self.renderScreenObjects.extend(self.arrLines)
+		self.renderScreenObjects.extend(self.arrButtons)
 
 	def helperGetIcnFuel(self, pos,size, ratioPos,ratioSize,textureBG,textureDiv, textureFill,textureWave):
 		return IcnFuel(pos, size,HelperVec2.mult(size,ratioPos), HelperVec2.mult(size, ratioSize ),textureBG,textureDiv,textureFill,textureWave )
@@ -76,7 +91,7 @@ class SceneGame(SceneBasic):
 	def initIcnText(s,screenSize):
 		s.icnTextLevel = IcnTextBox(0.01*screenSize[0],0, .15*screenSize[0],.05*screenSize[1] ,"Level 0")
 		s.icnTextScore = IcnTextBox(.85*screenSize[0],0, .15*screenSize[0],.05*screenSize[1], "Score 0 ")
-		s.icnTextBottom = IcnTextBox(.1*screenSize[0], .95 * screenSize[1], screenSize[0] *.9, .05* screenSize[1], "HeyBottom" )
+		s.icnTextBottom = IcnTextBox(.1*screenSize[0], .95 * screenSize[1], .9*screenSize[0], .05* screenSize[1], "HeyBottom" )
 
 		s.arrIcnText = [s.icnTextLevel,s.icnTextScore]
 		pass
@@ -92,7 +107,14 @@ class SceneGame(SceneBasic):
 	def initImages(s,screenSize):
 		s.textureIdBG = TextureLoader.load( os.path.join('assets', 'screenGame','background.png'),screenSize)
 		s.textureIdFooter = TextureLoader.load(os.path.join('assets', 'screenGame','barBottom.png'), HelperVec2.mult( screenSize, (1, .05) ) )
-
+	def initLines(s, screenSize):
+		s.arrLines = []
+		for i in range(0, 3):
+			objA = s.arrIcnFuels[i]
+			objB =s.arrIcnFuelLabelFraction[i]
+			pointA = HelperVec2.add(objA.pos, (objA.size[0] *.5,0) )
+			pointB = HelperVec2.add(objB.pos,( objB.size[0]*.5, objB.size[1] ) )
+			s.arrLines.append(EasyLine( pointA,pointB, (255,255,255) , 2) )
 
 	def helperLoadData(self,path):
 		file = open(path) 
@@ -106,9 +128,6 @@ class SceneGame(SceneBasic):
 		if(level is -1 ) : level = self.questionLevel
 		self.levelWon = False
 		self.EVENT_SCENE_CHANGE_START()
-
-		
-
 		try:
 			data = self.helperLoadData(os.path.join('assets/levels',str(self.questionLevel)+ '.json'))
 			self.loadNewQuestion(self.questionLevel, data[0],data[1],data[2])
@@ -118,7 +137,6 @@ class SceneGame(SceneBasic):
 				data = self.helperLoadData( os.path.join('assets/levels','0.json'))
 				self.loadNewQuestion(self.questionLevel,data[0],data[1],data[2])
 			except : "SceneGame I failed. I cannot load anything. We are doomed!"
-
 		self.EVENT_SCENE_CHANGE_END()
 
 	def registerEvent_menu(s,e):s.EVENT_MENU.append(e)
@@ -129,7 +147,6 @@ class SceneGame(SceneBasic):
 	def initBackground(s,surface,resolution):
 		DrawHelper.drawAspect(surface,s.textureIdBG, 0,0 )
 		DrawHelper.drawAspect(surface,s.textureIdFooter, 0,.95 )
-
 		pass
 
 	def loadNewQuestion(self,level,choices,answers,answerNum):
@@ -143,7 +160,6 @@ class SceneGame(SceneBasic):
 		self.icnRocket.display(0,answerNum[1])
 		self.icnRocketLabelFraction.display(answerNum[0],answerNum[1] )
 		self.icnTextLevel.setContent("Level "+str(level) )
-
 		pass
 	
 	def helperIsSameArray(self, arrA, arrB):
@@ -151,14 +167,21 @@ class SceneGame(SceneBasic):
 		for i in range(0, len(arrA)):
 			if( arrA[i] is not arrB[i]) :return False
 		return True
-
+	def questionReset(self):
+		for i in range(0, 3): 
+			q = self.questionChoices[i]
+			self.arrIcnFuels[i].displayPercent(float(q[0])/ q[1])
+			self.arrIcnFuels[i].setSelect(False)
+		self.icnRocket.displayPercent(0)
 	def doCheckAnswer(self):
 		if(self.isGameOver() ) : 
 			#Submitted answer is correct advnace to the next level and raise win event
 			self.questionLevel += 1
 			self.score += 10
 			self.helperRaiseEvent(self.EVENT_WIN)
-		else : print "GAME IS NOT YET OVER! DISPLAY SOME \"Lets try again GRAPHIC\" "  
+		else : 
+			print "GAME IS NOT YET OVER! DISPLAY SOME \"Lets try again GRAPHIC\" "  
+			self.questionReset()
 
 	def isGameOver(self):
 		answerState = []
@@ -176,6 +199,10 @@ class SceneGame(SceneBasic):
 
 		pass
 
+	def EVENT_INITIALIZE(self):
+		self.questionLevel = 0 
+		self.score = 0
+		pass
 
 	def EVENT_CLICK(self):
 		print "EVENT_CLICK"
@@ -183,8 +210,8 @@ class SceneGame(SceneBasic):
 			self.doUpdateAnswer()
 		elif (self.CLICK_BUTTONS()):pass
 
+
 	def EVENT_SCENE_START(self):
-		print("entered play state")
 		self.initLevel()
 
 	def CLICK_ANSWER(self):
@@ -222,30 +249,6 @@ class SceneGame(SceneBasic):
 	def renderScreenClean(self,screen):
 		self.helperClean(screen, self.icnTextLevel)
 		self.helperClean(screen, self.icnTextScore)
-		#for icn in self.arrIcnFuelLabelFraction: self.helperClean(screen, icn)
-		
-
-	def renderScreen(self,screen):
-		for icn in self.arrButtons:
-			icn.draw(screen);
-			icn.drawEnd();
-		for icn in self.arrIcnFuels:
-			icn.draw(screen);
-			icn.drawEnd();
-		for icn in self.arrIcnText:
-			icn.draw(screen);
-			icn.drawEnd();
-		for icn in self.arrIcnFuelLabelFraction:
-			icn.draw(screen);
-			icn.drawEnd()
-
-
-		self.icnRocket.draw(screen)
-		self.icnRocketLabelFraction.draw(screen)
-		self.icnRocket.drawEnd()
-		self.icnRocketLabelFraction.drawEnd()
-		self.icnTextBottom.draw(screen)
-		self.icnTextBottom.drawEnd()
 
 	def renderUpdate(self, timeElapsed):
 		self.icnTextScore.setContent("Score " + str( self.score))
