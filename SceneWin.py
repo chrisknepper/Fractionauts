@@ -21,6 +21,7 @@ class SceneWin(SceneBasic):
 		s.EVENT_FINISHED = []
 
 	def EVENT_CLICK(s):
+		print "SceneWin Click"
 		s.helperRaiseEvent(s.EVENT_FINISHED)
 
 	def EVENT_SCENE_START(s):

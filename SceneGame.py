@@ -98,10 +98,12 @@ class SceneGame(SceneBasic):
 
 	def initButtons(s,screenSize):
 		size = HelperVec2.mult(screenSize, (.1 ,.1 ))
+		sizeLaunch = (115,32)
 		s.textureIdButton = TextureLoader.load( os.path.join('assets', 'screenGame','bttn.png'),size)
+		s.textureIdButtonLaunch = TextureLoader.load( os.path.join('assets', 'screenGame','bttnLaunch.png'),sizeLaunch)
 
 		s.bttnMenu =	KButton(0*screenSize[0], .95*screenSize[1], .1*screenSize[0], .05*screenSize[1],  s.textureIdButton,True)
-		s.bttnDone =	KButton(.75 *screenSize[0], .8*screenSize[1], .1*screenSize[0], .1*screenSize[1], s.textureIdButton,True)
+		s.bttnDone =	KButton(552,508, sizeLaunch[0],sizeLaunch[1], s.textureIdButtonLaunch,True)
 		s.arrButtons =	[s.bttnMenu,s.bttnDone]
 
 	def initImages(s,screenSize):
@@ -150,6 +152,7 @@ class SceneGame(SceneBasic):
 		pass
 
 	def loadNewQuestion(self,level,choices,answers,answerNum):
+		print "LOADING NEW QUESTION "
 		self.questionChoices	= choices
 		self.questionAnswers	= answers
 

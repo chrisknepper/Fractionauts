@@ -46,7 +46,7 @@ class FractionautsMain(object):
 
 		self.scnMenu 	= SceneMenu(screenSize)
 		self.scnGame 	= SceneGame(screenSize)
-		self.scnWin 		= SceneWin(screenSize)
+		self.scnWin 	= SceneWin(screenSize)
 		self.scnHelp 	= SceneHelp(screenSize)
 
 		self.registerEvents(self.scnMenu,self.scnGame,self.scnWin,self.scnHelp)
@@ -129,7 +129,8 @@ class FractionautsMain(object):
 			self.displayFPS(self.myFont);
 			self.lockRender.release();
 			self.clock.tick(10000);
-			self.dicScenes[self.myState].renderUpdate(.1)
+			self.dicScenes[self.myState].renderUpdate(self.clock.get_time() * .001)
+
 
 	def loopUpdate(self):
 		while True:
@@ -140,9 +141,12 @@ class FractionautsMain(object):
 			self.dicScenes[self.myState].listenForEvents()
 
 	def changeState(self, stateNew):
-		self.isRenderFirstFrame = True;
+		self.dicScenes[stateNew].EVENT_SCENE_START()
+		#stop rendering whenever "potential" rendering process related process
+		self.lockRender.acquire()
 		self.myState = stateNew
-		self.dicScenes[self.myState].EVENT_SCENE_START()
+		self.isRenderFirstFrame = True;
+		self.lockRender.release()
 
 
 # This function is called when the game is run directly from the command line:

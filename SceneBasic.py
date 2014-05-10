@@ -54,7 +54,7 @@ class SceneBasic(object):
 	def initOthers(s,screenSize):
 		pass
 	def initBase(s):
-		s.isMosueReleased = False
+		s.isMosueReleased = True
 		s.renderScreenObjects = []
 
 	def initBackground(s,surface,resolution):
@@ -66,7 +66,7 @@ class SceneBasic(object):
 
 	#in a thread 
 	def renderScreenBegin(self,screen):
-		screen.fill((255, 255, 255)) 
+		screen.fill((255, 255, 255,1)) 
 		screen.blit(self.myBackground,(0,0))
 		pygame.display.update()
 		self.renderUpdate(0)
@@ -96,8 +96,8 @@ class SceneBasic(object):
 		mousePressed = pygame.mouse.get_pressed()
 		if(s.isMosueReleased and mousePressed[0] is 1) :
 			s.isMosueReleased = False
-			s.EVENT_CLICK()
 		elif(not s.isMosueReleased and mousePressed[0] is 0):
+			s.EVENT_CLICK()
 			s.isMosueReleased = True
 			
 	def EVENT_INITIALIZE(self):

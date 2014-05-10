@@ -56,12 +56,10 @@ class SceneMenu(SceneBasic):
 					[self.bttnHow ,self.EVENT_HELP]
 				]
 
-		if 1 in pygame.mouse.get_pressed():
-			#Menu state buttons
-			for bttn,event in buttons_event:
-				if bttn.isUnder(mouseAt):
-					self.helperRaiseEvent(event)
-					break
+		for bttn,event in buttons_event:
+			if bttn.isUnder(mouseAt):
+				self.helperRaiseEvent(event)
+				break
 
 	def renderScreenBegin(s,screen):
 		screen.fill((255, 255, 255)) 

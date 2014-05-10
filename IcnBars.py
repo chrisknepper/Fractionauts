@@ -31,8 +31,6 @@ class IcnBars (IcnBasic):
 		self.aniFluidMove = 0
 		self.aniFluidWidth = self.textureWave.get_width()
 
-		print "height  is "+str( self.textureDiv.get_height() )
-		print "but my height  is " + str(self.cellHeight)
 		#surface to overdrawn on top ok?
 
 		#if(isTextureNeedResize): self.textureDiv = HelperTexture.scale(self.textureDiv,( w , self.textureDiv.get_height() ) )
@@ -76,10 +74,10 @@ class IcnBars (IcnBasic):
 
 
 	def drawWave(self, pos):
-		self.aniFluidMove = (self.aniFluidMove+1) % self.aniFluidWidth
+		self.aniFluidMove = (self.aniFluidMove+.1) % self.aniFluidWidth
 
 		self.mySurface.blit(self.textureWave, (pos[0] -self.aniFluidMove,pos[1]) )
-		self.mySurface.blit(self.textureWave, (pos[0]+ self.aniFluidWidth-self.aniFluidMove , pos[1] ) )
+		self.mySurface.blit(self.textureWave, (pos[0]-self.aniFluidMove + self.aniFluidWidth, pos[1] ) )
 		pass
 
 	def drawUpdate(self, timeElapsed ):

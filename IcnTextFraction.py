@@ -10,7 +10,6 @@ class IcnTextFraction(IcnBasic):
 		s.posDen = h * .5
 		s.icnTextNum = IcnTextBox(0,0,w,height,"0")
 		s.icnTextDen = IcnTextBox(0,0+s.posDen,w,height,"1")
-		s.display(0,1)
 		
 
 	def display(s, nume,deno):
@@ -22,6 +21,6 @@ class IcnTextFraction(IcnBasic):
 		s.icnTextNum.draw(s.mySurface)
 		s.icnTextDen.draw(s.mySurface)
 		pygame.draw.line(s.mySurface, (255,255,255) , (0,s.size[1]*.5) , HelperVec2.mult(s.size, (1,.5) ) ,2) 
-
+	
 	def drawUpdate(s,timeElapsed):
 		pass
