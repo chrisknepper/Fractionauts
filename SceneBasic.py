@@ -1,11 +1,7 @@
 import pygame
 import os
 #import pygtk #Considfer removing this import call, I don't think you need this TBH 
-from Button import Button
 from KButton import KButton
-from Background import Background
-from TextItem import TextItem
-from ScrollingImage import ScrollingImage
 import TextureLoader
 
 class SceneBasic(object):

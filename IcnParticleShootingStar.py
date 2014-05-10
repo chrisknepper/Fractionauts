@@ -22,12 +22,14 @@ class IcnParticleShootingStar(IcnParticle):
 		if (s.pos[0] <  - s.size[0] or s.pos[1] > s.boundry[1]) : s.respawn() 
 		pass
 	def draw(s, surface):
+		#surface.blit(IcnParticleShootingStar.textureBG,s.rect ,(s.rect[0]-2.5,s.rect[1]+10,s.rect[2],s.rect[3]),pygame.BLEND_MAX  )
+		surface.blit(IcnParticleShootingStar.textureBG,s.pos ,(s.pos[0]-2.5,s.pos[1]+10,s.size[0],s.size[1]),pygame.BLEND_MAX  )
+		
 		rect = IcnParticle.draw(s,surface)
 		#size =( s.rect[2] * .8 , s.rect[3] *.8)
 		#pos = (s.rect[0] , s.rect[1] + size[1] *.5)
 
 		#surface.blit(IcnParticleShootingStar.textureBG,pos ,(pos[0]-2.5,pos[1]+10,size[0],size[1]),pygame.BLEND_MAX  )
-		surface.blit(IcnParticleShootingStar.textureBG,s.rect ,(s.rect[0]-2.5,s.rect[1]+10,s.rect[2],s.rect[3]),pygame.BLEND_MAX  )
 		
 		#surface.blit(surface,s.rect ,(s.rect[0],s.rect[1],s.rect[2],s.rect[3]),pygame.BLEND_MIN)
 		return rect

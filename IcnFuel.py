@@ -4,6 +4,9 @@ from IcnBars import IcnBars
 import HelperVec2
 
 class IcnFuel(IcnBasic):
+	def getPercentage(self):
+		return self.myBars.fillRatio
+
 	def __init__(self,pos,size,posBar,sizeBar, \
 			textureMe=-1,textureDiv=-1, textureBar =-1,textureIdFuelWave = -1):
 		IcnBasic.__init__(self,pos[0],pos[1], size[0], size[1], textureMe)
@@ -12,8 +15,10 @@ class IcnFuel(IcnBasic):
 		self.posBars = posBar
 		self.numNuno = 0
 		self.numDeno = 1
+		self.displayPercentage = 0
 
 	def displayPercent(self, percentage):
+		self.displayPercentage =percentage
 		self.myBars.display(percentage)
 
 	def display(self, numerator, denominator = -1):

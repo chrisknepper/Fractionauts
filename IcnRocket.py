@@ -1,20 +1,22 @@
 import pygame
+import random
 from IcnFuel import IcnFuel
 from IcnBasic import IcnBasic
 import HelperVec2
 class  IcnRocket(IcnBasic):
+
 	#textureMe=-1,textureDiv=-1, textureBar =-1,textureIdFuelWave = -1):
 	def __init__(self,pos,size,fuelPos,fuelSize, textureMe = -1, 
-		textureOil=-1, textureDiv = -1, textureBar = -1, textureFuelWave = -1):
+			textureOil=-1, textureDiv = -1, textureBar = -1, textureFuelWave = -1):
 		IcnBasic.__init__(self,pos[0],pos[1],size[0],size[1],textureMe)
-		
+		self.posInit = pos
 		self.posFuel = fuelPos
+
 		barPos = HelperVec2.mult(fuelSize, (.13,.0448))
 		barSize = HelperVec2.mult(fuelSize, (.7872,.91769))
-		self.myFuel = IcnFuel(HelperVec2.add(pos,self.posFuel) ,fuelSize,barPos,barSize, \
+		self.myFuel = IcnFuel(self.posFuel ,fuelSize,barPos,barSize, \
 			textureOil,textureDiv, textureBar,textureFuelWave)
-		
-		#self.IcnFuel = IcnFuel(fuelPos,fuelSize,HelperVec2.mult( fuelSize, (.1,.1) ),HelperVec2(fuelSize, (.8,.8) ), textureOil,textureDiv, textureBar,textureFuelWave)
+
 	def fill(number):
 		pass
 	def displayPercent(self, percentage):
@@ -23,12 +25,14 @@ class  IcnRocket(IcnBasic):
 	def display(self, numerator,denominator):
 		self.myFuel.display(numerator,denominator)
 		pass
-	def draw(self, screen):
-		IcnBasic.draw(self,screen)
-		self.myFuel.draw(screen)
+	def updateVibrate(s, w,h):
+		s.pos = HelperVec2.add(s.posInit, HelperVec2.mult ( (w,h), ( -.5 +random.random(), -.5+ random.random())) )
 		
-		return self.rect
-	def drawUpdate(self, timeElapsed):
-		self.myFuel.pos = HelperVec2.add(self.pos, self.posFuel)
-		self.myFuel.drawUpdate(timeElapsed)
+		pass
+	def drawUpdate(s, timeElapsed):
+		s.myFuel.draw(s.mySurface)
+		ratio = s.myFuel.getPercentage()
+		s.updateVibrate(3.0*ratio,8.0*ratio)
+		#s.myFuel.pos = HelperVec2.add(s.pos, s.posFuel)
+		s.myFuel.drawUpdate(timeElapsed)
 		pass

@@ -14,8 +14,7 @@ from IcnFuel import IcnFuel
 from IcnRocket import IcnRocket
 from IcnTextBox import IcnTextBox
 from IcnTextFraction import IcnTextFraction
-from IcnParticleDistort import IcnParticleDistort
-from Question import QuestionMaker 
+from IcnParticleDistort import IcnParticleDistort 
 #more for drawing helper 
 #consider wrapping these classes into whole?
 from EasyLine import EasyLine
@@ -93,6 +92,7 @@ class SceneGame(SceneBasic):
 		self.textureIdRocketFuelDiv = TextureLoader.load( os.path.join('assets', 'screenGame','fuelDiv.png'))
 		self.textureIdRocketFuelFill = TextureLoader.load( os.path.join('assets', 'screenGame','fuelFill.png')  )
 		self.textureIdRocketFuelWave = TextureLoader.load( os.path.join('assets', 'screenGame','wave.png'),(oilSize[0],oilSize[1] * .1))
+		self.textureIdRocketGas = TextureLoader.load( os.path.join('assets', 'screenGame','cloud00.png') )
 
 		self.icnRocket =  IcnRocket( pos,size, oilPos,oilSize,\
 			self.textureIdRocket ,self.textureIdRocketFuel,self.textureIdRocketFuelDiv,self.textureIdRocketFuelFill,self.textureIdRocketFuelWave)
@@ -100,8 +100,8 @@ class SceneGame(SceneBasic):
 	def initParticles(s, screenSize):
 		s.arrParticleDistort = []
 		pos = (s.icnRocket.pos[0]  + s.icnRocket.size[0] *.5,s.icnRocket.pos[1]+s.icnRocket.pos[1]  )
-		for i in range(0, 20):
-			p =IcnParticleDistort(pos[0] ,pos[1],10,10, s.myBackground)
+		for i in range(0, 3):
+			p =IcnParticleDistort(pos[0] ,pos[1],80,80, s.myBackground)
 			s.arrParticleDistort.append(p)
 			pass
 
@@ -225,7 +225,7 @@ class SceneGame(SceneBasic):
 		return sum
 	def doCheckAnswer(self):
 		if(self.isGameOver() ) : 
-			#Submitted answer is correct advance to the next level and raise win event
+			#Submitted answer is correct advnace to the next level and raise win event
 			self.questionLevel += 1
 			self.score += 10
 			self.helperRaiseEvent(self.EVENT_WIN)
