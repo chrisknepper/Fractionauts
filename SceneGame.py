@@ -41,14 +41,15 @@ class SceneGame(SceneBasic):
 		self.initLines(screenSize)
 
 		self.renderScreenObjects.append(self.icnRocket)
-		self.renderScreenObjects.append(self.icnRocketLabelFraction)
+		#self.renderScreenObjects.append(self.icnRocketLabelFraction)
 		self.renderScreenObjects.append(self.icnTextBottom)
 
 		self.renderScreenObjects.extend(self.arrIcnFuels)
-		self.renderScreenObjects.extend(self.arrIcnFuelLabelFraction)
-		#self.renderScreenObjects.extend(self.arrLines)
-		self.renderScreenObjects.extend(self.arrButtons)
-		self.renderScreenObjects.extend(self.arrIcnText)
+		#self.renderScreenObjects.extend(self.arrIcnFuelLabelFraction)
+		
+			#self.renderScreenObjects.extend(self.arrLines)
+		#self.renderScreenObjects.extend(self.arrButtons)
+		#self.renderScreenObjects.extend(self.arrIcnText)
 
 
 	def helperGetIcnFuel(self, pos,size, ratioPos,ratioSize,textureBG,textureDiv, textureFill,textureWave):
@@ -155,9 +156,27 @@ class SceneGame(SceneBasic):
 	def initBackground(s,screen,resolution):
 		DrawHelper.drawAspect(screen,s.textureIdBG, 0,0 )
 		DrawHelper.drawAspect(screen,s.textureIdFooter, 0,.95 )
+		s.icnTextScore.draw(screen)
+		s.icnRocketLabelFraction.draw(screen)
 
+		s.helperRenderScreen(screen ,s.arrIcnFuelLabelFraction)
+		s.helperRenderScreen(screen ,s.arrButtons)
+		s.helperRenderScreen(screen ,s.arrIcnText)
 		s.helperRenderScreen(screen, s.arrLines )
 		pass
+
+
+
+		#self.renderScreenObjects.append(self.icnRocket)
+		#self.renderScreenObjects.append(self.icnRocketLabelFraction)
+			#self.renderScreenObjects.append(self.icnTextBottom)
+
+			#self.renderScreenObjects.extend(self.arrIcnFuels)
+		#self.renderScreenObjects.extend(self.arrIcnFuelLabelFraction)
+		
+			#self.renderScreenObjects.extend(self.arrLines)
+		#self.renderScreenObjects.extend(self.arrButtons)
+		#self.renderScreenObjects.extend(self.arrIcnText)
 
 	def loadNewQuestion(self,level,choices,answers,answerNum):
 		print "LOADING NEW QUESTION "
@@ -230,6 +249,7 @@ class SceneGame(SceneBasic):
 
 	def EVENT_SCENE_START(self):
 		self.initLevel()
+
 
 	def CLICK_ANSWER(self):
 		pos = pygame.mouse.get_pos()

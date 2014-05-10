@@ -67,6 +67,7 @@ class SceneBasic(object):
 	#in a thread 
 	def renderScreenBegin(self,screen):
 		screen.fill((255, 255, 255,1)) 
+		self.initBackground(self.myBackground,(screen.get_width(), screen.get_height()))
 		screen.blit(self.myBackground,(0,0))
 		pygame.display.update()
 		self.renderUpdate(0)
