@@ -20,6 +20,7 @@ class SceneMenu(SceneBasic):
 		#s.textureIdTitle =	TextureLoader.load(os.path.join('assets', 'screenStart', 'title.png'), HelperVec2.mult(resolution, (.7,.13)))
 		s.textureIdTitle =	TextureLoader.load(os.path.join('assets', 'screenStart', 'title.png') )
 		s.textureIdBG =		TextureLoader.load(os.path.join('assets', 'screenStart', 'background.png') ,resolution);
+		s.textureIdBGTEST =	TextureLoader.load(os.path.join('assets', 'screenStart', 'star.png') ,resolution);
 		s.textureIdBttn = 	TextureLoader.load(os.path.join('assets', 'screenStart', 'bttn.png') );
 
 		s.textureIdBttnStart = 	TextureLoader.load(os.path.join('assets', 'screenStart', 'bttnStart.png') );
@@ -71,6 +72,10 @@ class SceneMenu(SceneBasic):
 			button.drawEnd()
 		pygame.display.update()
 		pass
+	def renderScreen(s,screen):
+		DrawHelper.drawAspect(screen, s.textureIdBGTEST,0,0)
+		DrawHelper.drawAspect(screen, s.textureIdBGTEST,0,0)
+
 
 
 

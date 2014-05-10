@@ -9,8 +9,8 @@ class  IcnRocket(IcnBasic):
 		IcnBasic.__init__(self,pos[0],pos[1],size[0],size[1],textureMe)
 		
 		self.posFuel = fuelPos
-		barPos = HelperVec2.mult(fuelSize, (.1,.1))
-		barSize = HelperVec2.mult(fuelSize, (.8,.8))
+		barPos = HelperVec2.mult(fuelSize, (.13,.0448))
+		barSize = HelperVec2.mult(fuelSize, (.7872,.91769))
 		self.myFuel = IcnFuel(HelperVec2.add(pos,self.posFuel) ,fuelSize,barPos,barSize, \
 			textureOil,textureDiv, textureBar,textureFuelWave)
 		

@@ -30,6 +30,7 @@ class FractionautsMain(object):
 		screenSize = (800,600)
 
 		pygame.init()
+		#self.screen = pygame.display.set_mode(screenSize, pygame.FULLSCREEN)
 		self.screen = pygame.display.set_mode(screenSize)
 		DrawHelper.init(screenSize[0],screenSize[1])
 		self.myFont = pygame.font.Font(os.path.join('assets', 'Minecraftia.ttf') , 24)
@@ -110,7 +111,7 @@ class FractionautsMain(object):
 
 	def displayFPS(self,myFont):
 		label =  myFont.render("FPS "+str(int(self.clock.get_fps()) ) , 1, (255,255,0))
-		rectFPS = pygame.draw.rect(self.screen, (0,0,0) , (0,0, 130,30))
+		rectFPS = pygame.draw.rect(self.screen, (0,0,0) , (0,0, 230,30))
 		self.screen.blit(label,(0, 0))
 		pygame.display.update(rectFPS)
 
@@ -125,9 +126,9 @@ class FractionautsMain(object):
 			self.lockRender.acquire();
 			self.helperRenderScene( self.dicScenes[self.myState])
 			
-			#self.displayFPS(self.myFont);
+			self.displayFPS(self.myFont);
 			self.lockRender.release();
-			self.clock.tick(100);
+			self.clock.tick(10000);
 			self.dicScenes[self.myState].renderUpdate(.1)
 
 	def loopUpdate(self):

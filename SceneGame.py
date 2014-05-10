@@ -52,20 +52,20 @@ class SceneGame(SceneBasic):
 		return IcnFuel(pos, size,HelperVec2.mult(size,ratioPos), HelperVec2.mult(size, ratioSize ),textureBG,textureDiv,textureFill,textureWave )
 
 	def initIcnFuels(s,list,screenSize):
-		pos = HelperVec2.mult(screenSize, (.1, .3) )
-		size = HelperVec2.mult(screenSize, (.1, .3) )
-		barPos =  HelperVec2.mult(size, (.25, .2) )
-		barSize = HelperVec2.mult(size, (.5, .4) )
+		pos = (73,205)
+		size = (94,243)
+		barPos =  (10,10)
+		barSize = (74, 223)
 		labelSize = HelperVec2.mult( barSize , (.5, .5) )
 
-		s.textureIdFuelBG = TextureLoader.load( os.path.join('assets', 'screenGame','fuelBG.png' ),size)
-		s.textureIdFuelWave = TextureLoader.load( os.path.join('assets', 'screenGame','wave.png'), (barSize[0] , 3) )
-		s.textureIdFuelDiv = TextureLoader.load( os.path.join('assets', 'screenGame','fuelDiv.png'),(barSize[0] , 1))
-		s.textureIdFuelFill = TextureLoader.load( os.path.join('assets', 'screenGame','fuelFill.png'),barSize)
+		s.textureIdFuelBG = TextureLoader.load( os.path.join('assets', 'screenGame','fuelBG.png' ))
+		s.textureIdFuelWave = TextureLoader.load( os.path.join('assets', 'screenGame','wave.png'))
+		s.textureIdFuelDiv = TextureLoader.load( os.path.join('assets', 'screenGame','fuelDiv.png'))
+		s.textureIdFuelFill = TextureLoader.load( os.path.join('assets', 'screenGame','fuelFill.png'))
 
 		s.arrIcnFuelLabelFraction = []
 		for i in range(0,3):
-			posNew = HelperVec2.add(pos, HelperVec2.mult( size, ((1.31)*i ,0) )  )
+			posNew = ( pos[0] + 124  * i, pos[1])
 			posLabel = HelperVec2.add(posNew, (size[0] +10,-50 ))
 
 			list.append(IcnFuel(posNew, size,barPos, barSize,s.textureIdFuelBG ,s.textureIdFuelDiv , s.textureIdFuelFill,s.textureIdFuelWave ))
@@ -74,15 +74,15 @@ class SceneGame(SceneBasic):
 			#list.append(s.helperGetIcnFuel(posNew,size, (.5-.25,.5-.2), (.5,.4) ,s.textureIdFuelBG ,s.textureIdFuelDiv , s.textureIdFuelFill,s.textureIdFuelWave ))
 
 	def initIcnRocket(self,screenSize):
-		pos = (500,100)
-		size = (200,400)
-		oilPos = HelperVec2.mult(size, (.5-.25,.5-.2))
-		oilSize = HelperVec2.mult(size, (.5,.4) )
+		pos = (503,73)
+		size = (210,407)
+		oilPos = (76,135)
+		oilSize = (57,147)
 
-		self.textureIdRocket = TextureLoader.load( os.path.join('assets', 'screenGame','icnRocket.png'),size)
+		self.textureIdRocket = TextureLoader.load( os.path.join('assets', 'screenGame','icnRocket.png'))
 		self.textureIdRocketFuel = TextureLoader.load( os.path.join('assets', 'screenGame','fuelBG.png'),oilSize)
-		self.textureIdRocketFuelDiv = TextureLoader.load( os.path.join('assets', 'screenGame','fuelDiv.png'),(oilSize[0],3))
-		self.textureIdRocketFuelFill = TextureLoader.load( os.path.join('assets', 'screenGame','fuelFill.png'),oilSize)
+		self.textureIdRocketFuelDiv = TextureLoader.load( os.path.join('assets', 'screenGame','fuelDiv.png'))
+		self.textureIdRocketFuelFill = TextureLoader.load( os.path.join('assets', 'screenGame','fuelFill.png')  )
 		self.textureIdRocketFuelWave = TextureLoader.load( os.path.join('assets', 'screenGame','wave.png'),(oilSize[0],oilSize[1] * .1))
 
 		self.icnRocket =  IcnRocket( pos,size, oilPos,oilSize,\
