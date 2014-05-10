@@ -43,10 +43,10 @@ class SceneGame(SceneBasic):
 		self.renderScreenObjects.append(self.icnTextBottom)
 
 		self.renderScreenObjects.extend(self.arrIcnFuels)
-		self.renderScreenObjects.extend(self.arrIcnText)
 		self.renderScreenObjects.extend(self.arrIcnFuelLabelFraction)
 		self.renderScreenObjects.extend(self.arrLines)
 		self.renderScreenObjects.extend(self.arrButtons)
+		self.renderScreenObjects.extend(self.arrIcnText)
 
 	def helperGetIcnFuel(self, pos,size, ratioPos,ratioSize,textureBG,textureDiv, textureFill,textureWave):
 		return IcnFuel(pos, size,HelperVec2.mult(size,ratioPos), HelperVec2.mult(size, ratioSize ),textureBG,textureDiv,textureFill,textureWave )
@@ -56,7 +56,7 @@ class SceneGame(SceneBasic):
 		size = (94,243)
 		barPos =  (10,10)
 		barSize = (74, 223)
-		labelSize = HelperVec2.mult( barSize , (.5, .5) )
+		labelSize = HelperVec2.mult( barSize , (.3, .3) )
 
 		s.textureIdFuelBG = TextureLoader.load( os.path.join('assets', 'screenGame','fuelBG.png' ))
 		s.textureIdFuelWave = TextureLoader.load( os.path.join('assets', 'screenGame','wave.png'))
@@ -87,13 +87,14 @@ class SceneGame(SceneBasic):
 
 		self.icnRocket =  IcnRocket( pos,size, oilPos,oilSize,\
 			self.textureIdRocket ,self.textureIdRocketFuel,self.textureIdRocketFuelDiv,self.textureIdRocketFuelFill,self.textureIdRocketFuelWave)
-		self.icnRocketLabelFraction = IcnTextFraction(pos[0]+size[0],pos[1],size[0]*.2,size[1]*.2)
+		self.icnRocketLabelFraction = IcnTextFraction(pos[0]+size[0]+30,pos[1]+50,size[0]*.2,size[1]*.2)
 	def initIcnText(s,screenSize):
 		s.icnTextLevel = IcnTextBox(0.01*screenSize[0],0, .15*screenSize[0],.05*screenSize[1] ,"Level 0")
 		s.icnTextScore = IcnTextBox(.85*screenSize[0],0, .15*screenSize[0],.05*screenSize[1], "Score 0 ")
 		s.icnTextBottom = IcnTextBox(.1*screenSize[0], .95 * screenSize[1], .9*screenSize[0], .05* screenSize[1], "HeyBottom" )
+		s.icnTextRocket = IcnTextBox(650.0,125.0, 100.0,30.0, "FILL TO")
 
-		s.arrIcnText = [s.icnTextLevel,s.icnTextScore]
+		s.arrIcnText = [s.icnTextLevel,s.icnTextScore,s.icnTextRocket]
 		pass
 
 	def initButtons(s,screenSize):
@@ -116,9 +117,9 @@ class SceneGame(SceneBasic):
 			objB =s.arrIcnFuelLabelFraction[i]
 			pointA = HelperVec2.add(objA.pos, (objA.size[0] *.5,0) )
 			pointB = HelperVec2.add(objB.pos,( 0, objB.size[1]*.5 ) )
-			s.arrLines.append(EasyLine( pointA,pointB, (255,255,255) , 3) )
+			s.arrLines.append(EasyLine( pointA,pointB, (255,255,255) , 2) )
 		s.arrLines.append(EasyLine( (660,220),(700,220), (255,255,255) , 3) )
-		s.arrLines.append(EasyLine( (700,220), HelperVec2.add(s.icnRocketLabelFraction.pos,(0,s.icnRocketLabelFraction.size[1] *.5) ) , (255,255,255) , 3) )
+		s.arrLines.append(EasyLine( (700,220), HelperVec2.add(s.icnRocketLabelFraction.pos,(0,s.icnRocketLabelFraction.size[1] *.5) ) , (255,255,255) , 2) )
 
 	def helperLoadData(self,path):
 		file = open(path) 
