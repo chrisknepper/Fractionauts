@@ -76,6 +76,7 @@ class SceneGame(SceneBasic):
 	def initIcnText(s,screenSize):
 		s.icnTextLevel = IcnTextBox(0.01*screenSize[0],0, .15*screenSize[0],.05*screenSize[1] ,"Level 0")
 		s.icnTextScore = IcnTextBox(.85*screenSize[0],0, .15*screenSize[0],.05*screenSize[1], "Score 0 ")
+		s.icnTextBottom = IcnTextBox(.1*screenSize[0], .95 * screenSize[1], screenSize[0] *.9, .05* screenSize[1], "HeyBottom" )
 
 		s.arrIcnText = [s.icnTextLevel,s.icnTextScore]
 		pass
@@ -89,7 +90,9 @@ class SceneGame(SceneBasic):
 		s.arrButtons =	[s.bttnMenu,s.bttnDone]
 
 	def initImages(s,screenSize):
-		s.textureIDBG = TextureLoader.load( os.path.join('assets', 'screenGame','background.png'),screenSize)
+		s.textureIdBG = TextureLoader.load( os.path.join('assets', 'screenGame','background.png'),screenSize)
+		s.textureIdFooter = TextureLoader.load(os.path.join('assets', 'screenGame','barBottom.png'), HelperVec2.mult( screenSize, (1, .05) ) )
+
 
 	def helperLoadData(self,path):
 		file = open(path) 
@@ -124,7 +127,9 @@ class SceneGame(SceneBasic):
 		s.EVENT_MENU=[]
 		s.EVENT_WIN=[]
 	def initBackground(s,surface,resolution):
-		DrawHelper.drawAspect(surface,s.textureIDBG, 0,0 )
+		DrawHelper.drawAspect(surface,s.textureIdBG, 0,0 )
+		DrawHelper.drawAspect(surface,s.textureIdFooter, 0,.95 )
+
 		pass
 
 	def loadNewQuestion(self,level,choices,answers,answerNum):
@@ -239,6 +244,8 @@ class SceneGame(SceneBasic):
 		self.icnRocketLabelFraction.draw(screen)
 		self.icnRocket.drawEnd()
 		self.icnRocketLabelFraction.drawEnd()
+		self.icnTextBottom.draw(screen)
+		self.icnTextBottom.drawEnd()
 
 	def renderUpdate(self, timeElapsed):
 		self.icnTextScore.setContent("Score " + str( self.score))

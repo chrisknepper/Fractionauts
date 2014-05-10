@@ -12,7 +12,6 @@ class IcnTextBox(IcnBasic):
 		s.posInit = (x,y)
 		s.content = str(content)
 		s.setContent(content)
-		s.mySurface =  IcnTextBox.FONT.render(s.content , 1, (255,255,255))
 	def setContent(s, c):
 		s.content = str(c)
 		s.mySurface =  IcnTextBox.FONT.render(s.content , 1, (255,255,255))
