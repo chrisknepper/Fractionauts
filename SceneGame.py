@@ -119,10 +119,12 @@ class SceneGame(SceneBasic):
 	def initButtons(s,screenSize):
 		size = HelperVec2.mult(screenSize, (.1 ,.1 ))
 		sizeLaunch = (115,32)
+		sizeMenu = (119,43)
 		s.textureIdButton = TextureLoader.load( os.path.join('assets', 'screenGame','bttn.png'),size)
 		s.textureIdButtonLaunch = TextureLoader.load( os.path.join('assets', 'screenGame','bttnLaunch.png'),sizeLaunch)
+		s.textureIdButtonMenu = TextureLoader.load( os.path.join('assets', 'screenGame','bttnBack.png'),sizeLaunch)
 
-		s.bttnMenu =	KButton(0*screenSize[0], .95*screenSize[1], .1*screenSize[0], .05*screenSize[1],  s.textureIdButton,True)
+		s.bttnMenu =	KButton(0*screenSize[0], .95*screenSize[1],sizeMenu[0],sizeMenu[1],  s.textureIdButtonMenu,True)
 		s.bttnDone =	KButton(552,508, sizeLaunch[0],sizeLaunch[1], s.textureIdButtonLaunch,True)
 		s.arrButtons =	[s.bttnMenu,s.bttnDone]
 

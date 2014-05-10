@@ -93,8 +93,8 @@ class IcnBars (IcnBasic):
 		self.isAnimation = progress != 1.0
 		
 		pygame.draw.rect(surface, (0,0,0), (self.pos[0],self.pos[1], self.size[0],self.size[1]) )
-		height = self.size[1] * self.fillRatio 
-		top =  (self.pos[0],self.pos[1]+ self.size[1] -height ) 
-		surface.blit(self.textureFill ,top, (0,0, self.size[0], height) )
+		height = int(self.size[1] * self.fillRatio) 
+		top =  (self.pos[0],self.pos[1]+ self.size[1] -height-1 ) 
+		surface.blit(self.textureFill ,top, (0,0, self.size[0],height) )
 		self.renderDivs( surface, self.textureDiv, self.count)
 		return True
