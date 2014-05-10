@@ -7,13 +7,14 @@ class IcnFuel(IcnBasic):
 	def getPercentage(self):
 		return self.myBars.fillRatio
 
-	def __init__(self,pos,size,posBar,sizeBar, \
+	def __init__(self,pos,size, \
 			textureMe=-1,textureDiv=-1, textureBar =-1,textureIdFuelWave = -1):
 		IcnBasic.__init__(self,pos[0],pos[1], size[0], size[1], textureMe, True)
 		self.isRendered = False
-		self.posBars = posBar[0]
-		self.myBars = IcnBars(posBar[0],posBar[1],sizeBar[0],sizeBar[1],10,textureDiv,textureBar,textureIdFuelWave,True) 
-		self.posBars = posBar
+		barPos = HelperVec2.mult(size, (.070,.0308))
+		barSize = HelperVec2.mult(size, (.8772,.95))
+		self.myBars = IcnBars(barPos[0],barPos[1],barSize[0],barSize[1],10,True) 
+		self.posBars = barPos
 		self.numNuno = 0
 		self.numDeno = 1
 		self.isChanged = True
@@ -38,14 +39,15 @@ class IcnFuel(IcnBasic):
 			self.isRendered = True
 			self.EVENT_STATIC_NOW()
 			return IcnBasic.draw(self,screen)
-		return self.rect
+		return (0,0,0,0)
 		#self.myBars.drawEnd()
 	def drawUpdate(self, timeElapsed):
 		#isUpdated =  self.myBars.drawUpdate(timeElapsed)
 		#self.myBars.pos = HelperVec2.add(self.pos,self.posBars)
-		if(self.myBars.drawUpdate(timeElapsed)):
+
+		if(self.myBars.drawUpdate(timeElapsed,self.mySurface)):
 			self.isChanged= True
 			self.isRendered = False
-			self.myBars.draw(self.mySurface)
+			#self.myBars.draw(self.mySurface)
 			return True
 		return False

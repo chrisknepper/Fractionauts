@@ -75,7 +75,7 @@ class SceneGame(SceneBasic):
 		for i in range(0,3):
 			posNew = ( pos[0] + 124  * i, pos[1])
 			posLabel = HelperVec2.add(posNew, (size[0] +10, -labelSize[1] ))
-			icn = IcnFuel(posNew, size,barPos, barSize,s.textureIdFuelBG ,s.textureIdFuelDiv , s.textureIdFuelFill,s.textureIdFuelWave )
+			icn = IcnFuel(posNew, size,s.textureIdFuelBG )
 			icn.registerEvent_static(s.EVENT_STTAIC_DRAWN)
 			list.append(icn)
 			s.arrIcnFuelLabelFraction.append(IcnTextFraction (posLabel[0],posLabel[1],labelSize[0],labelSize[1]) )
@@ -96,7 +96,7 @@ class SceneGame(SceneBasic):
 		self.textureIdRocketGas = TextureLoader.load( os.path.join('assets', 'screenGame','cloud00.png') )
 
 		self.icnRocket =  IcnRocket( pos,size, oilPos,oilSize,\
-			self.textureIdRocket ,self.textureIdRocketFuel,self.textureIdRocketFuelDiv,self.textureIdRocketFuelFill,self.textureIdRocketFuelWave)
+			self.textureIdRocket ,self.textureIdRocketFuel)
 		self.icnRocketLabelFraction = IcnTextFraction(pos[0]+size[0]+30,pos[1]+50,size[0]*.2,size[1]*.2)
 	def initParticles(s, screenSize):
 		s.arrParticleDistort = []

@@ -6,16 +6,12 @@ import HelperVec2
 class  IcnRocket(IcnBasic):
 
 	#textureMe=-1,textureDiv=-1, textureBar =-1,textureIdFuelWave = -1):
-	def __init__(self,pos,size,fuelPos,fuelSize, textureMe = -1, 
-			textureOil=-1, textureDiv = -1, textureBar = -1, textureFuelWave = -1):
+	def __init__(self,pos,size,fuelPos,fuelSize, textureMe = -1, textureOil=-1):
 		IcnBasic.__init__(self,pos[0],pos[1],size[0],size[1],textureMe)
 		self.posInit = pos
 		self.posFuel = fuelPos
 
-		barPos = HelperVec2.mult(fuelSize, (.13,.0448))
-		barSize = HelperVec2.mult(fuelSize, (.7872,.91769))
-		self.myFuel = IcnFuel(self.posFuel ,fuelSize,barPos,barSize, \
-			textureOil,textureDiv, textureBar,textureFuelWave)
+		self.myFuel = IcnFuel(self.posFuel ,fuelSize, textureOil)
 
 	def fill(number):
 		pass

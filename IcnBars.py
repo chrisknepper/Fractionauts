@@ -1,12 +1,14 @@
 import pygame
 import HelperVec2
+import os
 from IcnBasic import IcnBasic
 import TextureLoader
 import HelperTexture
 
 class IcnBars (IcnBasic):
 	RATIO_DIV_HEIGHT  = .1
-	def __init__(self, x, y, w, h, count=10 ,textureIdDiv=-1,textureIdFill = -1, textureIdWave = -1, isTextureNeedResize = False):
+	#textureIdDiv=-1,textureIdFill = -1, textureIdWave = -1
+	def __init__(self, x, y, w, h, count=10 , isTextureNeedResize = False):
 		IcnBasic.__init__(self,x,y,w,h)
 		
 		self.fillRatio  = 0
@@ -23,9 +25,10 @@ class IcnBars (IcnBasic):
 		self.mySurface = pygame.Surface((w,h))
 		self.surfaceTop = pygame.Surface( (w,h),pygame.SRCALPHA  )
 		self.cellHeight = h/ count
-		self.textureDiv = pygame.Surface((0,0)) if textureIdDiv is -1 else TextureLoader.get(textureIdDiv);
-		self.textureFill = pygame.Surface((0,0)) if textureIdFill is -1 else TextureLoader.get(textureIdFill);
-		self.textureWave = pygame.Surface((0,0)) if textureIdWave is -1 else TextureLoader.get(textureIdWave);
+
+		self.textureDiv =	TextureLoader.get( TextureLoader.load(os.path.join('assets', 'IcnBars','fuelDiv.png' ),	(w,5) ) );
+		self.textureFill =	TextureLoader.get( TextureLoader.load(os.path.join('assets', 'IcnBars','fuelFill.png' ), 	(w,h) )  );
+		self.textureWave =	TextureLoader.get( TextureLoader.load(os.path.join('assets', 'IcnBars','wave.png' ),	(w, 3) ) );
 
 
 		self.aniFluidMove = 0
@@ -37,10 +40,9 @@ class IcnBars (IcnBasic):
 		pass
 
 	def renderDivs(self, surface, texture,  nums):
-		surface.fill((0,0,0,0) )
 		barHeight = self.size[1] / nums
 		for i in range (1,nums):
-			surface.blit(texture,  (0, barHeight * i ) )	
+			surface.blit(texture,  (self.pos[0],self.pos[1]+ barHeight * i ) )	
 
 		pass
 
@@ -73,25 +75,26 @@ class IcnBars (IcnBasic):
 		#self.helperFillBars(self.mySurface, self.cellHeight, self.textureDiv, 0, n)
 
 
-	def drawWave(self, pos):
+	def drawWave(self, pos,surface = -1):
 		self.aniFluidMove = (self.aniFluidMove+.1) % self.aniFluidWidth
 
-		self.mySurface.blit(self.textureWave, (pos[0] -self.aniFluidMove,pos[1]) )
-		self.mySurface.blit(self.textureWave, (pos[0]-self.aniFluidMove + self.aniFluidWidth, pos[1] ) )
+		surface.blit(self.textureWave, (pos[0] -self.aniFluidMove,pos[1]) )
+		surface.blit(self.textureWave, (pos[0]-self.aniFluidMove + self.aniFluidWidth, pos[1] ) )
 		pass
 
-	def drawUpdate(self, timeElapsed ):
+	def drawUpdate(self, timeElapsed,surface = -1 ):
 		if(not self.isAnimation): return False
-		
+		if(surface is -1 ): surface = self.mySurface
+
 		self.aniTimeElapsed += timeElapsed
 		progress = self.aniTimeElapsed / float(self.aniTimeMax)
 		progress = min(progress,1.0)
 		self.fillRatio = self.fillRatioBegin + self.fillRate * progress
 		self.isAnimation = progress != 1.0
 		
-		self.mySurface.fill((0, 0, 0)) 
-		top =  (0, self.size[1] - self.size[1] * self.fillRatio ) 
-		self.mySurface.blit(self.textureFill ,top)
-		self.drawWave(top)
-		self.mySurface.blit(self.surfaceTop,(0,0))
+		pygame.draw.rect(surface, (0,0,0), (self.pos[0],self.pos[1], self.size[0],self.size[1]) )
+		height = self.size[1] * self.fillRatio 
+		top =  (self.pos[0],self.pos[1]+ self.size[1] -height ) 
+		surface.blit(self.textureFill ,top, (0,0, self.size[0], height) )
+		self.renderDivs( surface, self.textureDiv, self.count)
 		return True
