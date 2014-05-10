@@ -21,7 +21,9 @@ from EasyLine import EasyLine
 
 
 class SceneGame(SceneBasic):
-
+	TEXT_COLOR_FRACTIONS_NUM = (255,0,0)
+	TEXT_COLOR_FRACTIONS_DENO= (0,255,0)
+	TEXT_COLOR_BOTTOM = (150,150,150)
 	def __init__(self,screenSize):
 		SceneBasic.__init__(self,screenSize)
 
@@ -110,7 +112,7 @@ class SceneGame(SceneBasic):
 	def initIcnText(s,screenSize):
 		s.icnTextLevel = IcnTextBox(0.01*screenSize[0],0, .15*screenSize[0],.05*screenSize[1] ,"Level 0")
 		s.icnTextScore = IcnTextBox(.85*screenSize[0],0, .15*screenSize[0],.05*screenSize[1], "Score 0 ")
-		s.icnTextBottom = IcnTextBox(.1*screenSize[0], .95 * screenSize[1], .9*screenSize[0], .05* screenSize[1], "HeyBottom" )
+		s.icnTextBottom = IcnTextBox(.1*screenSize[0], .95 * screenSize[1], .9*screenSize[0], .05* screenSize[1], "HeyBottom" ,s.TEXT_COLOR_BOTTOM)
 		s.icnTextRocket = IcnTextBox(650.0,125.0, 100.0,30.0, "FILL TO")
 
 		s.arrIcnText = [s.icnTextLevel,s.icnTextScore,s.icnTextRocket]
@@ -202,10 +204,11 @@ class SceneGame(SceneBasic):
 
 		for i in range(0,3):
 			self.arrIcnFuels[i].setSelect(False)
-			self.arrIcnFuels[i].display(choices[i][0],choices[i][1] )
-			self.arrIcnFuelLabelFraction[i].display(choices[i][0],choices[i][1] )
+			self.arrIcnFuels[i].display(choices[i][0],choices[i][1])
+			self.arrIcnFuelLabelFraction[i].display(choices[i][0],choices[i][1],
+				self.TEXT_COLOR_FRACTIONS_NUM,self.TEXT_COLOR_FRACTIONS_DENO)
 		self.icnRocket.display(0,answerNum[1])
-		self.icnRocketLabelFraction.display(answerNum[0],answerNum[1] )
+		self.icnRocketLabelFraction.display(answerNum[0],answerNum[1],self.TEXT_COLOR_FRACTIONS_NUM,self.TEXT_COLOR_FRACTIONS_DENO)
 		self.icnTextLevel.setContent("Level "+str(level) )
 		pass
 	

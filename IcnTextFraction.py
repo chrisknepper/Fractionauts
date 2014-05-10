@@ -12,9 +12,9 @@ class IcnTextFraction(IcnBasic):
 		s.icnTextDen = IcnTextBox(0,0+s.posDen,w,height,"1")
 		
 
-	def display(s, nume,deno):
-		s.icnTextNum.setContent(str(nume))
-		s.icnTextDen.setContent(str(deno))
+	def display(s, nume,deno , colorNum = (255,255,255), colorDen = (255,255,255)):
+		s.icnTextNum.setContent(str(nume),colorNum)
+		s.icnTextDen.setContent(str(deno),colorDen)
 		s.icnTextNum.drawUpdate(0)
 		s.icnTextDen.drawUpdate(0)
 		s.mySurface.fill((1,1,1,0))
