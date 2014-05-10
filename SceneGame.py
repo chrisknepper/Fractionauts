@@ -124,7 +124,6 @@ class SceneGame(SceneBasic):
 		sizeBack = (119,43)
 		s.textureIdButton = TextureLoader.load( os.path.join('assets', 'screenGame','game-btn-back.png'),size)
 		s.textureIdButtonLaunch = TextureLoader.load( os.path.join('assets', 'screenGame','bttnLaunch.png'),sizeLaunch)
-		s.textureIdButtonMenu = TextureLoader.load( os.path.join('assets', 'screenGame','bttnBack.png'),sizeLaunch)
 
 		s.bttnMenu =	KButton(0, 554, sizeBack[0], sizeBack[1],  s.textureIdButton,True)
 		s.bttnDone =	KButton(552,508, sizeLaunch[0],sizeLaunch[1], s.textureIdButtonLaunch,True)
