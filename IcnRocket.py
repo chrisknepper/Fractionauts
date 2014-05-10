@@ -36,4 +36,3 @@ class  IcnRocket(IcnBasic):
 		s.updateVibrate(3.0*ratio,8.0*ratio)
 		#s.myFuel.pos = HelperVec2.add(s.pos, s.posFuel)
 		if(s.myFuel.drawUpdate(timeElapsed)):s.myFuel.draw(s.mySurface)
-		pass

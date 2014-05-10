@@ -75,8 +75,9 @@ class SceneGame(SceneBasic):
 		for i in range(0,3):
 			posNew = ( pos[0] + 124  * i, pos[1])
 			posLabel = HelperVec2.add(posNew, (size[0] +10, -labelSize[1] ))
-
-			list.append(IcnFuel(posNew, size,barPos, barSize,s.textureIdFuelBG ,s.textureIdFuelDiv , s.textureIdFuelFill,s.textureIdFuelWave ))
+			icn = IcnFuel(posNew, size,barPos, barSize,s.textureIdFuelBG ,s.textureIdFuelDiv , s.textureIdFuelFill,s.textureIdFuelWave )
+			icn.registerEvent_static(s.EVENT_STTAIC_DRAWN)
+			list.append(icn)
 			s.arrIcnFuelLabelFraction.append(IcnTextFraction (posLabel[0],posLabel[1],labelSize[0],labelSize[1]) )
 			
 			#list.append(s.helperGetIcnFuel(posNew,size, (.5-.25,.5-.2), (.5,.4) ,s.textureIdFuelBG ,s.textureIdFuelDiv , s.textureIdFuelFill,s.textureIdFuelWave ))
@@ -100,7 +101,7 @@ class SceneGame(SceneBasic):
 	def initParticles(s, screenSize):
 		s.arrParticleDistort = []
 		pos = (s.icnRocket.pos[0]  + s.icnRocket.size[0] *.5,s.icnRocket.pos[1]+s.icnRocket.pos[1]  )
-		for i in range(0, 3):
+		for i in range(0, 0):
 			p =IcnParticleDistort(pos[0] ,pos[1],80,80, s.myBackground)
 			s.arrParticleDistort.append(p)
 			pass

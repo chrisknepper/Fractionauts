@@ -81,18 +81,17 @@ class IcnBars (IcnBasic):
 		pass
 
 	def drawUpdate(self, timeElapsed ):
-		isUpdated = False
-		if(self.isAnimation):
-			self.aniTimeElapsed += timeElapsed
-			progress = self.aniTimeElapsed / float(self.aniTimeMax)
-			progress = min(progress,1.0)
-			self.fillRatio = self.fillRatioBegin + self.fillRate * progress
-			self.isAnimation = progress != 1.0
-			isUpdated = True
+		if(not self.isAnimation): return False
+		
+		self.aniTimeElapsed += timeElapsed
+		progress = self.aniTimeElapsed / float(self.aniTimeMax)
+		progress = min(progress,1.0)
+		self.fillRatio = self.fillRatioBegin + self.fillRate * progress
+		self.isAnimation = progress != 1.0
 		
 		self.mySurface.fill((0, 0, 0)) 
 		top =  (0, self.size[1] - self.size[1] * self.fillRatio ) 
 		self.mySurface.blit(self.textureFill ,top)
 		self.drawWave(top)
 		self.mySurface.blit(self.surfaceTop,(0,0))
-		return isUpdated
+		return True

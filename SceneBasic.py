@@ -25,7 +25,8 @@ class SceneBasic(object):
 	def EVENT_SCENE_CHANGE_END():
 		SceneBasic.helperRaiseEvent(SceneBasic.event_scene_change_end)
 
-
+	def EVENT_STTAIC_DRAWN(self, obj):
+		self.myBackground.blit(obj.mySurface, obj.pos)
 
 
 	#init methods
