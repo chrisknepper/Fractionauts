@@ -66,7 +66,7 @@ class SceneGame(SceneBasic):
 		s.arrIcnFuelLabelFraction = []
 		for i in range(0,3):
 			posNew = ( pos[0] + 124  * i, pos[1])
-			posLabel = HelperVec2.add(posNew, (size[0] +10,-50 ))
+			posLabel = HelperVec2.add(posNew, (size[0] +10, -labelSize[1] ))
 
 			list.append(IcnFuel(posNew, size,barPos, barSize,s.textureIdFuelBG ,s.textureIdFuelDiv , s.textureIdFuelFill,s.textureIdFuelWave ))
 			s.arrIcnFuelLabelFraction.append(IcnTextFraction (posLabel[0],posLabel[1],labelSize[0],labelSize[1]) )
@@ -115,8 +115,10 @@ class SceneGame(SceneBasic):
 			objA = s.arrIcnFuels[i]
 			objB =s.arrIcnFuelLabelFraction[i]
 			pointA = HelperVec2.add(objA.pos, (objA.size[0] *.5,0) )
-			pointB = HelperVec2.add(objB.pos,( objB.size[0]*.5, objB.size[1] ) )
-			s.arrLines.append(EasyLine( pointA,pointB, (255,255,255) , 2) )
+			pointB = HelperVec2.add(objB.pos,( 0, objB.size[1]*.5 ) )
+			s.arrLines.append(EasyLine( pointA,pointB, (255,255,255) , 3) )
+		s.arrLines.append(EasyLine( (660,220),(700,220), (255,255,255) , 3) )
+		s.arrLines.append(EasyLine( (700,220), HelperVec2.add(s.icnRocketLabelFraction.pos,(0,s.icnRocketLabelFraction.size[1] *.5) ) , (255,255,255) , 3) )
 
 	def helperLoadData(self,path):
 		file = open(path) 
