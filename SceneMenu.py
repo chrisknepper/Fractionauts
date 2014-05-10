@@ -59,6 +59,9 @@ class SceneMenu(SceneBasic):
 			s.arrShootingStars.append(p)
 
 		pass
+	def EVENT_SCENE_START(self):
+		print("SCENE_BASIC_ENTER")
+		IcnParticleShootingStar.textureBG = self.myBackground
 
 	def EVENT_CLICK(self):
 		mouseAt = pygame.mouse.get_pos();

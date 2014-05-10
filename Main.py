@@ -104,6 +104,7 @@ class FractionautsMain(object):
 	def run(self):
 		self.isRunning = True
 		threadRender = threading.Thread(target = self.loopRender);
+		self.scnMenu.EVENT_SCENE_START()
 		threadRender.start();
 		self.loopUpdate();
 		self.isRunning = False;
