@@ -127,7 +127,7 @@ class FractionautsMain(object):
 			self.lockRender.acquire();
 			self.helperRenderScene( self.dicScenes[self.myState])
 			
-			self.displayFPS(self.myFont);
+			#self.displayFPS(self.myFont);
 			self.lockRender.release();
 			self.clock.tick(10000);
 			self.dicScenes[self.myState].renderUpdate(self.clock.get_time() * .001)

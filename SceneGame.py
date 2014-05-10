@@ -21,9 +21,9 @@ from EasyLine import EasyLine
 
 
 class SceneGame(SceneBasic):
-	TEXT_COLOR_FRACTIONS_NUM = (255,0,0)
-	TEXT_COLOR_FRACTIONS_DENO= (0,255,0)
-	TEXT_COLOR_BOTTOM = (150,150,150)
+	TEXT_COLOR_FRACTIONS_NUM = (255,255,255)
+	TEXT_COLOR_FRACTIONS_DENO= (255,255,255)
+	TEXT_COLOR_BOTTOM = (148,142,129)
 	def __init__(self,screenSize):
 		SceneBasic.__init__(self,screenSize)
 
@@ -110,8 +110,8 @@ class SceneGame(SceneBasic):
 
 		pass
 	def initIcnText(s,screenSize):
-		s.icnTextLevel = IcnTextBox(0.01*screenSize[0],0, .15*screenSize[0],.05*screenSize[1] ,"LEVEL 0")
-		s.icnTextScore = IcnTextBox(.85*screenSize[0],0, .15*screenSize[0],.05*screenSize[1], "SCORE 0 ")
+		s.icnTextLevel = IcnTextBox(0.01*screenSize[0],0, .2*screenSize[0],.07*screenSize[1] ,"LEVEL 0")
+		s.icnTextScore = IcnTextBox(.75*screenSize[0],0, .2*screenSize[0],.07*screenSize[1], "SCORE 0 ")
 		s.icnTextBottom = IcnTextBox(.17*screenSize[0], .93 * screenSize[1], .8*screenSize[0], .05* screenSize[1], "CLICK ON FUELS TO FILL THE ROCKET, FUELS CAN BE ADDED UP.", s.TEXT_COLOR_BOTTOM )
 		s.icnTextRocket = IcnTextBox(650.0,125.0, 100.0,30.0, "FILL TO")
 
@@ -206,7 +206,7 @@ class SceneGame(SceneBasic):
 				self.TEXT_COLOR_FRACTIONS_NUM,self.TEXT_COLOR_FRACTIONS_DENO)
 		self.icnRocket.display(0,answerNum[1])
 		self.icnRocketLabelFraction.display(answerNum[0],answerNum[1],self.TEXT_COLOR_FRACTIONS_NUM,self.TEXT_COLOR_FRACTIONS_DENO)
-		self.icnTextLevel.setContent("Level "+str(level) )
+		self.icnTextLevel.setContent("LEVEL "+str(level) )
 		pass
 	
 	def helperIsSameArray(self, arrA, arrB):
@@ -308,7 +308,7 @@ class SceneGame(SceneBasic):
 	def renderUpdate(self, timeElapsed):
 		#self.score+=1
 		#self.icnRocket.pos =HelperVec2.add(self.icnRocket.pos ,(.1,0) ) 
-		self.icnTextScore.setContent("Score " + str( self.score))
+		self.icnTextScore.setContent("SCORE " + str( self.score))
 
 		for icn in self.arrIcnFuels:	icn.drawUpdate(timeElapsed)
 		for icn in self.arrIcnText:	icn.drawUpdate(timeElapsed)
