@@ -118,7 +118,6 @@ class FractionautsMain(object):
 		if(self.isRenderFirstFrame):
 			scene.renderScreenBegin(self.screen)
 			self.isRenderFirstFrame = False
-		scene.renderUpdate(.1)
 		scene.render(self.screen)
 
 	def loopRender(self):
@@ -126,9 +125,10 @@ class FractionautsMain(object):
 			self.lockRender.acquire();
 			self.helperRenderScene( self.dicScenes[self.myState])
 			
-			self.clock.tick(100);
 			#self.displayFPS(self.myFont);
 			self.lockRender.release();
+			self.clock.tick(100);
+			self.dicScenes[self.myState].renderUpdate(.1)
 
 	def loopUpdate(self):
 		while True:
@@ -136,7 +136,7 @@ class FractionautsMain(object):
 			for event in eventStack:
 				if event.type == pygame.QUIT:
 					return
-			self.dicScenes[self	.myState].listenForEvents()
+			self.dicScenes[self.myState].listenForEvents()
 
 	def changeState(self, stateNew):
 		self.isRenderFirstFrame = True;

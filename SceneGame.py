@@ -173,6 +173,12 @@ class SceneGame(SceneBasic):
 			self.arrIcnFuels[i].displayPercent(float(q[0])/ q[1])
 			self.arrIcnFuels[i].setSelect(False)
 		self.icnRocket.displayPercent(0)
+	def getCurrentSum(self):
+		sum = 0
+		for i in range(0, 3):
+			if(self.arrIcnFuels[i].isSelected):
+				sum += self.questionChoices[i][0] / float(self.questionChoices[i][1])
+		return sum
 	def doCheckAnswer(self):
 		if(self.isGameOver() ) : 
 			#Submitted answer is correct advnace to the next level and raise win event
@@ -220,7 +226,11 @@ class SceneGame(SceneBasic):
 			icn = self.arrIcnFuels[i]
 			choice = self.questionChoices[i]
 			if(icn.isUnder(pos)):
-				if(icn.select()): icn.displayPercent(0)
+				if(icn.select()): 
+					if(self.getCurrentSum() <= 1):
+						icn.displayPercent(0)
+						return True
+					icn.setSelect(False)
 				else :  icn.displayPercent(choice[0]/float(choice[1]))
 				return True
 		return False
