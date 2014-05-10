@@ -13,6 +13,7 @@ from KButton import KButton
 from IcnFuel import IcnFuel
 from IcnRocket import IcnRocket
 from IcnTextBox import IcnTextBox
+from IcnTextFraction import IcnTextFraction
 
 class SceneGame(SceneBasic):
 
@@ -40,16 +41,21 @@ class SceneGame(SceneBasic):
 		size = HelperVec2.mult(screenSize, (.1, .3) )
 		barPos =  HelperVec2.mult(size, (.25, .2) )
 		barSize = HelperVec2.mult(size, (.5, .4) )
-		sizeBar = (size[0]*.5,size[1]*.4)
+		labelSize = HelperVec2.mult( barSize , (.5, .5) )
 
 		s.textureIdFuelBG = TextureLoader.load( os.path.join('assets', 'screenGame','fuelBG.png' ),size)
 		s.textureIdFuelWave = TextureLoader.load( os.path.join('assets', 'screenGame','wave.png'), (barSize[0] , 3) )
 		s.textureIdFuelDiv = TextureLoader.load( os.path.join('assets', 'screenGame','fuelDiv.png'),(barSize[0] , 1))
 		s.textureIdFuelFill = TextureLoader.load( os.path.join('assets', 'screenGame','fuelFill.png'),barSize)
 
+		s.arrIcnFuelLabelFraction = []
 		for i in range(0,3):
 			posNew = HelperVec2.add(pos, HelperVec2.mult( size, ((1.31)*i ,0) )  )
+			posLabel = HelperVec2.add(posNew, (size[0] +10,-50 ))
+
 			list.append(IcnFuel(posNew, size,barPos, barSize,s.textureIdFuelBG ,s.textureIdFuelDiv , s.textureIdFuelFill,s.textureIdFuelWave ))
+			s.arrIcnFuelLabelFraction.append(IcnTextFraction (posLabel[0],posLabel[1],labelSize[0],labelSize[1]) )
+			
 			#list.append(s.helperGetIcnFuel(posNew,size, (.5-.25,.5-.2), (.5,.4) ,s.textureIdFuelBG ,s.textureIdFuelDiv , s.textureIdFuelFill,s.textureIdFuelWave ))
 
 	def initIcnRocket(self,screenSize):
@@ -66,6 +72,7 @@ class SceneGame(SceneBasic):
 
 		self.icnRocket =  IcnRocket( pos,size, oilPos,oilSize,\
 			self.textureIdRocket ,self.textureIdRocketFuel,self.textureIdRocketFuelDiv,self.textureIdRocketFuelFill,self.textureIdRocketFuelWave)
+		self.icnRocketLabelFraction = IcnTextFraction(pos[0]+size[0],pos[1],size[0]*.2,size[1]*.2)
 	def initIcnText(s,screenSize):
 		s.icnTextLevel = IcnTextBox(0.01*screenSize[0],0, .15*screenSize[0],.05*screenSize[1] ,"Level 0")
 		s.icnTextScore = IcnTextBox(.85*screenSize[0],0, .15*screenSize[0],.05*screenSize[1], "Score 0 ")
@@ -127,7 +134,9 @@ class SceneGame(SceneBasic):
 		for i in range(0,3):
 			self.arrIcnFuels[i].setSelect(False)
 			self.arrIcnFuels[i].display(choices[i][0],choices[i][1] )
+			self.arrIcnFuelLabelFraction[i].display(choices[i][0],choices[i][1] )
 		self.icnRocket.display(0,answerNum[1])
+		self.icnRocketLabelFraction.display(answerNum[0],answerNum[1] )
 		self.icnTextLevel.setContent("Level "+str(level) )
 
 		pass
@@ -208,31 +217,36 @@ class SceneGame(SceneBasic):
 	def renderScreenClean(self,screen):
 		self.helperClean(screen, self.icnTextLevel)
 		self.helperClean(screen, self.icnTextScore)
+		#for icn in self.arrIcnFuelLabelFraction: self.helperClean(screen, icn)
+		
 
 	def renderScreen(self,screen):
 		for icn in self.arrButtons:
 			icn.draw(screen);
 			icn.drawEnd();
-
 		for icn in self.arrIcnFuels:
 			icn.draw(screen);
 			icn.drawEnd();
-
-
-
 		for icn in self.arrIcnText:
 			icn.draw(screen);
 			icn.drawEnd();
+		for icn in self.arrIcnFuelLabelFraction:
+			icn.draw(screen);
+			icn.drawEnd()
+
 
 		self.icnRocket.draw(screen)
+		self.icnRocketLabelFraction.draw(screen)
 		self.icnRocket.drawEnd()
+		self.icnRocketLabelFraction.drawEnd()
 
 	def renderUpdate(self, timeElapsed):
 		self.icnTextScore.setContent("Score " + str( self.score))
 
-
-		for icn in self.arrIcnFuels:icn.drawUpdate(timeElapsed)
-		for icn in self.arrIcnText:icn.drawUpdate(timeElapsed)
+		for icn in self.arrIcnFuels:	icn.drawUpdate(timeElapsed)
+		for icn in self.arrIcnText:	icn.drawUpdate(timeElapsed)
+		for icn in self.arrIcnFuelLabelFraction:	icn.drawUpdate(timeElapsed)
 		self.icnRocket.drawUpdate(timeElapsed)
+		self.icnRocketLabelFraction.drawUpdate(timeElapsed)
 
 

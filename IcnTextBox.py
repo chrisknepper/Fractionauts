@@ -18,7 +18,9 @@ class IcnTextBox(IcnBasic):
 	def drawUpdate(s, timeElapsed):
 		s.mySurface =  IcnTextBox.FONT.render(s.content , 1, (255,255,255))
 		size = (s.mySurface.get_width(),s.mySurface.get_height())
-		ratio =  s.size[0] / s.mySurface.get_width()
+		ratio_1 =  s.size[0] / s.mySurface.get_width()
+		ratio_2 =  s.size[1] / s.mySurface.get_height()
+		ratio = ratio_1 if ratio_1 < ratio_2 else ratio_2
 
 		s.mySurface= HelperTexture.scale(s.mySurface ,HelperVec2.mult( size,(ratio,ratio) ))
 		size = (s.mySurface.get_width(),s.mySurface.get_height())
