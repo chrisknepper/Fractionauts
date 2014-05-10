@@ -1,3 +1,4 @@
+import pygame
 from IcnBasic import IcnBasic
 from IcnTextBox import IcnTextBox
 import HelperVec2
@@ -20,6 +21,7 @@ class IcnTextFraction(IcnBasic):
 		s.mySurface.fill((1,1,1,0))
 		s.icnTextNum.draw(s.mySurface)
 		s.icnTextDen.draw(s.mySurface)
-		
+		pygame.draw.line(s.mySurface, (255,255,255) , (0,s.size[1]*.5) , HelperVec2.mult(s.size, (1,.5) ) ,2) 
+
 	def drawUpdate(s,timeElapsed):
 		pass

@@ -30,7 +30,7 @@ class IcnBasic:
 		return self.isSelected
 	def draw(self,screen):
 		if(self.mySurface != None ): self.rect  = screen.blit(self.mySurface,self.pos)
-		pass
+		return self.rect
 	def drawEnd(self):
 		pygame.display.update(self.rect )
 		pass

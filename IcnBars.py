@@ -91,7 +91,6 @@ class IcnBars (IcnBasic):
 			self.isAnimation = progress != 1.0
 		
 		self.mySurface.fill((0, 0, 0)) 
-
 		top =  (0, self.size[1] - self.size[1] * self.fillRatio ) 
 		self.mySurface.blit(self.textureFill ,top)
 		self.drawWave(top)

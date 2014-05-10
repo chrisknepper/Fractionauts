@@ -55,6 +55,7 @@ class SceneBasic(object):
 		pass
 	def initBase(s):
 		s.isMosueReleased = False
+		s.renderScreenObjects = []
 
 	def initBackground(s,surface,resolution):
 		pass
@@ -75,7 +76,16 @@ class SceneBasic(object):
 		self.renderScreen(screen)
 	def renderScreenClean(self,screen):
 		pass
+	def helperRenderScreen(self,screen, arr):
+		for obj in arr:
+			obj.draw(screen);
+			obj.drawEnd();
+
 	def renderScreen(self,screen):
+		sqrs = []
+		for obj in self.renderScreenObjects :
+			sqrs.append( obj.draw(screen))
+		pygame.display.update(sqrs)
 		pass
 
 	def renderUpdate(self, timeElapsed):
@@ -89,6 +99,9 @@ class SceneBasic(object):
 			s.EVENT_CLICK()
 		elif(not s.isMosueReleased and mousePressed[0] is 0):
 			s.isMosueReleased = True
+			
+	def EVENT_INITIALIZE(self):
+		pass
 
 	def EVENT_CLICK(self):
 		pass
