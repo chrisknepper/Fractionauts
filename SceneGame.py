@@ -108,9 +108,9 @@ class SceneGame(SceneBasic):
 
 		pass
 	def initIcnText(s,screenSize):
-		s.icnTextLevel = IcnTextBox(0.01*screenSize[0],0, .15*screenSize[0],.05*screenSize[1] ,"Level 0")
-		s.icnTextScore = IcnTextBox(.85*screenSize[0],0, .15*screenSize[0],.05*screenSize[1], "Score 0 ")
-		s.icnTextBottom = IcnTextBox(.1*screenSize[0], .95 * screenSize[1], .9*screenSize[0], .05* screenSize[1], "HeyBottom" )
+		s.icnTextLevel = IcnTextBox(0.01*screenSize[0],0, .15*screenSize[0],.05*screenSize[1] ,"LEVEL 0")
+		s.icnTextScore = IcnTextBox(.85*screenSize[0],0, .15*screenSize[0],.05*screenSize[1], "SCORE 0 ")
+		s.icnTextBottom = IcnTextBox(.17*screenSize[0], .93 * screenSize[1], .8*screenSize[0], .05* screenSize[1], "CLICK ON FUELS TO FILL THE ROCKET, FUELS CAN BE ADDED UP." )
 		s.icnTextRocket = IcnTextBox(650.0,125.0, 100.0,30.0, "FILL TO")
 
 		s.arrIcnText = [s.icnTextLevel,s.icnTextScore,s.icnTextRocket]
@@ -119,16 +119,16 @@ class SceneGame(SceneBasic):
 	def initButtons(s,screenSize):
 		size = HelperVec2.mult(screenSize, (.1 ,.1 ))
 		sizeLaunch = (115,32)
-		s.textureIdButton = TextureLoader.load( os.path.join('assets', 'screenGame','bttn.png'),size)
+		sizeBack = (119,43)
+		s.textureIdButton = TextureLoader.load( os.path.join('assets', 'screenGame','game-btn-back.png'),size)
 		s.textureIdButtonLaunch = TextureLoader.load( os.path.join('assets', 'screenGame','bttnLaunch.png'),sizeLaunch)
 
-		s.bttnMenu =	KButton(0*screenSize[0], .95*screenSize[1], .1*screenSize[0], .05*screenSize[1],  s.textureIdButton,True)
+		s.bttnMenu =	KButton(0, 554, sizeBack[0], sizeBack[1],  s.textureIdButton,True)
 		s.bttnDone =	KButton(552,508, sizeLaunch[0],sizeLaunch[1], s.textureIdButtonLaunch,True)
 		s.arrButtons =	[s.bttnMenu,s.bttnDone]
 
 	def initImages(s,screenSize):
 		s.textureIdBG = TextureLoader.load( os.path.join('assets', 'screenGame','background.png'),screenSize)
-		s.textureIdFooter = TextureLoader.load(os.path.join('assets', 'screenGame','barBottom.png'), HelperVec2.mult( screenSize, (1, .05) ) )
 	def initLines(s, screenSize):
 		s.arrLines = []
 		for i in range(0, 3):
@@ -170,7 +170,6 @@ class SceneGame(SceneBasic):
 		s.EVENT_WIN=[]
 	def initBackground(s,screen,resolution):
 		DrawHelper.drawAspect(screen,s.textureIdBG, 0,0 )
-		DrawHelper.drawAspect(screen,s.textureIdFooter, 0,.95 )
 		s.icnTextScore.draw(screen)
 		s.icnRocketLabelFraction.draw(screen)
 
