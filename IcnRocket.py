@@ -30,9 +30,10 @@ class  IcnRocket(IcnBasic):
 		
 		pass
 	def drawUpdate(s, timeElapsed):
-		s.myFuel.draw(s.mySurface)
+		
+		#s.mySurface.fill((1,1,1,1), special_flags=pygame.BLEND_ADD)
 		ratio = s.myFuel.getPercentage()
 		s.updateVibrate(3.0*ratio,8.0*ratio)
 		#s.myFuel.pos = HelperVec2.add(s.pos, s.posFuel)
-		s.myFuel.drawUpdate(timeElapsed)
+		if(s.myFuel.drawUpdate(timeElapsed)):s.myFuel.draw(s.mySurface)
 		pass

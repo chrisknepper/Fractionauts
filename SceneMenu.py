@@ -50,7 +50,7 @@ class SceneMenu(SceneBasic):
 
 	def initParticles(s,resolution):
 		s.arrShootingStars = []
-		for i in range(0, 30):
+		for i in range(0, 10):
 			textureId = s.textureIdShootingStar_00 if random.random() <.5\
 					else  s.textureIdShootingStar_01
 			texture = TextureLoader.get(textureId)
