@@ -34,13 +34,12 @@ class SceneBasic(object):
 
 	#init methods
 	def __init__(self,  resolution):
+		self.myBackground = pygame.Surface( resolution)
 		self.initBase()
 		self.initEvents();
 		self.initImages(resolution);
 		self.initButtons(resolution)
 		self.initOthers(resolution)
-
-		self.myBackground = pygame.Surface( resolution)
 		self.initBackground(self.myBackground,resolution)
 
 	def initButtons(s,screenSize):

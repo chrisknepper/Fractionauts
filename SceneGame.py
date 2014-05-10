@@ -14,6 +14,7 @@ from IcnFuel import IcnFuel
 from IcnRocket import IcnRocket
 from IcnTextBox import IcnTextBox
 from IcnTextFraction import IcnTextFraction
+from IcnParticleDistort import IcnParticleDistort 
 #more for drawing helper 
 #consider wrapping these classes into whole?
 from EasyLine import EasyLine
@@ -39,12 +40,15 @@ class SceneGame(SceneBasic):
 		self.initIcnText(screenSize)
 		self.initButtons(screenSize)
 		self.initLines(screenSize)
+		self.initParticles(screenSize)
 
 		self.renderScreenObjects.append(self.icnRocket)
 		#self.renderScreenObjects.append(self.icnRocketLabelFraction)
 		self.renderScreenObjects.append(self.icnTextBottom)
 
 		self.renderScreenObjects.extend(self.arrIcnFuels)
+		self.renderScreenObjects.extend(self.arrParticleDistort)
+		
 		#self.renderScreenObjects.extend(self.arrIcnFuelLabelFraction)
 		
 			#self.renderScreenObjects.extend(self.arrLines)
@@ -92,6 +96,15 @@ class SceneGame(SceneBasic):
 		self.icnRocket =  IcnRocket( pos,size, oilPos,oilSize,\
 			self.textureIdRocket ,self.textureIdRocketFuel,self.textureIdRocketFuelDiv,self.textureIdRocketFuelFill,self.textureIdRocketFuelWave)
 		self.icnRocketLabelFraction = IcnTextFraction(pos[0]+size[0]+30,pos[1]+50,size[0]*.2,size[1]*.2)
+	def initParticles(s, screenSize):
+		s.arrParticleDistort = []
+		pos = (s.icnRocket.pos[0]  + s.icnRocket.size[0] *.5,s.icnRocket.pos[1]+s.icnRocket.pos[1]  )
+		for i in range(0, 20):
+			p =IcnParticleDistort(pos[0] ,pos[1],10,10, s.myBackground)
+			s.arrParticleDistort.append(p)
+			pass
+
+		pass
 	def initIcnText(s,screenSize):
 		s.icnTextLevel = IcnTextBox(0.01*screenSize[0],0, .15*screenSize[0],.05*screenSize[1] ,"Level 0")
 		s.icnTextScore = IcnTextBox(.85*screenSize[0],0, .15*screenSize[0],.05*screenSize[1], "Score 0 ")
@@ -296,6 +309,7 @@ class SceneGame(SceneBasic):
 		for icn in self.arrIcnFuels:	icn.drawUpdate(timeElapsed)
 		for icn in self.arrIcnText:	icn.drawUpdate(timeElapsed)
 		for icn in self.arrIcnFuelLabelFraction:	icn.drawUpdate(timeElapsed)
+		for icn in self.arrParticleDistort:	icn.drawUpdate(timeElapsed)
 		self.icnRocket.drawUpdate(timeElapsed)
 		self.icnRocketLabelFraction.drawUpdate(timeElapsed)
 
