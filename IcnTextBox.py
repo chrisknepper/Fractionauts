@@ -7,14 +7,14 @@ class IcnTextBox(IcnBasic):
 	def setFont(font):
 		IcnTextBox.FONT =  font
 
-	def __init__(s,x,y,w,h, content):
+	def __init__(s,x,y,w,h, content,color = (255,255,255) ):
 		IcnBasic.__init__(s,x,y,w,h)
 		s.posInit = (x,y)
 		s.content = str(content)
-		s.setContent(content)
-	def setContent(s, c):
+		s.setContent(content,color)
+	def setContent(s, c, color = (255,255,255) ):
 		s.content = str(c)
-		s.mySurface =  IcnTextBox.FONT.render(s.content , 1, (255,255,255))
+		s.mySurface =  IcnTextBox.FONT.render(s.content , 1, color)
 		size = (s.mySurface.get_width(),s.mySurface.get_height())
 		ratio_1 =  s.size[0] / s.mySurface.get_width()
 		ratio_2 =  s.size[1] / s.mySurface.get_height()

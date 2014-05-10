@@ -21,7 +21,9 @@ from EasyLine import EasyLine
 
 
 class SceneGame(SceneBasic):
-
+	TEXT_COLOR_FRACTIONS_NUM = (255,0,0)
+	TEXT_COLOR_FRACTIONS_DENO= (0,255,0)
+	TEXT_COLOR_BOTTOM = (150,150,150)
 	def __init__(self,screenSize):
 		SceneBasic.__init__(self,screenSize)
 
@@ -110,7 +112,7 @@ class SceneGame(SceneBasic):
 	def initIcnText(s,screenSize):
 		s.icnTextLevel = IcnTextBox(0.01*screenSize[0],0, .15*screenSize[0],.05*screenSize[1] ,"LEVEL 0")
 		s.icnTextScore = IcnTextBox(.85*screenSize[0],0, .15*screenSize[0],.05*screenSize[1], "SCORE 0 ")
-		s.icnTextBottom = IcnTextBox(.17*screenSize[0], .93 * screenSize[1], .8*screenSize[0], .05* screenSize[1], "CLICK ON FUELS TO FILL THE ROCKET, FUELS CAN BE ADDED UP." )
+		s.icnTextBottom = IcnTextBox(.17*screenSize[0], .93 * screenSize[1], .8*screenSize[0], .05* screenSize[1], "CLICK ON FUELS TO FILL THE ROCKET, FUELS CAN BE ADDED UP.", s.TEXT_COLOR_BOTTOM )
 		s.icnTextRocket = IcnTextBox(650.0,125.0, 100.0,30.0, "FILL TO")
 
 		s.arrIcnText = [s.icnTextLevel,s.icnTextScore,s.icnTextRocket]
@@ -122,6 +124,7 @@ class SceneGame(SceneBasic):
 		sizeBack = (119,43)
 		s.textureIdButton = TextureLoader.load( os.path.join('assets', 'screenGame','game-btn-back.png'),size)
 		s.textureIdButtonLaunch = TextureLoader.load( os.path.join('assets', 'screenGame','bttnLaunch.png'),sizeLaunch)
+		s.textureIdButtonMenu = TextureLoader.load( os.path.join('assets', 'screenGame','bttnBack.png'),sizeLaunch)
 
 		s.bttnMenu =	KButton(0, 554, sizeBack[0], sizeBack[1],  s.textureIdButton,True)
 		s.bttnDone =	KButton(552,508, sizeLaunch[0],sizeLaunch[1], s.textureIdButtonLaunch,True)
@@ -199,10 +202,11 @@ class SceneGame(SceneBasic):
 
 		for i in range(0,3):
 			self.arrIcnFuels[i].setSelect(False)
-			self.arrIcnFuels[i].display(choices[i][0],choices[i][1] )
-			self.arrIcnFuelLabelFraction[i].display(choices[i][0],choices[i][1] )
+			self.arrIcnFuels[i].display(choices[i][0],choices[i][1])
+			self.arrIcnFuelLabelFraction[i].display(choices[i][0],choices[i][1],
+				self.TEXT_COLOR_FRACTIONS_NUM,self.TEXT_COLOR_FRACTIONS_DENO)
 		self.icnRocket.display(0,answerNum[1])
-		self.icnRocketLabelFraction.display(answerNum[0],answerNum[1] )
+		self.icnRocketLabelFraction.display(answerNum[0],answerNum[1],self.TEXT_COLOR_FRACTIONS_NUM,self.TEXT_COLOR_FRACTIONS_DENO)
 		self.icnTextLevel.setContent("Level "+str(level) )
 		pass
 	
