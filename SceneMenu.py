@@ -2,7 +2,11 @@ from  SceneBasic import *
 import DrawHelper
 import HelperVec2
 import random
+<<<<<<< HEAD
 from IcnParticleShootingStar import IcnParticleShootingStar 
+=======
+from IcnParticle import IcnParticle 
+>>>>>>> 0a6119cc2afda2a67e19be2e79fea3bdd8aa09e0
 
 class SceneMenu(SceneBasic):	
 	def __init__(self,  resolution):
@@ -55,7 +59,11 @@ class SceneMenu(SceneBasic):
 					else  s.textureIdShootingStar_01
 			texture = TextureLoader.get(textureId)
 			size = (texture.get_width() , texture.get_height() )
+<<<<<<< HEAD
 			p = IcnParticleShootingStar( random.random()  * resolution[0] ,random.random()  * -resolution[1],size[0],size[1],textureId,resolution)
+=======
+			p = IcnParticle( random.random()  * resolution[0] ,random.random()  * -resolution[1],size[0],size[1],textureId,velo = (-60,100) )
+>>>>>>> 0a6119cc2afda2a67e19be2e79fea3bdd8aa09e0
 			s.arrShootingStars.append(p)
 
 		pass
