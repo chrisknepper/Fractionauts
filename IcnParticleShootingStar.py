@@ -23,7 +23,7 @@ class IcnParticleShootingStar(IcnParticle):
 		pass
 	def draw(s, surface):
 		#surface.blit(IcnParticleShootingStar.textureBG,s.rect ,(s.rect[0]-2.5,s.rect[1]+10,s.rect[2],s.rect[3]),pygame.BLEND_MAX  )
-		#surface.blit(IcnParticleShootingStar.textureBG,s.pos ,(s.pos[0]-2.5,s.pos[1]+10,s.size[0],s.size[1]),pygame.BLEND_MAX  )
+		surface.blit(IcnParticleShootingStar.textureBG,s.pos ,(s.pos[0]-2.5,s.pos[1]+10,s.size[0],s.size[1]),pygame.BLEND_MAX  )
 		
 		rect = IcnParticle.draw(s,surface)
 		#size =( s.rect[2] * .8 , s.rect[3] *.8)
