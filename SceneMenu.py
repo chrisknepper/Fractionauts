@@ -1,11 +1,12 @@
 from  SceneBasic import *
 import DrawHelper
 import HelperVec2
+import random
+from IcnParticle import IcnParticle 
 
 class SceneMenu(SceneBasic):	
 	def __init__(self,  resolution):
 		SceneBasic.__init__(self,resolution)
-		self.initParticles(resolution)
 
 	
 	def registerEvent_play(s,e): s.EVENT_PLAY.append(e); pass
@@ -28,6 +29,11 @@ class SceneMenu(SceneBasic):
 
 		s.textureIdShootingStar_00 = TextureLoader.load(os.path.join('assets', 'screenCommon', 'shootingStar00.png') );
 		s.textureIdShootingStar_01 = TextureLoader.load(os.path.join('assets', 'screenCommon', 'shootingStar01.png') );
+	
+	def initOthers(s , resolution):
+		s.initParticles(resolution)
+		s.renderScreenObjects.extend(s.arrShootingStars)
+
 	def helperInitKButton(s, center, textureID):
 		texture = TextureLoader.get( textureID)
 		size = (texture.get_width(),texture.get_height())
@@ -43,6 +49,15 @@ class SceneMenu(SceneBasic):
 		s.buttons = [s.bttnPlay,s.bttnHow,s.bttnQuit]
 
 	def initParticles(s,resolution):
+		s.arrShootingStars = []
+		for i in range(0, 30):
+			textureId = s.textureIdShootingStar_00 if random.random() <.5\
+					else  s.textureIdShootingStar_01
+			texture = TextureLoader.get(textureId)
+			size = (texture.get_width() , texture.get_height() )
+			p = IcnParticle( random.random()  * resolution[0] ,random.random()  * -resolution[1],size[0],size[1],textureId,velo = (-60,100) )
+			s.arrShootingStars.append(p)
+
 		pass
 
 	def EVENT_CLICK(self):
@@ -67,6 +82,10 @@ class SceneMenu(SceneBasic):
 			button.drawEnd()
 		pygame.display.update()
 		pass
+
+	def renderUpdate(s,timeElapsed):
+		for icn in s.arrShootingStars:
+			icn.drawUpdate(timeElapsed)
 
 
 

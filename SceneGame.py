@@ -24,6 +24,8 @@ class SceneGame(SceneBasic):
 	def __init__(self,screenSize):
 		SceneBasic.__init__(self,screenSize)
 
+	def initOthers(self, screenSize):
+
 		self.arrIcnFuels =[]
 
 		self.score = 0
@@ -44,9 +46,10 @@ class SceneGame(SceneBasic):
 
 		self.renderScreenObjects.extend(self.arrIcnFuels)
 		self.renderScreenObjects.extend(self.arrIcnFuelLabelFraction)
-		self.renderScreenObjects.extend(self.arrLines)
+		#self.renderScreenObjects.extend(self.arrLines)
 		self.renderScreenObjects.extend(self.arrButtons)
 		self.renderScreenObjects.extend(self.arrIcnText)
+
 
 	def helperGetIcnFuel(self, pos,size, ratioPos,ratioSize,textureBG,textureDiv, textureFill,textureWave):
 		return IcnFuel(pos, size,HelperVec2.mult(size,ratioPos), HelperVec2.mult(size, ratioSize ),textureBG,textureDiv,textureFill,textureWave )
@@ -149,9 +152,11 @@ class SceneGame(SceneBasic):
 	def initEvents(s):
 		s.EVENT_MENU=[]
 		s.EVENT_WIN=[]
-	def initBackground(s,surface,resolution):
-		DrawHelper.drawAspect(surface,s.textureIdBG, 0,0 )
-		DrawHelper.drawAspect(surface,s.textureIdFooter, 0,.95 )
+	def initBackground(s,screen,resolution):
+		DrawHelper.drawAspect(screen,s.textureIdBG, 0,0 )
+		DrawHelper.drawAspect(screen,s.textureIdFooter, 0,.95 )
+
+		s.helperRenderScreen(screen, s.arrLines )
 		pass
 
 	def loadNewQuestion(self,level,choices,answers,answerNum):
@@ -262,11 +267,10 @@ class SceneGame(SceneBasic):
 			return  True
 		return False
 
-	def renderScreenClean(self,screen):
-		self.helperClean(screen, self.icnTextLevel)
-		self.helperClean(screen, self.icnTextScore)
 
 	def renderUpdate(self, timeElapsed):
+		#self.score+=1
+		#self.icnRocket.pos =HelperVec2.add(self.icnRocket.pos ,(.1,0) ) 
 		self.icnTextScore.setContent("Score " + str( self.score))
 
 		for icn in self.arrIcnFuels:	icn.drawUpdate(timeElapsed)

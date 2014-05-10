@@ -29,9 +29,7 @@ class SceneBasic(object):
 	def EVENT_SCENE_CHANGE_END():
 		SceneBasic.helperRaiseEvent(SceneBasic.event_scene_change_end)
 
-	#helperMethods that will come handy
-	def helperClean(self, screen, obj):
-		screen.blit(self.myBackground, obj.pos,obj.rect)
+
 
 
 	#init methods
@@ -54,6 +52,8 @@ class SceneBasic(object):
 	def initOthers(s,screenSize):
 		pass
 	def initBase(s):
+		s.rectBuffer = []
+		s.rectBufferOld = []
 		s.isMosueReleased = True
 		s.renderScreenObjects = []
 
@@ -72,20 +72,42 @@ class SceneBasic(object):
 		self.renderUpdate(0)
 		pass
 	def render(self,screen):
-		self.renderScreenClean(screen)
+		self.renderScreenClean(screen, self.rectBuffer)
+		self.rectBufferOld = self.rectBuffer
+		
+		self.rectBuffer = []
 		self.renderScreen(screen)
-	def renderScreenClean(self,screen):
-		pass
+
+		#rectBufferOld.extend(self.rectBuffer)
+		pygame.display.update(self.rectBufferOld)
+		#pygame.display.update(self.rectBuffer)
+	#helperMethods that will come handy
+	def helperClean(self, screen, obj):
+		screen.blit(self.myBackground, (obj.pos[0]-10,obj.pos[1]-10),(obj.rect[0]-10,obj.rect[1]-10,obj.rect[2]+20,obj.rect[3]+20 ) )
+		#screen.blit(self.myBackground, (obj.pos[0]-5,obj.pos[1]-1),obj.rect )
+		#pygame.display.update((0,0,100,100) )
+
+	def helperCleanRect(self, screen, r):
+		#screen.blit(self.myBackground, (r[0]-10,r[1]),r)
+		screen.blit(self.myBackground, r,r)
+		#pygame.display.update(r)
+
+	def renderScreenClean(self,screen,rects):
+		#for obj in self.renderScreenObjects :
+		#	#print str(obj.pos[0]) + " " + str(obj.pos[1])
+		#	self.helperClean(screen,obj)
+		for r in rects:
+			self.helperCleanRect(screen,r)
+			pass
+
 	def helperRenderScreen(self,screen, arr):
-		for obj in arr:
-			obj.draw(screen);
-			obj.drawEnd();
+		for obj in arr: obj.draw(screen);
 
 	def renderScreen(self,screen):
-		sqrs = []
 		for obj in self.renderScreenObjects :
-			sqrs.append( obj.draw(screen))
-		pygame.display.update(sqrs)
+			rect = obj.draw(screen)
+			self.rectBuffer.append(rect)
+			self.rectBufferOld.append(rect)
 		pass
 
 	def renderUpdate(self, timeElapsed):

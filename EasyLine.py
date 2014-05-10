@@ -11,3 +11,4 @@ class EasyLine():
 		s.rect = pygame.draw.line(screen, s.color, s.pointFrom, s.pointTo, s.width)
 		return s.rect
 
+
