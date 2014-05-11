@@ -13,6 +13,7 @@ from SceneHelp import SceneHelp
 from SceneWin import SceneWin
 #for static variable initialization
 from IcnTextBox import IcnTextBox
+import SoundManager
 
 #utility helpers
 import TextureLoader
@@ -29,12 +30,16 @@ class FractionautsMain(object):
 	def __init__(self):
 		screenSize = (800,600)
 
+		pygame.mixer.pre_init(44100, -16, 1, 512)
 		pygame.init()
 		#self.screen = pygame.display.set_mode(screenSize, pygame.FULLSCREEN)
 		self.screen = pygame.display.set_mode(screenSize)
+		SoundManager.init()
+		SoundManager.EVENT_MUSIC_BACKGROUND()
 		DrawHelper.init(screenSize[0],screenSize[1])
 		self.myFont = pygame.font.Font(os.path.join('assets', 'Minecraftia.ttf') , 24)
 		IcnTextBox.setFont( self.myFont)
+
 
 		self.isRunning = True
 		self.isRenderFirstFrame = True
@@ -61,6 +66,7 @@ class FractionautsMain(object):
 	def EVENTHDR_SCENE_START_GAME(self):
 		self.scnGame.EVENT_INITIALIZE()
 		self.changeState(self.STATE_GAME)
+
 	def EVENTHDR_SCENE_CONTINUE_GAME(self):
 		self.changeState(self.STATE_GAME)
 
@@ -70,7 +76,6 @@ class FractionautsMain(object):
 		self.changeState(self.STATE_WIN_SCREEN)
 
 	def EVENTHDR_QUIT(self):
-		self.saveLevel()
 		self.isRunning = False
 		pass
 
@@ -107,7 +112,6 @@ class FractionautsMain(object):
 		self.scnMenu.EVENT_SCENE_START()
 		threadRender.start();
 		self.loopUpdate();
-		self.isRunning = False;
 		threadRender.join();#wait for the thread to complete, then game over
 
 	def displayFPS(self,myFont):
@@ -134,10 +138,11 @@ class FractionautsMain(object):
 
 
 	def loopUpdate(self):
-		while True:
+		while self.isRunning:
 			eventStack = pygame.event.get();
 			for event in eventStack:
 				if event.type == pygame.QUIT:
+					self.EVENTHDR_QUIT()
 					return
 			self.dicScenes[self.myState].listenForEvents()
 

@@ -20,19 +20,28 @@ from IcnParticleShootingStar import IcnParticleShootingStar
 #more for drawing helper 
 #consider wrapping these classes into whole?
 from EasyLine import EasyLine
+import SoundManager
 
 
 class SceneGame(SceneBasic):
+	#TODO load these values off of the json file from outside
+	#for now let's have it hardcoded, we no time :(
 	TEXT_COLOR_FRACTIONS_NUM = (255,255,255)
 	TEXT_COLOR_FRACTIONS_DENO= (255,255,255)
 	TEXT_COLOR_BOTTOM = (148,142,129)
+
+	STATE_NORMAL = 0
+	STATE_SOLVED = 1
+
 	def __init__(self,screenSize):
 		SceneBasic.__init__(self,screenSize)
 
 	def initOthers(self, screenSize):
 
 		self.arrIcnFuels =[]
-
+		self.myState = self.STATE_NORMAL
+		self.delay  =0
+		self.delayMax = .3
 		self.score = 0
 		self.questionLevel = 0
 		self.questionChoices = []
@@ -234,11 +243,14 @@ class SceneGame(SceneBasic):
 		return sum
 	def doCheckAnswer(self):
 		if(self.isGameOver() ) : 
+			SoundManager.ANSWER_CORRECT()
+			self.myState = self.STATE_SOLVED
+			self.icnRocket.launch()
 			#Submitted answer is correct advnace to the next level and raise win event
 			self.questionLevel += 1
 			self.score += 10
-			self.helperRaiseEvent(self.EVENT_WIN)
 		else : 
+			SoundManager.ANSWER_WRONG()
 			print "GAME IS NOT YET OVER! DISPLAY SOME \"Lets try again GRAPHIC\" "  
 			self.questionReset()
 
@@ -257,10 +269,21 @@ class SceneGame(SceneBasic):
 		self.icnRocket.displayPercent(sum)
 
 		pass
-
-	def EVENT_INITIALIZE(self):
+	def resetHard(self):
+		self.myState = self.STATE_NORMAL
+		self.icnRocket.reset()
 		self.questionLevel = 0 
 		self.score = 0
+		self.icnTextScore.setContent("Score 0")
+		self.icnTextLevel.setContent("Level 0")
+		pass
+	def resetSoft(self):
+		self.myState = self.STATE_NORMAL
+		self.icnRocket.reset()
+
+
+	def EVENT_INITIALIZE(self):
+		self.resetHard()
 		pass
 
 	def EVENT_CLICK(self):
@@ -271,6 +294,7 @@ class SceneGame(SceneBasic):
 
 
 	def EVENT_SCENE_START(self):
+		self.resetSoft()
 		self.initLevel()
 
 
@@ -282,10 +306,14 @@ class SceneGame(SceneBasic):
 			if(icn.isUnder(pos)):
 				if(icn.select()): 
 					if(self.getCurrentSum() <= 1):
+						#can process 
+						SoundManager.FUEL_DOWN()
 						icn.displayPercent(0)
 						return True
 					icn.setSelect(False)
-				else :  icn.displayPercent(choice[0]/float(choice[1]))
+				else :  
+					SoundManager.FUEL_UP()
+					icn.displayPercent(choice[0]/float(choice[1]))
 				return True
 		return False
 
@@ -312,10 +340,7 @@ class SceneGame(SceneBasic):
 
 
 	def renderUpdate(self, timeElapsed):
-		#self.score+=1
-		#self.icnRocket.pos =HelperVec2.add(self.icnRocket.pos ,(.1,0) ) 
 		self.icnTextScore.setContent("SCORE " + str( self.score))
-
 		for icn in self.arrIcnFuels:	icn.drawUpdate(timeElapsed)
 		for icn in self.arrIcnText:	icn.drawUpdate(timeElapsed)
 		for icn in self.arrIcnFuelLabelFraction:	icn.drawUpdate(timeElapsed)
@@ -323,5 +348,15 @@ class SceneGame(SceneBasic):
 		for icn in self.arrParticleStars:	icn.drawUpdate(timeElapsed)
 		self.icnRocket.drawUpdate(timeElapsed)
 		self.icnRocketLabelFraction.drawUpdate(timeElapsed)
+		#self.score+=1
+		#self.icnRocket.pos =HelperVec2.add(self.icnRocket.pos ,(.1,0) ) 
+		if(self.myState is self.STATE_NORMAL):
+			pass
+		elif(self.myState is self.STATE_SOLVED):
+			self.delay += timeElapsed
+			if(self.delay > self.delayMax):
+				self.delay = 0
+				self.helperRaiseEvent(self.EVENT_WIN)
+			pass
 
 

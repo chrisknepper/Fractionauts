@@ -5,6 +5,8 @@ import random
 from IcnParticleShootingStar import IcnParticleShootingStar 
 from IcnParticleDistortCustomRange import IcnParticleDistortCustomRange
 
+import SoundManager
+
 class SceneMenu(SceneBasic):	
 	def __init__(self,  resolution):
 		SceneBasic.__init__(self,resolution)
@@ -77,11 +79,12 @@ class SceneMenu(SceneBasic):
 		buttons_event = [
 					[self.bttnQuit ,self.EVENT_QUIT],
 					[self.bttnPlay , self.EVENT_PLAY],
-					[self.bttnHow ,self.EVENT_HELP]
+					#[self.bttnHow ,self.EVENT_HELP] help screen not implemented
 				]
 
 		for bttn,event in buttons_event:
 			if bttn.isUnder(mouseAt):
+				SoundManager.BTTN_DEFAULT()
 				self.helperRaiseEvent(event)
 				break
 

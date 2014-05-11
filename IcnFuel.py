@@ -15,7 +15,7 @@ class IcnFuel(IcnBasic):
 		IcnBasic.__init__(self,pos[0],pos[1], size[0], size[1], textureMe, True)
 		self.isRendered = False
 		barPos = HelperVec2.mult(size, (.073,.0308))
-		barSize = HelperVec2.mult(size, (.882,.940))
+		barSize = HelperVec2.mult(size, (.878,.940))
 		self.myBars = IcnBars(barPos[0],barPos[1],barSize[0],barSize[1],10,True) 
 		self.posBars = barPos
 		self.numNuno = 0
