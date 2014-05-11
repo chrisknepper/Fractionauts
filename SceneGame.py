@@ -2,6 +2,7 @@ from SceneBasic import *
 import pygame
 import os
 import json
+import random
 
 #Utility
 import DrawHelper
@@ -15,6 +16,7 @@ from IcnRocket import IcnRocket
 from IcnTextBox import IcnTextBox
 from IcnTextFraction import IcnTextFraction
 from IcnParticleDistort import IcnParticleDistort 
+from IcnParticleShootingStar import IcnParticleShootingStar
 #more for drawing helper 
 #consider wrapping these classes into whole?
 from EasyLine import EasyLine
@@ -44,6 +46,7 @@ class SceneGame(SceneBasic):
 		self.initLines(screenSize)
 		self.initParticles(screenSize)
 
+		self.renderScreenObjects.extend(self.arrParticleStars)
 		self.renderScreenObjects.append(self.icnRocket)
 		#self.renderScreenObjects.append(self.icnRocketLabelFraction)
 		self.renderScreenObjects.append(self.icnTextBottom)
@@ -107,6 +110,19 @@ class SceneGame(SceneBasic):
 			p =IcnParticleDistort(pos[0] ,pos[1],80,80, s.myBackground)
 			s.arrParticleDistort.append(p)
 			pass
+
+
+		s.textureIdShootingStar_00 = TextureLoader.load(os.path.join('assets', 'screenCommon', 'shootingStar00.png') );
+		s.textureIdShootingStar_01 = TextureLoader.load(os.path.join('assets', 'screenCommon', 'shootingStar01.png') );
+
+		s.arrParticleStars = []
+		for i in range(0, 0):
+			textureId = s.textureIdShootingStar_00 if random.random() <.5\
+					else  s.textureIdShootingStar_01
+			texture = TextureLoader.get(textureId)
+			size = (texture.get_width() , texture.get_height() )
+			p = IcnParticleShootingStar( random.random()  * screenSize[0] ,random.random()  * -screenSize[1],size[0],size[1],textureId,screenSize)
+			s.arrParticleStars.append(p)
 			
 
 		pass
@@ -182,18 +198,7 @@ class SceneGame(SceneBasic):
 		s.helperRenderScreen(screen, s.arrLines )
 		pass
 
-
-
-		#self.renderScreenObjects.append(self.icnRocket)
-		#self.renderScreenObjects.append(self.icnRocketLabelFraction)
-			#self.renderScreenObjects.append(self.icnTextBottom)
-
-			#self.renderScreenObjects.extend(self.arrIcnFuels)
-		#self.renderScreenObjects.extend(self.arrIcnFuelLabelFraction)
-		
-			#self.renderScreenObjects.extend(self.arrLines)
-		#self.renderScreenObjects.extend(self.arrButtons)
-		#self.renderScreenObjects.extend(self.arrIcnText)
+	
 
 	def loadNewQuestion(self,level,choices,answers,answerNum):
 		print "LOADING NEW QUESTION "
@@ -315,6 +320,7 @@ class SceneGame(SceneBasic):
 		for icn in self.arrIcnText:	icn.drawUpdate(timeElapsed)
 		for icn in self.arrIcnFuelLabelFraction:	icn.drawUpdate(timeElapsed)
 		for icn in self.arrParticleDistort:	icn.drawUpdate(timeElapsed)
+		for icn in self.arrParticleStars:	icn.drawUpdate(timeElapsed)
 		self.icnRocket.drawUpdate(timeElapsed)
 		self.icnRocketLabelFraction.drawUpdate(timeElapsed)
 

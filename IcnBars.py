@@ -26,9 +26,9 @@ class IcnBars (IcnBasic):
 		self.surfaceTop = pygame.Surface( (w,h),pygame.SRCALPHA  )
 		self.cellHeight = h/ count
 
-		self.textureDiv =	TextureLoader.get( TextureLoader.load(os.path.join('assets', 'IcnBars','fuelDiv.png' ),	(w,5) ) );
+		self.textureDiv =	TextureLoader.get( TextureLoader.load(os.path.join('assets', 'IcnBars','fuelDiv.png' ),	(w,h*.04) ) );
 		self.textureFill =	TextureLoader.get( TextureLoader.load(os.path.join('assets', 'IcnBars','fuelFill.png' ), 	(w,h) )  );
-		self.textureWave =	TextureLoader.get( TextureLoader.load(os.path.join('assets', 'IcnBars','wave.png' ),	(w, 3) ) );
+		self.textureWave =	TextureLoader.get( TextureLoader.load(os.path.join('assets', 'IcnBars','wave.png' ),	(w, 3) ) );#deprecated
 
 
 		self.aniFluidMove = 0
@@ -70,7 +70,7 @@ class IcnBars (IcnBasic):
 
 		self.isAnimation = True
 		self.aniTimeElapsed = 0
-		self.aniTimeMax = 1.0
+		self.aniTimeMax = .8
 
 		#self.helperFillBars(self.mySurface, self.cellHeight, self.textureDiv, 0, n)
 
@@ -89,12 +89,14 @@ class IcnBars (IcnBasic):
 		self.aniTimeElapsed += timeElapsed
 		progress = self.aniTimeElapsed / float(self.aniTimeMax)
 		progress = min(progress,1.0)
-		self.fillRatio = self.fillRatioBegin + self.fillRate * progress
+		ratio= (1 - (progress-1 )*(progress-1 ))
+		ratio += (1-ratio)*progress
+		self.fillRatio = self.fillRatioBegin + self.fillRate * ratio
 		self.isAnimation = progress != 1.0
 		
-		pygame.draw.rect(surface, (0,0,0), (self.pos[0],self.pos[1], self.size[0],self.size[1]) )
+		pygame.draw.rect(surface, (0,0,0), (self.pos[0],self.pos[1], self.size[0],self.size[1] +1) )
 		height = int(self.size[1] * self.fillRatio) 
-		top =  (self.pos[0],self.pos[1]+ self.size[1] -height-1 ) 
+		top =  (self.pos[0],self.pos[1]+ self.size[1] -height) 
 		surface.blit(self.textureFill ,top, (0,0, self.size[0],height) )
 		self.renderDivs( surface, self.textureDiv, self.count)
 		return True

@@ -51,12 +51,12 @@ class SceneMenu(SceneBasic):
 
 	def initParticles(s,resolution):
 		s.arrShootingStars = []
-		s.distortH = IcnParticleDistortCustomRange(0,80,resolution[0],50, s.myBackground,1,0 )
-		s.distortV = IcnParticleDistortCustomRange(100, 0,resolution[0],10, s.myBackground,-1,0 )
+		s.distortH = IcnParticleDistortCustomRange(0,80,resolution[0],5, s.myBackground,1,0 )
+		s.distortV = IcnParticleDistortCustomRange(100, 0,resolution[0],2, s.myBackground,-1,0 )
 		s.arrShootingStars.append(s.distortH)
 		s.arrShootingStars.append(s.distortV)
 
-		for i in range(0, 10):
+		for i in range(0, 3):
 			textureId = s.textureIdShootingStar_00 if random.random() <.5\
 					else  s.textureIdShootingStar_01
 			texture = TextureLoader.get(textureId)
@@ -95,16 +95,17 @@ class SceneMenu(SceneBasic):
 		pygame.display.update()
 
 		pass
+	
 	ratio = 0
-
 	def renderUpdate(s,timeElapsed):
 
-		s.ratio = (s.ratio+.05 ) % 2.5
-		s.distortH.range = (s.ratio , 0)
+		s.ratio = (s.ratio+800.15*timeElapsed ) % 3.5
+		s.distortH.range = (s.ratio ,s.ratio)
+		s.distortV.range = (-s.ratio , -s.ratio)
 		#s.distortH.pos = (0,pygame.mouse.get_pos()[1]) 
 		#s.distortV.pos = (pygame.mouse.get_pos()[0],0) 
-		s.distortH.pos =(0, pygame.mouse.get_pos()[1]-25)
-		s.distortV.pos = (0,pygame.mouse.get_pos()[1])
+		s.distortH.pos =(0, pygame.mouse.get_pos()[1])
+		s.distortV.pos = (0,pygame.mouse.get_pos()[1]+.5)
 		for icn in s.arrShootingStars:
 			icn.drawUpdate(timeElapsed)
 

@@ -3,6 +3,9 @@ from IcnBasic import IcnBasic
 from IcnBars import IcnBars
 import HelperVec2
 
+#for future whoever works on this maybe.
+#I tried to make it run faster, I can't OTL
+#maybe you are better than me.... hopefully 
 class IcnFuel(IcnBasic):
 	def getPercentage(self):
 		return self.myBars.fillRatio
@@ -11,8 +14,8 @@ class IcnFuel(IcnBasic):
 			textureMe=-1,textureDiv=-1, textureBar =-1,textureIdFuelWave = -1):
 		IcnBasic.__init__(self,pos[0],pos[1], size[0], size[1], textureMe, True)
 		self.isRendered = False
-		barPos = HelperVec2.mult(size, (.070,.0308))
-		barSize = HelperVec2.mult(size, (.8772,.95))
+		barPos = HelperVec2.mult(size, (.073,.0308))
+		barSize = HelperVec2.mult(size, (.882,.940))
 		self.myBars = IcnBars(barPos[0],barPos[1],barSize[0],barSize[1],10,True) 
 		self.posBars = barPos
 		self.numNuno = 0
