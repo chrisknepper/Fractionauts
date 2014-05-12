@@ -92,12 +92,7 @@ class SceneMenu(SceneBasic):
 		screen.fill((255, 255, 255)) 
 		DrawHelper.drawAspect(screen, s.textureIdBG,0,0)
 		DrawHelper.drawAspect(screen, s.textureIdTitle,.12,.1)
-		for button in s.buttons:
-			button.draw(screen)
-			button.drawEnd()
-		pygame.display.update()
-
-		pass
+		for button in s.buttons: button.draw(screen)
 	
 	ratio = 0
 	def renderUpdate(s,timeElapsed):

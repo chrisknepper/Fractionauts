@@ -26,7 +26,7 @@ class IcnFuel(IcnBasic):
 	def displayPercent(self, percentage):
 		self.displayPercentage =percentage
 		self.myBars.display(percentage)
-
+		
 	def display(self, numerator, denominator = -1):
 		self.numNuno = numerator
 		if(denominator != -1 ) : 
@@ -34,23 +34,10 @@ class IcnFuel(IcnBasic):
 			self.myBars.setCount(denominator)
 		self.myBars.fillRatio = 0
 		self.myBars.display(self.numNuno / float(self.numDeno) )
-	def draw(self, screen):	
-		if(self.isChanged):
-			self.isChanged = False
-			return IcnBasic.draw(self,screen)
-		elif(not self.isRendered) :
-			self.isRendered = True
-			self.EVENT_STATIC_NOW()
-			return IcnBasic.draw(self,screen)
-		return (0,0,0,0)
-		#self.myBars.drawEnd()
+	
 	def drawUpdate(self, timeElapsed):
-		#isUpdated =  self.myBars.drawUpdate(timeElapsed)
-		#self.myBars.pos = HelperVec2.add(self.pos,self.posBars)
-
 		if(self.myBars.drawUpdate(timeElapsed,self.mySurface)):
-			self.isChanged= True
-			self.isRendered = False
-			#self.myBars.draw(self.mySurface)
+			self.renderEnable()
 			return True
+		if( self.stateRender is self.STATE_RENDER_ENABLED): self.renderDisable()
 		return False

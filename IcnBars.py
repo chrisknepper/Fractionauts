@@ -82,21 +82,28 @@ class IcnBars (IcnBasic):
 		surface.blit(self.textureWave, (pos[0]-self.aniFluidMove + self.aniFluidWidth, pos[1] ) )
 		pass
 
-	def drawUpdate(self, timeElapsed,surface = -1 ):
-		if(not self.isAnimation): return False
-		if(surface is -1 ): surface = self.mySurface
-
-		self.aniTimeElapsed += timeElapsed
-		progress = self.aniTimeElapsed / float(self.aniTimeMax)
-		progress = min(progress,1.0)
-		ratio= (1 - (progress-1 )*(progress-1 ))
-		ratio += (1-ratio)*progress
-		self.fillRatio = self.fillRatioBegin + self.fillRate * ratio
-		self.isAnimation = progress != 1.0
-		
+	def updateMySurface(self,surface):
 		pygame.draw.rect(surface, (0,0,0), (self.pos[0],self.pos[1], self.size[0],self.size[1] +1) )
 		height = int(self.size[1] * self.fillRatio) 
 		top =  (self.pos[0],self.pos[1]+ self.size[1] -height) 
 		surface.blit(self.textureFill ,top, (0,0, self.size[0],height) )
 		self.renderDivs( surface, self.textureDiv, self.count)
+
+	def drawUpdate(self, timeElapsed,surface = -1 ):
+		if(not self.isAnimation): 
+			if(self.stateRender is self.STATE_RENDER_ENABLED):
+				self.renderDisable()
+			return False
+		if(surface is -1 ): surface = self.mySurface
+
+		self.aniTimeElapsed += timeElapsed
+		progress = self.aniTimeElapsed / float(self.aniTimeMax)
+		progress = min(progress,1.0)
+		self.isAnimation = progress != 1.0
+		
+		ratio = (1 - (progress-1 )*(progress-1 ))
+		ratio += (1-ratio)*progress
+		self.fillRatio = self.fillRatioBegin + self.fillRate * ratio
+		
+		self.updateMySurface(surface)
 		return True

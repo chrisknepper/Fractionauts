@@ -3,44 +3,74 @@ import TextureLoader
 import HelperTexture
 
 class IcnBasic:
-	def EVENT_STATIC_NOW(self):
-		for e in self.EVENHDR_STATIC : e(self)
-	def registerEvent_static(self, e):
-		self.EVENHDR_STATIC.append(e)
-		
-	def __init__(self,x,y,w,h,textureID=-1,isTextureRescaled = False):
-		self.isSelected = False
-		
-		self.EVENHDR_STATIC = []
+	STATE_RENDER_ENABLED=0
+	STATE_RENDER_PAUSE_NORMAL = 1
+	STATE_RENDER_PAUSE_STATIC = 2 #static pause means drawing onto background 
+	STATE_RENDER_PAUSE_END = 3 
+	def EVENT_STATIC_NOW(me):
+		for e in me.EVENHDR_STATIC : e(me)
+	def registerEvent_static(me, e):
+		me.EVENHDR_STATIC.append(e)
 
-		self.pos = (x,y)
-		self.size = (w,h)
-		self.textureID = textureID
-		self.rect = (0,0,10,10);
-		self.mySurface = pygame.Surface((w,h),pygame.SRCALPHA) if textureID is -1 else TextureLoader.get(textureID)
-		if(isTextureRescaled ) : self.mySurface =HelperTexture.scale(self.mySurface, self.size)
+	def setRenderStatic(s, surface):
+		s.isRenderStatic = True
+		s.surfaceBG = sruface
+		
+	def __init__(me,x,y,w,h,textureID=-1,isTextureRescaled = False):
+		me.isSelected = False
+		me.isRenderStatic = False
+		me.stateRender = me.STATE_RENDER_ENABLED
+
+		me.EVENHDR_STATIC = []
+
+		me.pos = (x,y)
+		me.size = (w,h)
+		me.textureID = textureID
+		me.rect = (0,0,10,10);
+		me.mySurface = pygame.Surface((w,h),pygame.SRCALPHA) if textureID is -1 else TextureLoader.get(textureID)
+		if(isTextureRescaled ) : me.mySurface =HelperTexture.scale(me.mySurface, me.size)
 		
 	def setSelect(s,value):
 		s.isSelected = value
 		
-	def isUnder(self,pos):
+	def isUnder(me,pos):
 		x, y = pos
-		if (self.pos[0] < x and
-			self.pos[0] + self.size[0] > x and
-			self.pos[1] < y and
-			self.pos[1] + self.size[1] > y
+		if (me.pos[0] < x and
+			me.pos[0] + me.size[0] > x and
+			me.pos[1] < y and
+			me.pos[1] + me.size[1] > y
 			):
 			return pos
 		else: return None
 		
-	def select(self):
-		self.isSelected = not self.isSelected
-		return self.isSelected
-	def draw(self,screen):
-		self.rect  = screen.blit(self.mySurface,self.pos)
-		return self.rect
-	def drawEnd(self):
-		pygame.display.update(self.rect )
-		pass
-	def drawUpdate(self, timeElapsed=0):
-		pass
+	def select(me):
+		me.isSelected = not me.isSelected
+		return me.isSelected
+	def renderEnable(me):
+		me.stateRender = me.STATE_RENDER_ENABLED
+	def renderDisable(me):
+		me.stateRender = me.STATE_RENDER_PAUSE_STATIC if me.isRenderStatic\
+					else me.STATE_RENDER_PAUSE_NORMAL  
+
+	def helperDraw(me, screen):
+		return screen.blit(me.mySurface,me.pos)
+
+	def draw(me,screen):
+		if(me.stateRender is me.STATE_RENDER_ENABLED ):
+			me.rect = me.helperDraw(screen)
+		elif(me.stateRender is me.STATE_RENDER_PAUSE_NORMAL):
+			me.stateRender = me.STATE_RENDER_PAUSE_END
+			me.helperDraw(screen)
+			me.rect  = (0,0,0,0)
+		
+		elif(me.stateRender is me.STATE_RENDER_PAUSE_STATIC):
+			me.stateRender = me.STATE_RENDER_PAUSE_END
+			me.rect = me.helperDraw(me.surfaceBG)
+			me.stateRender = me.STATE_RENDER_PAUSE_NORMAL
+
+		elif(me.stateRender is me.STATE_RENDER_PAUSE_END):
+			return me.rect
+		return me.rect
+	
+	def drawUpdate(me, timeElapsed=0):
+		return False

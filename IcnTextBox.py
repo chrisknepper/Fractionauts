@@ -12,6 +12,11 @@ class IcnTextBox(IcnBasic):
 		s.posInit = (x,y)
 		s.content = str(content)
 		s.setContent(content,color)
+
+	def helperDraw(me, screen):
+		rect = screen.blit(me.mySurface,me.pos)
+		return (me.posInit[0], me.posInit[1] , me.size[0], me.size[1])
+
 	def setContent(s, c, color = (255,255,255) ):
 		s.content = str(c)
 		s.mySurface =  IcnTextBox.FONT.render(s.content , 1, color)

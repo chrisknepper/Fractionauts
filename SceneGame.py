@@ -15,6 +15,7 @@ from IcnFuel import IcnFuel
 from IcnRocket import IcnRocket
 from IcnTextBox import IcnTextBox
 from IcnTextFraction import IcnTextFraction
+from IcnTextDisplayer import IcnTextDisplayer
 from IcnParticleDistort import IcnParticleDistort 
 from IcnParticleShootingStar import IcnParticleShootingStar
 #more for drawing helper 
@@ -138,7 +139,7 @@ class SceneGame(SceneBasic):
 	def initIcnText(s,screenSize):
 		s.icnTextLevel = IcnTextBox(0.01*screenSize[0],0, .2*screenSize[0],.07*screenSize[1] ,"LEVEL 0")
 		s.icnTextScore = IcnTextBox(.75*screenSize[0],0, .2*screenSize[0],.07*screenSize[1], "SCORE 0 ")
-		s.icnTextBottom = IcnTextBox(.17*screenSize[0], .93 * screenSize[1], .8*screenSize[0], .05* screenSize[1], "CLICK ON FUELS TO FILL THE ROCKET, FUELS CAN BE ADDED UP.", s.TEXT_COLOR_BOTTOM )
+		s.icnTextBottom = IcnTextDisplayer(.17*screenSize[0], .93 * screenSize[1], .8*screenSize[0], .05* screenSize[1], "CLICK ON FUELS TO FILL THE ROCKET, FUELS CAN BE ADDED UP.", s.TEXT_COLOR_BOTTOM )
 		s.icnTextRocket = IcnTextBox(650.0,125.0, 100.0,30.0, "FILL TO")
 
 		s.arrIcnText = [s.icnTextLevel,s.icnTextScore,s.icnTextRocket]
@@ -251,6 +252,7 @@ class SceneGame(SceneBasic):
 			self.score += 10
 		else : 
 			SoundManager.ANSWER_WRONG()
+			self.icnTextBottom.display("That was not the right answer. Let's try again.")
 			print "GAME IS NOT YET OVER! DISPLAY SOME \"Lets try again GRAPHIC\" "  
 			self.questionReset()
 
@@ -284,6 +286,7 @@ class SceneGame(SceneBasic):
 
 	def EVENT_INITIALIZE(self):
 		self.resetHard()
+		self.icnTextBottom.display("Hi new GAME had been started ")
 		pass
 
 	def EVENT_CLICK(self):
@@ -291,6 +294,7 @@ class SceneGame(SceneBasic):
 		if(self.CLICK_ANSWER()) : 
 			self.doUpdateAnswer()
 		elif (self.CLICK_BUTTONS()):pass
+		else : self.icnTextBottom.display("HooYa! You cannot click that.")
 
 
 	def EVENT_SCENE_START(self):
@@ -348,6 +352,7 @@ class SceneGame(SceneBasic):
 		for icn in self.arrParticleStars:	icn.drawUpdate(timeElapsed)
 		self.icnRocket.drawUpdate(timeElapsed)
 		self.icnRocketLabelFraction.drawUpdate(timeElapsed)
+		self.icnTextBottom.drawUpdate(timeElapsed)
 		#self.score+=1
 		#self.icnRocket.pos =HelperVec2.add(self.icnRocket.pos ,(.1,0) ) 
 		if(self.myState is self.STATE_NORMAL):
