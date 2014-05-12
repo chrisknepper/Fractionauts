@@ -5,7 +5,7 @@ import random
 
 class QuestionMaker:
 
-	def __init__(self,questionType):
+	def __init__(self):
 		self.init();
 
 	def init(self):

@@ -18,7 +18,7 @@ from IcnTextFraction import IcnTextFraction
 from IcnTextDisplayer import IcnTextDisplayer
 from IcnParticleDistort import IcnParticleDistort 
 from IcnParticleShootingStar import IcnParticleShootingStar
-import Question
+from QuestionMaker import QuestionMaker
 
 #more for drawing helper 
 #consider wrapping these classes into whole?
@@ -66,6 +66,7 @@ class SceneGame(SceneBasic):
 		self.renderScreenObjects.extend(self.arrIcnFuels)
 		self.renderScreenObjects.extend(self.arrParticleDistort)
 		
+		self.questionMaker = QuestionMaker( )
 		#self.renderScreenObjects.extend(self.arrIcnFuelLabelFraction)
 		
 			#self.renderScreenObjects.extend(self.arrLines)
@@ -184,7 +185,9 @@ class SceneGame(SceneBasic):
 		self.levelWon = False
 		self.EVENT_SCENE_CHANGE_START()
 		try:	
-
+			self.questionMaker.makeNextQuestion(self.questionLevel)
+			self.loadNewQuestion( self.questionLevel, \
+				self.questionMaker.getChoices(), self.questionMaker.getAnswers() ,self.questionMaker.getAnswerNum()  )
 			#data = self.helperLoadData(os.path.join('assets/levels',str(self.questionLevel)+ '.json'))
 			#self.loadNewQuestion(self.questionLevel, data[0],data[1],data[2])
 		except :
