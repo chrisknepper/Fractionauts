@@ -18,6 +18,8 @@ from IcnTextFraction import IcnTextFraction
 from IcnTextDisplayer import IcnTextDisplayer
 from IcnParticleDistort import IcnParticleDistort 
 from IcnParticleShootingStar import IcnParticleShootingStar
+import Question
+
 #more for drawing helper 
 #consider wrapping these classes into whole?
 from EasyLine import EasyLine
@@ -181,9 +183,10 @@ class SceneGame(SceneBasic):
 		if(level is -1 ) : level = self.questionLevel
 		self.levelWon = False
 		self.EVENT_SCENE_CHANGE_START()
-		try:
-			data = self.helperLoadData(os.path.join('assets/levels',str(self.questionLevel)+ '.json'))
-			self.loadNewQuestion(self.questionLevel, data[0],data[1],data[2])
+		try:	
+
+			#data = self.helperLoadData(os.path.join('assets/levels',str(self.questionLevel)+ '.json'))
+			#self.loadNewQuestion(self.questionLevel, data[0],data[1],data[2])
 		except :
 			print "SceneGame CRITICAL ERROR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!SOMETHING NOT RIGHT HERE. CANNOT LOAD LEVEL ! LOADING EMERGENCY LEVEL"
 			try : 
