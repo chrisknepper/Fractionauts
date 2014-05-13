@@ -42,7 +42,8 @@ class  IcnRocket(IcnBasic):
 	def drawUpdate(s, timeElapsed):
 		#s.mySurface.fill((1,1,1,1), special_flags=pygame.BLEND_ADD)
 		ratio = s.myFuel.getPercentage()
-		if(s.isFlying ): s.pos = HelperVec2.add(s.pos, (0,-2200 *timeElapsed) )
+		if(s.isFlying ): 
+			s.pos = HelperVec2.add(s.pos, (0,-2200 *timeElapsed) )
 		else : 
 			s.updateVibrate(3.0*ratio,8.0*ratio)
 			if(ratio >0):s.updateVibrateSound(timeElapsed,1-.3* ratio)

@@ -185,13 +185,14 @@ class SceneGame(SceneBasic):
 		self.levelWon = False
 		self.EVENT_SCENE_CHANGE_START()
 		try:	
+			data = self.helperLoadData( os.path.join('assets/levels', str(self.questionLevel ),'.json'))
+			self.loadNewQuestion(self.questionLevel,data[0],data[1],data[2])#data = self.helperLoadData(os.path.join('assets/levels',str(self.questionLevel)+ '.json'))
+			#self.loadNewQuestion(self.questionLevel, data[0],data[1],data[2])
+		except :
 			self.questionMaker.makeNextQuestion(self.questionLevel)
 			self.loadNewQuestion( self.questionLevel, \
 				self.questionMaker.getChoices(), self.questionMaker.getAnswers() ,self.questionMaker.getAnswerNum()  )
-			#data = self.helperLoadData(os.path.join('assets/levels',str(self.questionLevel)+ '.json'))
-			#self.loadNewQuestion(self.questionLevel, data[0],data[1],data[2])
-		except :
-			print "SceneGame CRITICAL ERROR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!SOMETHING NOT RIGHT HERE. CANNOT LOAD LEVEL ! LOADING EMERGENCY LEVEL"
+			
 			try : 
 				data = self.helperLoadData( os.path.join('assets/levels','0.json'))
 				self.loadNewQuestion(self.questionLevel,data[0],data[1],data[2])
