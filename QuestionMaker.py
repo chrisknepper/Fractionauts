@@ -15,8 +15,9 @@ class QuestionMaker:
 		self.goalFractFraction = []
 
 	def genNumCorrect(self, level):
-		#lessen number of correct answers if level four (three?) or lower.
-		if(level < 3) :return 1;
+		#restrict number of fractions to add up based on level.
+		if(level <= 3) : return 1
+		elif(level <= 6) : return random.randint(1, 2)
 		return random.randint(1, 3)
 		
 	def getChoices(self):
@@ -37,28 +38,39 @@ class QuestionMaker:
 		numCorrect = self.genNumCorrect(level)
 		numIncorrect = self.numChoices - numCorrect
 		remainingInCorrect = numCorrect
+		levelDenom = 0
 		
-		#generate non-zero goal numerator
-		goal = random.randint(6, 39)
-		goalMod = goal % 2
-		if(goalMod != 0) :
-			goal = goal - 1
+		#generate non-zero goal numerator and denominator
+		if(level <= 6): levelDenom = 8
+		else:
+			levelDenom = 4 + int((level * level) / (level + level))
+			if(levelDenom > 20) : levelDenom = 20
+			
+		
+		goal = random.randint(numCorrect, (levelDenom - 1))
+		#goalMod = goal % 2
+		#if(goalMod != 0) :
+			#goal = goal - 1
 		
 		#Turn goal into a fraction, and reduce it an arbitrary amount.
 		cont = False
 		extra = 0
 		goalNumer = goal
-		goalDenom = 40
+		goalDenom = levelDenom
 		goalMod = 0
 		
 		while(cont == False) :
 			# randomly leave fraction unreduced
+			print goalNumer
+			print goalDenom
+			
 			extra = random.randint(1,3)
+			
 			if(extra <= 2) :
 				#is the value and the denominator divisible by five?
 				goalMod = goalNumer % 5
 				if(goalMod == 0) :
-					goalMod = denom % 5
+					goalMod = goalDenom % 5
 					if(goalMod == 0) :
 						#both are divisible by 5. Reduce, then repeat the loop.
 						goalNumer = goalNumer / 5
@@ -82,7 +94,7 @@ class QuestionMaker:
 					#The value was not divisible by five. Check for divisible by two.
 					goalMod = goalNumer % 2
 					if(goalMod == 0) :
-						goalMod = goalNumer % 2
+						goalMod = goalDenom % 2
 						if(goalMod == 0) :
 							# Both are divisible by two. Reduce and repeat loop.
 							goalNumer = goalNumer / 2
@@ -108,15 +120,15 @@ class QuestionMaker:
 			value = 0
 			valueMod = 0
 			extra = 0
-			denom = 40
+			denom = levelDenom
 			
 			if(i != numCorrect) :
-				#insure we don't have any fractions that are equal to zero and are at least reduce-able once 
-				value = random.randint(2, (goal - (2 * (numCorrect - i))))
-				valueMod = value % 2
+				#insure we don't have any fractions that are equal to zero
+				value = random.randint(1, (goal - (1 *(numCorrect - i))))
+				#valueMod = value % 2
 				
-				if(valueMod != 0) :
-					value = value - 1
+				#if(valueMod != 0) :
+					#value = value - 1
 			else :
 				value = goal
 			
@@ -159,7 +171,7 @@ class QuestionMaker:
 						#The value was not divisible by five. Check for divisible by two.
 						valueMod = value % 2
 						if(valueMod == 0) :
-							valueMod = value % 2
+							valueMod = denom % 2
 							if(valueMod == 0) :
 								# Both are divisible by two. Reduce and repeat loop.
 								value = value / 2
@@ -186,16 +198,16 @@ class QuestionMaker:
 			value = 0
 			valueMod = 0
 			extra = 0
-			denom = 40
+			denom = levelDenom
 			
 			#make a fraction that is at least reduce-able once and not equal to zero
-			value = random.randint(2, 39)
-			valueMod = value % 2
+			value = random.randint(2, (levelDenom - 1))
+			#valueMod = value % 2
 			
-			if(valueMod != 0) :
-				value = value - 1
+			#if(valueMod != 0) :
+				#value = value - 1
 			
-			#get a denominator and numerator value (maximum is fortieths)
+			#get a denominator and numerator value (maximum is twentieths)
 			extra = 0
 			cont = False
 			
@@ -251,7 +263,8 @@ class QuestionMaker:
 			#tempString = str(value) + "/" + str(denom)
 			incorrectAnswers.append(tempArray)
 		
-		#self.correctAnswerSet.extend(correctAnswers) 
+		#self.correctAnswerSet.extend(correctAnswers)
+		
 		#Now mix the answers together to ensure that one can't guess based on order.
 		remainingVars = self.numChoices
 		intendedAnsArray = []
@@ -275,6 +288,41 @@ class QuestionMaker:
 		
 		self.correctAnswerSet.append(intendedAnsArray)
 		
+		#Now determine if any of the incorrect answers are equal to the correct answers
+		#if(numCorrect != 3) :
+		
+			#acceptableAns = []
+			
+			#No 123 possibility since that would mean that all three were in the intended answer, meaning that no combination of the pieces except 123 would get the desired result.
+			#for i in range(0, self.numChoices):
+				
+				#if((self.goalFractFraction[0] % self.mixedAnswers[i][0] == 0) or (self.mixedAnswer[i][0] % self.goalFractFraction[0] == 0)) :
+					#One of the numerators is divisible by the other numerator. This means that the two fractions (goal and answer) could potentially be equal.
+					#denomMult1 = self.goalFractFraction[0] * self.mixedAnswer[i][1]
+					#denomMult2 = self.goalFractFraction[1] * self.mixedAnswer[i][0]
+					#if(denomMult1 == denomMult2):
+						#They are equal. Append this to acceptableAns.
+						#if(i == 0) : acceptableAns.append([True, False, False])
+						#elif(i == 1) : acceptableAns.append([False, True, False])
+						#else : acceptableAns.append([False, False, True])
+						
+					#for j in range(i + 1, self.numChoices) :
+						# add the fractions together without using floats by multiplying their denominators and multiplying numerators by their opposing denominator.
+						#sumNumer = ((self.mixedAnswer[i][0] * self.mixedAnswer[j][1]) + (self.mixedAnswer[j][0] * self.mixedAnswer[i][1]))
+						#sumDenom = (self.mixedAnswer[i][1] * self.mixedAnswer[j][1])
+						#denomMult1 = self.goalFractFraction[0] * sumDenom
+						#denomMult2 = self.goalFractFraction[1] * sumNumer
+					
+						#if(denomMult1 == denomMult2) :
+							#The sum of the two fractions are equal to the goal fraction. Add them to acceptableAns.
+							#if(i == 0) :
+								#if(j == 1) : acceptableAns.append([True, True, False])
+								#else : acceptableAns.append([True, False, True])
+							#elif(i == 1) : acceptableAns.append([False, True, True])
+					
+			# extend the correct answer set with acceptable Ans.
+			#print acceptableAns
+			#self.correctAnswerSet.extend(acceptableAns)
 
 
 #def __init__(self,questionType):
