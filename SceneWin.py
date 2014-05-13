@@ -31,8 +31,8 @@ class SceneWin(SceneBasic):
 		s.icnRocket = IcnBasic(s.posInit[0],s.posInit[1], size[0],size[1], s.textureIdRocket	)
 		s.renderScreenObjects.append(s.icnRocket)
 
-		textureIdStar00 		= TextureLoader.load(os.path.join('assets', 'screenCommon', 'shootingStar00.png'))
-		textureIdStar01		= TextureLoader.load(os.path.join('assets', 'screenCommon', 'shootingStar01.png'))
+		textureIdStar00 		= TextureLoader.load(os.path.join('assets', 'screenWin', 'fast-star01.png'))
+		textureIdStar01		= TextureLoader.load(os.path.join('assets', 'screenWin', 'fast-star02.png'))
 		tt = TextureLoader.get(textureIdStar00) 
 		sizeStar = (tt.get_width(),tt.get_height())
 		s.icnParticleStars = []
