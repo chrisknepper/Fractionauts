@@ -36,11 +36,11 @@ class SceneWin(SceneBasic):
 		tt = TextureLoader.get(textureIdStar00) 
 		sizeStar = (tt.get_width(),tt.get_height())
 		s.icnParticleStars = []
-		for i in range(0, 10):
+		for i in range(0, 20):
 
 			s.icnParticleStars.append(IcnParticleShootingStar(500,-1000,sizeStar[0],sizeStar[1] ,textureIdStar00 , screenSize) )
 			s.icnParticleStars.append(IcnParticleShootingStar(500,-10000,sizeStar[0],sizeStar[1] ,textureIdStar01 , screenSize) )
-		#s.renderScreenObjects.extend(s.icnParticleStars)
+		s.renderScreenObjects.extend(s.icnParticleStars)
 
 	def EVENT_CLICK(s):
 		print "SceneWin Click"
@@ -55,10 +55,9 @@ class SceneWin(SceneBasic):
 		pass
 	def renderScreen(s,screen):
 		SceneBasic.renderScreen(s,screen)
-		for e in s.icnParticleStars : 
-			
-			s.myBackground.blit(e.mySurface,e.pos )
-			pygame.display.update( e.draw(screen))
+		#for e in s.icnParticleStars : 	
+		#	s.myBackground.blit(e.mySurface,e.pos )
+		#	pygame.display.update( e.draw(screen))
 
 
 	def renderUpdate(s, timeElapsed):

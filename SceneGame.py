@@ -185,18 +185,21 @@ class SceneGame(SceneBasic):
 		self.levelWon = False
 		self.EVENT_SCENE_CHANGE_START()
 		try:	
-			data = self.helperLoadData( os.path.join('assets/levels', str(self.questionLevel ),'.json'))
+			data = self.helperLoadData( os.path.join('assets/levels', str(self.questionLevel )+ '.json'))
 			self.loadNewQuestion(self.questionLevel,data[0],data[1],data[2])#data = self.helperLoadData(os.path.join('assets/levels',str(self.questionLevel)+ '.json'))
 			#self.loadNewQuestion(self.questionLevel, data[0],data[1],data[2])
 		except :
-			self.questionMaker.makeNextQuestion(self.questionLevel)
-			self.loadNewQuestion( self.questionLevel, \
-				self.questionMaker.getChoices(), self.questionMaker.getAnswers() ,self.questionMaker.getAnswerNum()  )
+			try :
+				self.questionMaker.makeNextQuestion(self.questionLevel)
+				self.loadNewQuestion( self.questionLevel, \
+					self.questionMaker.getChoices(), self.questionMaker.getAnswers() ,self.questionMaker.getAnswerNum()  )
+			except :
+				print "QUESTION LOADER FAILED"
 			
-			try : 
-				data = self.helperLoadData( os.path.join('assets/levels','0.json'))
-				self.loadNewQuestion(self.questionLevel,data[0],data[1],data[2])
-			except : "SceneGame I failed. I cannot load anything. We are doomed!"
+				try : 
+					data = self.helperLoadData( os.path.join('assets/levels','0.json'))
+					self.loadNewQuestion(self.questionLevel,data[0],data[1],data[2])
+				except : "SceneGame I failed. I cannot load anything. We are doomed!"
 		self.EVENT_SCENE_CHANGE_END()
 
 	def registerEvent_menu(s,e):s.EVENT_MENU.append(e)
