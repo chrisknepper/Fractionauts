@@ -8,14 +8,15 @@ class IcnParticleShootingStar(IcnParticle):
 	def SET_TEXTURE_BG(texture):
 		IcnParticleShootingStar.textureBG = texture
 
-	def __init__(s,x,y,w,h, textureId, boundry):
+	def __init__(s,x,y,w,h, textureId, boundry, veloInit = (-45,100)):
 		IcnParticle.__init__(s,x,y,w,h,textureId)
 		s.boundry = boundry
+		s.veloInit = veloInit
 		s.respawn()
 	def respawn(s):
 		ratio = 1.2+ 3.5*random.random()
 		s.pos = (random.random() *1.5* s.boundry[0],-100)
-		s.velo = HelperVec2.mult((-45,100) ,(ratio,ratio)) 
+		s.velo = HelperVec2.mult(s.veloInit ,(ratio,ratio)) 
 		pass
 	def drawUpdate(s, timeElapsed):
 		IcnParticle.drawUpdate(s,timeElapsed)

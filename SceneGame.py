@@ -8,6 +8,7 @@ import random
 import DrawHelper
 import HelperVec2
 import HelperTexture
+import random
 
 #Logic
 from KButton import KButton
@@ -182,6 +183,9 @@ class SceneGame(SceneBasic):
 	#Load the level-th JSON file in the levels folder
 	def initLevel(self, level = -1):
 		if(level is -1 ) : level = self.questionLevel
+
+
+
 		self.levelWon = False
 		self.EVENT_SCENE_CHANGE_START()
 		try:	
@@ -254,6 +258,12 @@ class SceneGame(SceneBasic):
 		return sum
 	def doCheckAnswer(self):
 		if(self.isGameOver() ) : 
+
+			encouraingWords = ["Well done! You are doing fantastic.","YES", "Nice job.","Good work!","Wow. You are really good at this."\
+						"Well done!","You are so good at this.","This is amazing. How are you so good at this?","You are amazing me."]
+			index = random.random() * float(len( encouraingWords)) 
+			self.icnTextBottom.display( encouraingWords[int(index)])
+
 			SoundManager.ANSWER_CORRECT()
 			self.myState = self.STATE_SOLVED
 			self.icnRocket.launch()
@@ -300,16 +310,20 @@ class SceneGame(SceneBasic):
 		pass
 
 	def EVENT_CLICK(self):
-		print "EVENT_CLICK"
-		if(self.CLICK_ANSWER()) : 
-			self.doUpdateAnswer()
-		elif (self.CLICK_BUTTONS()):pass
-		else : self.icnTextBottom.display("HooYa! You cannot click that.")
+		if(self.myState is self.STATE_NORMAL):
+			print "EVENT_CLICK"
+			if(self.CLICK_ANSWER()) : 
+				self.doUpdateAnswer()
+			elif (self.CLICK_BUTTONS()):pass
+			else : self.icnTextBottom.display("HooYa! You cannot click that.")
+		if(self.myState is self.STATE_SOLVED):
+			pass
 
 
 	def EVENT_SCENE_START(self):
 		self.resetSoft()
 		self.initLevel()
+		self.icnTextBottom.reset()
 
 
 	def CLICK_ANSWER(self):

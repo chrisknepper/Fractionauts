@@ -127,14 +127,17 @@ class FractionautsMain(object):
 		scene.render(self.screen)
 
 	def loopRender(self):
-		while  self.isRunning:
-			self.lockRender.acquire();
-			self.helperRenderScene( self.dicScenes[self.myState])
-			
-			self.displayFPS(self.myFont);
-			self.lockRender.release();
-			self.clock.tick(10000);
-			self.dicScenes[self.myState].renderUpdate(self.clock.get_time() * .001)
+		try :
+			while  self.isRunning:
+				self.lockRender.acquire();
+				self.helperRenderScene( self.dicScenes[self.myState])
+				
+				self.displayFPS(self.myFont);
+				self.lockRender.release();
+				self.clock.tick(10000);
+				self.dicScenes[self.myState].renderUpdate(self.clock.get_time() * .001)
+		except : pass# if something happens,
+		self.isRunning = False
 
 
 	def loopUpdate(self):
@@ -145,6 +148,8 @@ class FractionautsMain(object):
 					self.EVENTHDR_QUIT()
 					return
 			self.dicScenes[self.myState].listenForEvents()
+		#except: pass
+		#self.isRunning = False
 
 	def changeState(self, stateNew):
 		self.dicScenes[stateNew].EVENT_SCENE_START()
