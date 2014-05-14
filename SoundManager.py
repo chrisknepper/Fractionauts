@@ -1,5 +1,6 @@
 import pygame
 import os
+import wave
 
 class Sound:
 	background = os.path.join('assets','Sound','background.wav')

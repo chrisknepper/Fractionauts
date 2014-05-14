@@ -30,9 +30,9 @@ class FractionautsMain(object):
 	def __init__(self):
 		screenSize = (800,600)
 
-		#pygame.mixer.pre_init(22100, -16, 1, 512)
+		pygame.mixer.pre_init(44100, -16, 1, 512)
 		pygame.init()
-		pygame.mixer.init(22100)
+		#pygame.mixer.init(22100)
 		pygame.mouse.set_visible(False)
 
 		#self.screen = pygame.display.set_mode(screenSize, pygame.FULLSCREEN)
@@ -139,7 +139,7 @@ class FractionautsMain(object):
 				
 				self.displayFPS(self.myFont);
 				self.lockRender.release();
-				self.clock.tick(10000);
+				self.clock.tick(60);
 				self.dicScenes[self.myState].renderUpdate(self.clock.get_time() * .001)
 		except :
 			print "CRITICAL ERROR : RESTARTING LOOP loopRender"
