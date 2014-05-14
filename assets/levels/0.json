@@ -1,10 +1,10 @@
 {   
     "TYPES": "Addition",
     "CHOICES": [
-		[5,10],
-		[4,8],
-		[2,10]
+		[1,2],
+		[1,2],
+		[1,2]
     ],  
-	"ANSWERS" : [[true,false,false] , [false,true,false] ],
+	"ANSWERS" : [[true,false,false] , [false,true,false] , [false,false,true] ],
     "ANSWER_NUM": [1,2]
 }  

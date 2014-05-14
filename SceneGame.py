@@ -199,11 +199,12 @@ class SceneGame(SceneBasic):
 			#self.loadNewQuestion(self.questionLevel, data[0],data[1],data[2])
 		except :
 			try :
+				print "Loading static level failed, turning into dynamic level"
 				self.questionMaker.makeNextQuestion(self.questionLevel)
 				self.loadNewQuestion( self.questionLevel, \
 					self.questionMaker.getChoices(), self.questionMaker.getAnswers() ,self.questionMaker.getAnswerNum()  )
 			except :
-				print "QUESTION LOADER FAILED"
+				print  "Loading dynamic level failed, turning into emergency level"
 			
 				try : 
 					data = self.helperLoadData( os.path.join('assets/levels','0.json'))

@@ -1,11 +1,9 @@
 {   
-    "type": "Addition",
-    "options": [
-        "3/10",
-        "1/20",
-        "5/6",
-        "9/10",
-        "1/3"
+    "CHOICES": [
+		[2,5],
+		[1,2],
+		[4,5]
     ],  
-    "answer": "19/20"
+	"ANSWERS" : [[true,false,false]],
+    "ANSWER_NUM": [2,5]
 }  

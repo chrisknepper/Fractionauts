@@ -138,19 +138,21 @@ class FractionautsMain(object):
 				self.lockRender.release();
 				self.clock.tick(10000);
 				self.dicScenes[self.myState].renderUpdate(self.clock.get_time() * .001)
-		except : pass# if something happens,
+		except e : print e
 		self.isRunning = False
 
 
 	def loopUpdate(self):
-		while self.isRunning:
-			eventStack = pygame.event.get();
-			for event in eventStack:
-				if event.type == pygame.QUIT:
-					self.EVENTHDR_QUIT()
-					return
-			self.dicScenes[self.myState].listenForEvents()
-		#except: pass
+		try :
+			while self.isRunning:
+				eventStack = pygame.event.get();
+				for event in eventStack:
+					if event.type == pygame.QUIT:
+						self.EVENTHDR_QUIT()
+						return
+				self.dicScenes[self.myState].listenForEvents()
+		except e : print e
+		self.isRunning = False
 		#self.isRunning = False
 
 	def changeState(self, stateNew):
