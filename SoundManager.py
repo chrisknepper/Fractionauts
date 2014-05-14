@@ -31,15 +31,15 @@ def init():
 def EVENT_MUSIC_BACKGROUND(): 
 	Sound.background .play(-1) 
 	pass
-def BTTN_DEFAULT():Sound.bttnDefault .play()
-def BTTN_START():Sound.bttnStart .play()
-def BTTN_EXIT():Sound.bttnExit .play()
-def FUEL_UP():Sound.fuelUp .play()
-def FUEL_DOWN():Sound.fuelDown .play()
-def FUEL_NO():Sound.fuelNo .play()
-def ANSWER_CORRECT():Sound.answerCorrect .play()
-def ANSWER_WRONG():Sound.answerWrong .play()
-def VIBRATE_PLAY():Sound.vibrateLow .play()
-def VIBRATE_STOP():Sound.vibrateLow .stop()
+def BTTN_DEFAULT():pass#Sound.bttnDefault .play()
+def BTTN_START():pass#Sound.bttnStart .play()
+def BTTN_EXIT():pass#Sound.bttnExit .play()
+def FUEL_UP():pass#Sound.fuelUp .play()
+def FUEL_DOWN():pass#Sound.fuelDown .play()
+def FUEL_NO():pass#Sound.fuelNo .play()
+def ANSWER_CORRECT():pass#Sound.answerCorrect .play()
+def ANSWER_WRONG():pass#Sound.answerWrong .play()
+def VIBRATE_PLAY():pass#Sound.vibrateLow .play()
+def VIBRATE_STOP():pass#Sound.vibrateLow .stop()
 
 
