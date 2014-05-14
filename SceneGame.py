@@ -244,7 +244,18 @@ class SceneGame(SceneBasic):
 		self.icnRocketLabelFraction.display(answerNum[0],answerNum[1],self.TEXT_COLOR_FRACTIONS_NUM,self.TEXT_COLOR_FRACTIONS_DENO)
 		self.icnTextLevel.setContent("LEVEL "+str(level) )
 		pass
-	
+	def helperRandomElement(self, e):
+		return e[int( random.random() * len(e))] 
+
+	TEXT_FUEL_FILLED = ["Wooooooop","Woo-oop","Wooo-oo~p","Wo-o-o-p","Wooooo-oo"]
+	TEXT_FUEL_EMPTY = ["Doooooooop","Dooooouuuup","Dooo~p","Dooo-ooo-p","Dodododo-dop"]
+	TEXT_ROCKET_OVERFILL = ["You cannot over fill the rocket. If you over fill the rocket, it explodes!",\
+					"You cannot do that.",\
+					"Rocket will explodes if you overfill fuel.",\
+					"There is too much fuel already inside rocket.",\
+					"Rocket cannot take too much fuel."]
+	TEXT_WRONG_ANSWER = ["Let's try again, friend!","Woo ha! That was not the right amount of fuel. Let's try again","That was not the right amount of fuel rocket needs.","That's not the right amount of fuel rocket needs.","Hey buddy! Let's try again. I know you can do this."]
+
 	def helperIsSameArray(self, arrA, arrB):
 		if(len(arrA) is not len(arrB)): return False
 		for i in range(0, len(arrA)):
@@ -278,7 +289,7 @@ class SceneGame(SceneBasic):
 			self.score += 10
 		else : 
 			SoundManager.ANSWER_WRONG()
-			self.icnTextBottom.display("That was not the right answer. Let's try again.")
+			self.icnTextBottom.display( self.helperRandomElement ( self.TEXT_WRONG_ANSWER))
 			print "GAME IS NOT YET OVER! DISPLAY SOME \"Lets try again GRAPHIC\" "  
 			self.questionReset()
 
@@ -342,11 +353,16 @@ class SceneGame(SceneBasic):
 					if(self.getCurrentSum() <= 1):
 						#can process 
 						SoundManager.FUEL_DOWN()
+						self.icnTextBottom.display(self.helperRandomElement(self.TEXT_FUEL_FILLED ))
 						icn.displayPercent(0)
 						return True
+					#rocket over fueled
+					SoundManager.FUEL_NO()
 					icn.setSelect(False)
+					self.icnTextBottom.display(self.helperRandomElement(self.TEXT_ROCKET_OVERFILL ))
 				else :  
 					SoundManager.FUEL_UP()
+					self.icnTextBottom.display(self.helperRandomElement(self.TEXT_FUEL_EMPTY ))
 					icn.displayPercent(choice[0]/float(choice[1]))
 				return True
 		return False
