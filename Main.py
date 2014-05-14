@@ -138,7 +138,9 @@ class FractionautsMain(object):
 				self.lockRender.release();
 				self.clock.tick(10000);
 				self.dicScenes[self.myState].renderUpdate(self.clock.get_time() * .001)
-		except e : print e
+		except :
+			print "CRITICAL ERROR : RESTARTING LOOP loopRender"
+			self.loopRender()
 		self.isRunning = False
 
 
@@ -151,7 +153,9 @@ class FractionautsMain(object):
 						self.EVENTHDR_QUIT()
 						return
 				self.dicScenes[self.myState].listenForEvents()
-		except e : print e
+		except :
+			print "CRITICAL ERROR : RESTARTING LOOP loopUpdate"
+			self.loopUpdate()
 		self.isRunning = False
 		#self.isRunning = False
 
