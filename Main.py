@@ -30,11 +30,8 @@ class FractionautsMain(object):
 	def __init__(self):
 		screenSize = (800,600)
 
-		pygame.mixer.pre_init(22100, -16, 1, 512)
+		pygame.mixer.pre_init(44100, -16, 1, 512)
 		pygame.init()
-		#pygame.mixer.init(22100)
-		pygame.mouse.set_visible(False)
-
 		#self.screen = pygame.display.set_mode(screenSize, pygame.FULLSCREEN)
 		self.screen = pygame.display.set_mode(screenSize)
 		SoundManager.init()
@@ -64,11 +61,9 @@ class FractionautsMain(object):
 				self.STATE_HELP:  self.scnHelp}
 
 	def EVENTHDR_SCENE_START_MENU(self):
-		SoundManager.BTTN_EXIT()
 		self.changeState(self.STATE_MENU)
 
 	def EVENTHDR_SCENE_START_GAME(self):
-		SoundManager.BTTN_START()
 		self.scnGame.EVENT_INITIALIZE()
 		self.changeState(self.STATE_GAME)
 
@@ -139,27 +134,21 @@ class FractionautsMain(object):
 				
 				self.displayFPS(self.myFont);
 				self.lockRender.release();
-				self.clock.tick(60);
+				self.clock.tick(10000);
 				self.dicScenes[self.myState].renderUpdate(self.clock.get_time() * .001)
-		except :
-			print "CRITICAL ERROR : RESTARTING LOOP loopRender"
-			self.loopRender()
+		except : pass# if something happens,
 		self.isRunning = False
 
 
 	def loopUpdate(self):
-		try :
-			while self.isRunning:
-				eventStack = pygame.event.get();
-				for event in eventStack:
-					if event.type == pygame.QUIT:
-						self.EVENTHDR_QUIT()
-						return
-				self.dicScenes[self.myState].listenForEvents()
-		except :
-			print "CRITICAL ERROR : RESTARTING LOOP loopUpdate"
-			self.loopUpdate()
-		self.isRunning = False
+		while self.isRunning:
+			eventStack = pygame.event.get();
+			for event in eventStack:
+				if event.type == pygame.QUIT:
+					self.EVENTHDR_QUIT()
+					return
+			self.dicScenes[self.myState].listenForEvents()
+		#except: pass
 		#self.isRunning = False
 
 	def changeState(self, stateNew):
