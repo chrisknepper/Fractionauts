@@ -12,7 +12,7 @@ class Sound:
 	fuelNo=os.path.join('assets','Sound','fuelNo.wav')
 	answerCorrect=os.path.join('assets','Sound','answerCorrect.wav')
 	answerWrong=os.path.join('assets','Sound','answerWrong.wav')
-	vibrateLow=os.path.join('assets','Sound','rocketVibrating.wav')
+	vibrateLow=os.path.join('assets','Sound','vibration.wav')
 def helperLoadSound(s):
 	return pygame.mixer.Sound(s)
 def init():

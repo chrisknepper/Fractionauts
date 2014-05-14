@@ -37,8 +37,8 @@ class SceneWin(SceneBasic):
 		s.icnParticleStars = []
 		for i in range(0, 20):
 
-			s.icnParticleStars.append(IcnParticleShootingStar(500,-1000,sizeStar[0],sizeStar[1] ,textureIdStar00 , screenSize,( 0,100) ) )
-			s.icnParticleStars.append(IcnParticleShootingStar(500,-10000,sizeStar[0],sizeStar[1] ,textureIdStar01 , screenSize, (0,350)) )
+			s.icnParticleStars.append(IcnParticleShootingStar(500,-1000,sizeStar[0],sizeStar[1] ,textureIdStar00 , screenSize,( 0,100/600.0 * screenSize[1]) ) )
+			s.icnParticleStars.append(IcnParticleShootingStar(500,-10000,sizeStar[0],sizeStar[1] ,textureIdStar01 , screenSize, (0,350/600.0 * screenSize[1]))) 
 		s.renderScreenObjects.extend(s.icnParticleStars)
 		s.renderScreenObjects.append(s.icnRocket)
 

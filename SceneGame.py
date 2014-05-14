@@ -83,10 +83,10 @@ class SceneGame(SceneBasic):
 		return IcnFuel(pos, size,HelperVec2.mult(size,ratioPos), HelperVec2.mult(size, ratioSize ),textureBG,textureDiv,textureFill,textureWave )
 
 	def initIcnFuels(s,list,screenSize):
-		pos = (73,205)
-		size = (94,243)
-		barPos =  (10,10)
-		barSize = (74, 223)
+		pos = (73/800.0*screenSize[0],205/600.0*screenSize[1])
+		size = (94/800.0*screenSize[0],243/600.0*screenSize[1])
+		barPos =  (10/800.0*screenSize[0],10/600.0*screenSize[1])
+		barSize = (74/800.0*screenSize[0], 223/600.0*screenSize[1])
 		labelSize = HelperVec2.mult( barSize , (.3, .3) )
 
 		s.textureIdFuelBG = TextureLoader.load( os.path.join('assets', 'screenGame','fuelBG.png' ))
@@ -96,7 +96,7 @@ class SceneGame(SceneBasic):
 
 		s.arrIcnFuelLabelFraction = []
 		for i in range(0,3):
-			posNew = ( pos[0] + 124  * i, pos[1])
+			posNew = ( pos[0] + .155*screenSize[0]  * i, pos[1])
 			posLabel = HelperVec2.add(posNew, (size[0] +10, -labelSize[1] ))
 			icn = IcnFuel(posNew, size,s.textureIdFuelBG )
 			icn.registerEvent_static(s.EVENT_STTAIC_DRAWN)
@@ -107,10 +107,10 @@ class SceneGame(SceneBasic):
 			#list.append(s.helperGetIcnFuel(posNew,size, (.5-.25,.5-.2), (.5,.4) ,s.textureIdFuelBG ,s.textureIdFuelDiv , s.textureIdFuelFill,s.textureIdFuelWave ))
 
 	def initIcnRocket(self,screenSize):
-		pos = (503,73)
-		size = (210,407)
-		oilPos = (76,135)
-		oilSize = (57,147)
+		pos = (503/800.0*screenSize[0],73/600.0*screenSize[1])
+		size = (210/800.0*screenSize[0],407/600.0*screenSize[1])
+		oilPos = (76/800.0*screenSize[0],135/600.0*screenSize[1])
+		oilSize = (57/800.0*screenSize[0],147/600.0*screenSize[1])
 
 		self.textureIdRocket = TextureLoader.load( os.path.join('assets', 'screenGame','icnRocket.png'))
 		self.textureIdRocketFuel = TextureLoader.load( os.path.join('assets', 'screenGame','fuelBG.png'),oilSize)
@@ -126,7 +126,7 @@ class SceneGame(SceneBasic):
 		s.arrParticleDistort = []
 		pos = (s.icnRocket.pos[0]  + s.icnRocket.size[0] *.5,s.icnRocket.pos[1]+s.icnRocket.pos[1]  )
 		for i in range(0, 0):
-			p =IcnParticleDistort(pos[0] ,pos[1],80,80, s.myBackground)
+			p =IcnParticleDistort(pos[0] ,pos[1],80/800.0*screenSize[0],80/600.0*screenSize[1], s.myBackground)
 			s.arrParticleDistort.append(p)
 			pass
 
@@ -149,20 +149,20 @@ class SceneGame(SceneBasic):
 		s.icnTextLevel = IcnTextBox(0.01*screenSize[0],0, .2*screenSize[0],.07*screenSize[1] ,"LEVEL 0")
 		s.icnTextScore = IcnTextBox(.75*screenSize[0],0, .2*screenSize[0],.07*screenSize[1], "SCORE 0 ")
 		s.icnTextBottom = IcnTextDisplayer(.17*screenSize[0], .93 * screenSize[1], .8*screenSize[0], .05* screenSize[1], "CLICK ON FUELS TO FILL THE ROCKET, FUELS CAN BE ADDED UP.", s.TEXT_COLOR_BOTTOM )
-		s.icnTextRocket = IcnTextBox(650.0,125.0, 100.0,30.0, "FILL TO")
+		s.icnTextRocket = IcnTextBox(650.0/800.0*screenSize[0],105.0/600.0*screenSize[1], 90.0/800.0*screenSize[0],30.0/600.0*screenSize[1], "FILL TO")
 
 		s.arrIcnText = [s.icnTextLevel,s.icnTextScore,s.icnTextRocket]
 		pass
 
 	def initButtons(s,screenSize):
 		size = HelperVec2.mult(screenSize, (.1 ,.1 ))
-		sizeLaunch = (115,32)
-		sizeMenu = (119,43)
+		sizeLaunch = (115/800.0*screenSize[0],32/600.0*screenSize[1])
+		sizeMenu = (119/800.0*screenSize[0],43/600.0*screenSize[1])
 		s.textureIdButtonLaunch = TextureLoader.load( os.path.join('assets', 'screenGame','bttnLaunch.png'),sizeLaunch)
 		s.textureIdButtonMenu = TextureLoader.load( os.path.join('assets', 'screenGame','bttnBack.png'),sizeLaunch)
 
-		s.bttnMenu =	KButton(0, 554, sizeMenu[0],sizeMenu[1],  s.textureIdButtonMenu,True)
-		s.bttnDone =	KButton(552,508, sizeLaunch[0],sizeLaunch[1], s.textureIdButtonLaunch,True)
+		s.bttnMenu =	KButton(0, 554/600.0*screenSize[1], sizeMenu[0],sizeMenu[1],  s.textureIdButtonMenu,True)
+		s.bttnDone =	KButton(552/800.0*screenSize[0],508/600.0*screenSize[1], sizeLaunch[0],sizeLaunch[1], s.textureIdButtonLaunch,True)
 		s.arrButtons =	[s.bttnMenu,s.bttnDone]
 
 	def initImages(s,screenSize):
@@ -175,8 +175,8 @@ class SceneGame(SceneBasic):
 			pointA = HelperVec2.add(objA.pos, (objA.size[0] *.5,0) )
 			pointB = HelperVec2.add(objB.pos,( 0, objB.size[1]*.5 ) )
 			s.arrLines.append(EasyLine( pointA,pointB, (255,255,255) , 2) )
-		s.arrLines.append(EasyLine( (660,220),(700,220), (255,255,255) , 3) )
-		s.arrLines.append(EasyLine( (700,220), HelperVec2.add(s.icnRocketLabelFraction.pos,(0,s.icnRocketLabelFraction.size[1] *.5) ) , (255,255,255) , 2) )
+		s.arrLines.append(EasyLine( (660/800.0*screenSize[0],220/600.0*screenSize[1]),(700/800.0*screenSize[0],220/600.0*screenSize[1]), (255,255,255) , 3) )
+		s.arrLines.append(EasyLine( (700/800.0*screenSize[0],220/600.0*screenSize[1]), HelperVec2.add(s.icnRocketLabelFraction.pos,(0,s.icnRocketLabelFraction.size[1] *.5) ) , (255,255,255) , 2) )
 
 	def helperLoadData(self,path):
 		file = open(path) 

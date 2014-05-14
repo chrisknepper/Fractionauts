@@ -57,8 +57,8 @@ class SceneMenu(SceneBasic):
 
 	def initParticles(s,resolution):
 		s.arrShootingStars = []
-		s.distortH = IcnParticleDistortCustomRange(0,80,resolution[0],5, s.myBackground,1,0 )
-		s.distortV = IcnParticleDistortCustomRange(100, 0,resolution[0],2, s.myBackground,-1,0 )
+		s.distortH = IcnParticleDistortCustomRange(0,80,resolution[0],5/600.0 * resolution[1], s.myBackground,1,0 )
+		s.distortV = IcnParticleDistortCustomRange(100, 0,resolution[0],2/600.0 * resolution[1], s.myBackground,-1,0 )
 		s.arrShootingStars.append(s.distortH)
 		s.arrShootingStars.append(s.distortV)
 
@@ -88,7 +88,6 @@ class SceneMenu(SceneBasic):
 
 		for bttn,event in buttons_event:
 			if bttn.isUnder(mouseAt):
-				SoundManager.BTTN_DEFAULT()
 				self.helperRaiseEvent(event)
 				break
 

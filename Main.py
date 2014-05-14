@@ -28,9 +28,10 @@ class FractionautsMain(object):
 	STATE_HELP = 3
 
 	def __init__(self):
-		screenSize = (800,600)
+		screenSize = (1200,900)
+		TextureLoader.screenSize =screenSize
 
-		pygame.mixer.pre_init(22100, -16, 1, 512*2)
+		pygame.mixer.pre_init(44100, -16, 1, 512*2)
 		pygame.init()
 		#pygame.mixer.init(22100)
 		pygame.mouse.set_visible(False)
@@ -137,7 +138,7 @@ class FractionautsMain(object):
 				self.lockRender.acquire();
 				self.helperRenderScene( self.dicScenes[self.myState])
 				
-				self.displayFPS(self.myFont);
+				#self.displayFPS(self.myFont);
 				self.lockRender.release();
 				self.clock.tick(60);
 				self.dicScenes[self.myState].renderUpdate(self.clock.get_time() * .001)
