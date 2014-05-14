@@ -2,7 +2,7 @@ import pygame
 import os
 
 class Sound:
-	background = os.path.join('assets','Sound','background02.wav')
+	background = os.path.join('assets','Sound','background04.wav')
 	bttnDefault = os.path.join('assets','Sound','bttn01.wav')
 	fuelUp=os.path.join('assets','Sound','fuelUp.wav')
 	fuelDown = os.path.join('assets','Sound','fuelDown.wav')
