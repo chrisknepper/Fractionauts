@@ -30,7 +30,7 @@ class FractionautsMain(object):
 	def __init__(self):
 		screenSize = (800,600)
 
-		pygame.mixer.pre_init(44100, -16, 1, 512)
+		pygame.mixer.pre_init(22100, -16, 1, 512)
 		pygame.init()
 		pygame.mouse.set_visible(False)
 
