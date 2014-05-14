@@ -3,7 +3,7 @@ import os
 import wave
 
 class Sound:
-	background = os.path.join('assets','Sound','background.wav')
+	background = os.path.join('assets','Sound','background01.wav')
 	bttnDefault = os.path.join('assets','Sound','bttn01.wav')
 	bttnStart = os.path.join('assets','Sound','bttnStart.wav')
 	bttnExit = os.path.join('assets','Sound','bttnBack.wav')
