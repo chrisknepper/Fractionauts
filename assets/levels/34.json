@@ -4,6 +4,6 @@
 		[2,7],
 		[3,7]
     ],  
-	"ANSWERS" : [[true,true,false]],
+	"ANSWERS" : [[false,true,true]],
     "ANSWER_NUM": [5,7]
 }  

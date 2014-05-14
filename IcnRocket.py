@@ -38,7 +38,7 @@ class  IcnRocket(IcnBasic):
 		s.soundDelay += timeElapsed
 		if(s.soundDelay > s.soundDelayMax*ratio):
 			s.soundDelay=0
-			SoundManager.VIBRATE_LOW()
+			SoundManager.VIBRATE_PLAY()
 	def drawUpdate(s, timeElapsed):
 		#s.mySurface.fill((1,1,1,1), special_flags=pygame.BLEND_ADD)
 		ratio = s.myFuel.getPercentage()

@@ -16,7 +16,7 @@ class IcnTextDisplayer(IcnTextBox):
 		s.textCount = 0
 	def drawUpdate(me, timeElapsed):
 		if(me.textCount is me.textCountTo) : 
-			if(me.stateRender is me.STATE_RENDER_ENABLED): me.renderDisable()
+			#if(me.stateRender is me.STATE_RENDER_ENABLED): me.renderDisable()
 			return False
 
 		me.renderEnable()

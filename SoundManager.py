@@ -2,13 +2,13 @@ import pygame
 import os
 
 class Sound:
-	background = os.path.join('assets','Sound','background04.wav')
+	background = os.path.join('assets','Sound','background.wav')
 	bttnDefault = os.path.join('assets','Sound','bttn01.wav')
 	fuelUp=os.path.join('assets','Sound','fuelUp.wav')
 	fuelDown = os.path.join('assets','Sound','fuelDown.wav')
 	answerCorrect=os.path.join('assets','Sound','answerCorrect.wav')
 	answerWrong=os.path.join('assets','Sound','answerWrong.wav')
-	vibrateLow=os.path.join('assets','Sound','lowDrum.wav')
+	vibrateLow=os.path.join('assets','Sound','rocketVibrating.wav')
 def init():
 	Sound.background 	= pygame.mixer.Sound(Sound.background )
 	Sound.bttnDefault 	= pygame.mixer.Sound(Sound.bttnDefault )
@@ -26,6 +26,7 @@ def FUEL_UP():Sound.fuelUp .play()
 def FUEL_DOWN():Sound.fuelDown .play()
 def ANSWER_CORRECT():Sound.answerCorrect .play()
 def ANSWER_WRONG():Sound.answerWrong .play()
-def VIBRATE_LOW():Sound.vibrateLow .play()
+def VIBRATE_PLAY():Sound.vibrateLow .play()
+def VIBRATE_STOP():Sound.vibrateLow .stop()
 
 
