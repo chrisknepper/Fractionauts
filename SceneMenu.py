@@ -2,6 +2,7 @@ from  SceneBasic import *
 import DrawHelper
 import HelperVec2
 import random
+from IcnBasic import IcnBasic 
 from IcnParticleShootingStar import IcnParticleShootingStar 
 from IcnParticleDistortCustomRange import IcnParticleDistortCustomRange
 
@@ -36,6 +37,9 @@ class SceneMenu(SceneBasic):
 	def initOthers(s , resolution):
 		s.initParticles(resolution)
 		s.renderScreenObjects.extend(s.arrShootingStars)
+
+		s.icnMouse = IcnBasic.FROM_PATH(os.path.join('assets', 'screenCommon', 'cursor.png') )
+		s.renderScreenObjects.append(s.icnMouse)
 
 	def helperInitKButton(s, center, textureID):
 		texture = TextureLoader.get( textureID)
@@ -96,7 +100,7 @@ class SceneMenu(SceneBasic):
 	
 	ratio = 0
 	def renderUpdate(s,timeElapsed):
-
+		s.icnMouse.pos =  pygame.mouse.get_pos()
 		s.ratio = (s.ratio+800.15*timeElapsed ) % 3.5
 		s.distortH.range = (s.ratio ,s.ratio)
 		s.distortV.range = (-s.ratio , -s.ratio)

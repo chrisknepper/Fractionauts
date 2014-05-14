@@ -32,6 +32,8 @@ class FractionautsMain(object):
 
 		pygame.mixer.pre_init(44100, -16, 1, 512)
 		pygame.init()
+		pygame.mouse.set_visible(False)
+
 		#self.screen = pygame.display.set_mode(screenSize, pygame.FULLSCREEN)
 		self.screen = pygame.display.set_mode(screenSize)
 		SoundManager.init()

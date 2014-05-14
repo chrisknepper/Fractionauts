@@ -12,6 +12,7 @@ import random
 
 #Logic
 from KButton import KButton
+from IcnBasic import IcnBasic
 from IcnFuel import IcnFuel
 from IcnRocket import IcnRocket
 from IcnTextBox import IcnTextBox
@@ -66,7 +67,10 @@ class SceneGame(SceneBasic):
 
 		self.renderScreenObjects.extend(self.arrIcnFuels)
 		self.renderScreenObjects.extend(self.arrParticleDistort)
+
 		
+		self.icnMouse = IcnBasic.FROM_PATH(os.path.join('assets', 'screenCommon', 'cursor.png') )
+		self.renderScreenObjects.append(self.icnMouse)
 		self.questionMaker = QuestionMaker( )
 		#self.renderScreenObjects.extend(self.arrIcnFuelLabelFraction)
 		
@@ -96,6 +100,7 @@ class SceneGame(SceneBasic):
 			posLabel = HelperVec2.add(posNew, (size[0] +10, -labelSize[1] ))
 			icn = IcnFuel(posNew, size,s.textureIdFuelBG )
 			icn.registerEvent_static(s.EVENT_STTAIC_DRAWN)
+			icn.setRenderStatic(s.myBackground)
 			list.append(icn)
 			s.arrIcnFuelLabelFraction.append(IcnTextFraction (posLabel[0],posLabel[1],labelSize[0],labelSize[1]) )
 			
@@ -368,6 +373,7 @@ class SceneGame(SceneBasic):
 
 
 	def renderUpdate(self, timeElapsed):
+		self.icnMouse.pos = pygame.mouse.get_pos()
 		self.icnTextScore.setContent("SCORE " + str( self.score))
 		for icn in self.arrIcnFuels:	icn.drawUpdate(timeElapsed)
 		for icn in self.arrIcnText:	icn.drawUpdate(timeElapsed)

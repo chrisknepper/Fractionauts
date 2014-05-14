@@ -14,8 +14,15 @@ class IcnBasic:
 
 	def setRenderStatic(s, surface):
 		s.isRenderStatic = True
-		s.surfaceBG = sruface
-		
+		s.surfaceBG = surface
+	
+	@staticmethod
+	def FROM_PATH( path):
+		id = TextureLoader.load(path)
+		texture = TextureLoader.get(id)
+		return IcnBasic(0,0, texture.get_width(),texture.get_height(),id)
+
+
 	def __init__(me,x,y,w,h,textureID=-1,isTextureRescaled = False):
 		me.isSelected = False
 		me.isRenderStatic = False
@@ -65,7 +72,8 @@ class IcnBasic:
 		
 		elif(me.stateRender is me.STATE_RENDER_PAUSE_STATIC):
 			me.stateRender = me.STATE_RENDER_PAUSE_END
-			me.rect = me.helperDraw(me.surfaceBG)
+			me.helperDraw(me.surfaceBG)
+			me.rect = me.helperDraw(screen)
 			me.stateRender = me.STATE_RENDER_PAUSE_NORMAL
 
 		elif(me.stateRender is me.STATE_RENDER_PAUSE_END):

@@ -29,10 +29,9 @@ class SceneWin(SceneBasic):
 		size =(t.get_width(), t.get_height())
 		s.posInit = (screenSize[0]*.5-size[0]*.5+ 10 , screenSize[1]-size[1] +10)
 		s.icnRocket = IcnBasic(s.posInit[0],s.posInit[1], size[0],size[1], s.textureIdRocket	)
-		s.renderScreenObjects.append(s.icnRocket)
 
-		textureIdStar00 		= TextureLoader.load(os.path.join('assets', 'screenWin', 'fast-star01.png'))
-		textureIdStar01		= TextureLoader.load(os.path.join('assets', 'screenWin', 'fast-star02.png'))
+		textureIdStar00 		= TextureLoader.load(os.path.join('assets', 'screenCommon', 'fast-star01.png'))
+		textureIdStar01		= TextureLoader.load(os.path.join('assets', 'screenCommon', 'fast-star02.png'))
 		tt = TextureLoader.get(textureIdStar00) 
 		sizeStar = (tt.get_width(),tt.get_height())
 		s.icnParticleStars = []
@@ -41,6 +40,7 @@ class SceneWin(SceneBasic):
 			s.icnParticleStars.append(IcnParticleShootingStar(500,-1000,sizeStar[0],sizeStar[1] ,textureIdStar00 , screenSize,( 0,100) ) )
 			s.icnParticleStars.append(IcnParticleShootingStar(500,-10000,sizeStar[0],sizeStar[1] ,textureIdStar01 , screenSize, (0,350)) )
 		s.renderScreenObjects.extend(s.icnParticleStars)
+		s.renderScreenObjects.append(s.icnRocket)
 
 	def EVENT_CLICK(s):
 		print "SceneWin Click"
