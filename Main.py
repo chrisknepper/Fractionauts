@@ -63,9 +63,11 @@ class FractionautsMain(object):
 				self.STATE_HELP:  self.scnHelp}
 
 	def EVENTHDR_SCENE_START_MENU(self):
+		SoundManager.BTTN_EXIT()
 		self.changeState(self.STATE_MENU)
 
 	def EVENTHDR_SCENE_START_GAME(self):
+		SoundManager.BTTN_START()
 		self.scnGame.EVENT_INITIALIZE()
 		self.changeState(self.STATE_GAME)
 
