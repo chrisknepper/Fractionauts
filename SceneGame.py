@@ -276,8 +276,8 @@ class SceneGame(SceneBasic):
 	def doCheckAnswer(self):
 		if(self.isGameOver() ) : 
 
-			encouraingWords = ["Well done! You are doing fantastic.","YES", "Nice job.","Good work!","Wow. You are really good at this."\
-						"Well done!","You are so good at this.","This is amazing. How are you so good at this?","You are amazing me."]
+			encouraingWords = ["Well done! You are doing fantastic. ","YES ", "Nice job. ","Good work! ","Wow. You are really good at this. "\
+						"Well done! ","You are so good at this. ","This is amazing. How are you so good at this? ","You are amazing me. "]
 			index = random.random() * float(len( encouraingWords)) 
 			self.icnTextBottom.display( encouraingWords[int(index)])
 
