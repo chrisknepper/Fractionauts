@@ -59,6 +59,7 @@ class SceneMenu(SceneBasic):
 		s.arrShootingStars = []
 		s.distortH = IcnParticleDistortCustomRange(0,80,resolution[0],5/600.0 * resolution[1], s.myBackground,1,0 )
 		s.distortV = IcnParticleDistortCustomRange(100, 0,resolution[0],2/600.0 * resolution[1], s.myBackground,-1,0 )
+		s.distortSpacing = 5/600.0 * resolution[1]  *.5
 		s.arrShootingStars.append(s.distortH)
 		s.arrShootingStars.append(s.distortV)
 
@@ -106,7 +107,7 @@ class SceneMenu(SceneBasic):
 		#s.distortH.pos = (0,pygame.mouse.get_pos()[1]) 
 		#s.distortV.pos = (pygame.mouse.get_pos()[0],0) 
 		s.distortH.pos =(0, pygame.mouse.get_pos()[1])
-		s.distortV.pos = (0,pygame.mouse.get_pos()[1]+.5)
+		s.distortV.pos = (0,pygame.mouse.get_pos()[1]+s.distortSpacing )
 		for icn in s.arrShootingStars:
 			icn.drawUpdate(timeElapsed)
 
