@@ -41,7 +41,7 @@ class FractionautsMain(object):
 			screenSize = (800,600)
 		TextureLoader.screenSize =screenSize
 		self.screen = pygame.display.set_mode(screenSize, pygame.FULLSCREEN)
-		#self.screen = pygame.display.set_mode(screenSize , pygame.FULLSCREEN)
+
 		SoundManager.init()
 		SoundManager.EVENT_MUSIC_BACKGROUND()
 		DrawHelper.init(screenSize[0],screenSize[1])
