@@ -1,0 +1,24 @@
+<?xml version="1.0" ?><!-- Generator: Adobe Illustrator 17.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  --><!DOCTYPE svg  PUBLIC '-//W3C//DTD SVG 1.1//EN'  'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd' [
+	<!ENTITY stroke_color "#7e3fff">
+	<!ENTITY fill_color "none">
+]><svg enable-background="new 0 0 55 55" height="55px" id="svg2" inkscape:output_extension="org.inkscape.output.svg.inkscape" inkscape:version="0.46+devel" sodipodi:docname="activity-generic.svg" sodipodi:version="0.32" style="" version="1.1" viewBox="0 0 55 55" width="55px" x="0px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" y="0px">
+<sodipodi:namedview bordercolor="#666666" borderopacity="1" gridtolerance="10" guidetolerance="10" id="namedview18" inkscape:current-layer="svg2" inkscape:cx="-15.963983" inkscape:cy="27.5" inkscape:pageopacity="0" inkscape:pageshadow="2" inkscape:window-height="1125" inkscape:window-width="1920" inkscape:window-x="0" inkscape:window-y="25" inkscape:zoom="4.2909091" objecttolerance="10" pagecolor="#ffffff" showgrid="true" style="">
+	<inkscape:grid id="grid796" style="" type="xygrid"/>
+</sodipodi:namedview>
+<defs style="">
+	
+	
+		<inkscape:perspective id="perspective22" inkscape:persp3d-origin="27.5 : 18.333333 : 1" inkscape:vp_x="0 : 27.5 : 1" inkscape:vp_y="0 : 1000 : 0" inkscape:vp_z="55 : 27.5 : 1" sodipodi:type="inkscape:persp3d" style="">
+		</inkscape:perspective>
+</defs>
+<g id="layer1" style="" transform="matrix(1.1689037,0,0,1.1624538,-4.6448521,-4.3634813)">
+	<rect height="35" id="rect16" stroke="&stroke_color;" stroke-width="3.0026" style="" width="35" x="10" y="10"/>
+	<g style="">
+		<path d="M39.988,15.554    c-10.58-3.028-14.657,13.141-18.479,14.804c0.157,1.427,2.62,3.847,4.16,4.184c0.74-1.73,4.093-3.636,7.403-6.084    C37.329,25.311,41.515,21.268,39.988,15.554z" fill="&fill_color;" stroke="&stroke_color;" stroke-linejoin="round" stroke-width="2"/>
+		<path d="M27.942,32.123    c-0.15,3.959-1.208,7.013-4.27,8.56c10.381-3.617,7.899-9.317,10.328-12.927" fill="&fill_color;" stroke="&stroke_color;" stroke-linejoin="round" stroke-width="2"/>
+		<path d="M23.967,27.766    c-3.937,0.151-6.861,1.173-8.399,4.253c3.176-10.438,8.748-7.948,12.338-10.39" fill="&fill_color;" stroke="&stroke_color;" stroke-linejoin="round" stroke-width="2"/>
+		<circle cx="33.7" cy="21.832" fill="&fill_color;" r="2.464" stroke="&stroke_color;" stroke-linejoin="round" stroke-width="2"/>
+		<path d="M24.521,34.14c0,0-0.622,1.689-0.622,2.72    c-1.571-0.515-4.063-3.159-4.576-4.601c1.263,0.103,2.778-0.552,2.778-0.552" fill="&fill_color;" stroke="&stroke_color;" stroke-linejoin="round" stroke-width="2"/>
+	</g>
+</g>
+</svg>

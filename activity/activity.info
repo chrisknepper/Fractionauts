@@ -2,5 +2,5 @@
 name = Fractionauts
 bundle_id = org.hfoss.fractionauts
 exec = sugar-activity FractionautsActivity.FractionautsActivity
-icon = activity-generic
+icon = fractionauts
 activity_version = 1
