@@ -28,16 +28,20 @@ class FractionautsMain(object):
 	STATE_HELP = 3
 
 	def __init__(self):
-		screenSize = (1200,900)
-		TextureLoader.screenSize =screenSize
-
 		pygame.mixer.pre_init(44100, -16, 1, 512*2)
 		pygame.init()
 		#pygame.mixer.init(22100)
 		pygame.mouse.set_visible(False)
-
-		#self.screen = pygame.display.set_mode(screenSize, pygame.FULLSCREEN)
-		self.screen = pygame.display.set_mode(screenSize , pygame.FULLSCREEN)
+		
+		width = pygame.display.Info().current_w
+		height = pygame.display.Info().current_h
+		if(float(width)/float(height) == float(4)/float(3)):
+			screenSize = (width,height)
+		else:
+			screenSize = (800,600)
+		TextureLoader.screenSize =screenSize
+		self.screen = pygame.display.set_mode(screenSize, pygame.FULLSCREEN)
+		#self.screen = pygame.display.set_mode(screenSize , pygame.FULLSCREEN)
 		SoundManager.init()
 		SoundManager.EVENT_MUSIC_BACKGROUND()
 		DrawHelper.init(screenSize[0],screenSize[1])
