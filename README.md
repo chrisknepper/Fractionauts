@@ -12,8 +12,10 @@ To run the game run `python Main.py`
 
 Installing onto the OLPC
 ------------------------
-To install on our application on the OLPC we used [Sugar Activity Quick Start](https://github.com/FOSSRIT/SAQS-sugar-activity-quick-start-). 
-To create a .xo file, run `./setup.py dist_xo`. The .xo file can be found in `/dist`.
+To install the latest stable release of Fractionauts onto OLPC, go to [Fractionauts' Activity Page](http://activities.sugarlabs.org/en-US/sugar/addon/4746/).
+
+To compile and install our application on the OLPC we used [Sugar Activity Quick Start](https://github.com/FOSSRIT/SAQS-sugar-activity-quick-start-). 
+To create a .xo file, run `./setup.py dist_xo` inside the *Sugar OS's Terminal Activity*. The .xo file can be found in `/dist`.
 
 Once we created the .xo file we copied it onto a flash drive and plugged it into the OLPC
 
