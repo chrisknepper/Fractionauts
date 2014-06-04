@@ -1,9 +1,0 @@
-{   
-    "CHOICES": [
-		[3,6],
-		[2,6],
-		[1,5]
-    ],  
-	"ANSWERS" : [[true,true,false]],
-    "ANSWER_NUM": [5,6]
-}  

@@ -84,7 +84,7 @@ class SceneMenu(SceneBasic):
 		buttons_event = [
 					[self.bttnQuit ,self.EVENT_QUIT],
 					[self.bttnPlay , self.EVENT_PLAY],
-					#[self.bttnHow ,self.EVENT_HELP] help screen not implemented
+					[self.bttnHow ,self.EVENT_HELP],
 				]
 
 		for bttn,event in buttons_event:
