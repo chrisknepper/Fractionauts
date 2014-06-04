@@ -12,7 +12,8 @@ To run the game run `python Main.py`
 
 Installing onto the OLPC
 ------------------------
-To install on our application on the OLPC we used [Sugar Activity Quick Start](https://github.com/FOSSRIT/SAQS-sugar-activity-quick-start-). Follow the instructions there to create a .xo file.
+To install on our application on the OLPC we used [Sugar Activity Quick Start](https://github.com/FOSSRIT/SAQS-sugar-activity-quick-start-). 
+To create a .xo file, run `./setup.py dist_xo`. The .xo file can be found in `/dist`.
 
 Once we created the .xo file we copied it onto a flash drive and plugged it into the OLPC
 
