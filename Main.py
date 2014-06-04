@@ -21,7 +21,7 @@ import DrawHelper
 from SceneBasic import SceneBasic
 
 	
-class FractionautsMain(object):
+class Main(object):
 	STATE_MENU = 0
 	STATE_GAME = 1
 	STATE_WIN_SCREEN =2
@@ -30,7 +30,7 @@ class FractionautsMain(object):
 	def __init__(self):
 		pygame.mixer.pre_init(44100, -16, 1, 512*2)
 		pygame.init()
-		#pygame.mixer.init(22100)
+		pygame.mixer.init(22100)
 		pygame.mouse.set_visible(False)
 		
 		width = pygame.display.Info().current_w
@@ -177,9 +177,9 @@ class FractionautsMain(object):
 
 
 # This function is called when the game is run directly from the command line:
-# ./FractionautsMain.py
+# ./Main.py
 def main():
-	game = FractionautsMain()
+	game = Main()
 	game.run()
 
 if __name__ == '__main__':

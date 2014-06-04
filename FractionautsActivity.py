@@ -21,7 +21,7 @@ class FractionautsActivity(sugar3.activity.activity.Activity):
         self.paused = False
 
         # Create the game instance.
-        self.game = Main.Main()
+        self.game = Main.main()
 
         # Build the activity toolbar.
         self.build_toolbar()

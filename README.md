@@ -7,7 +7,7 @@ Running
 To run, make sure you have all of the application's dependencies installed on your machine. 
 run `sudo apt-get install python-pygame` using a debian based distro.
 
-To run the game run `python FractionautsMain.py`
+To run the game run `python Main.py`
 
 
 Installing onto the OLPC
