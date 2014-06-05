@@ -18,7 +18,6 @@ import Main
 class FractionautsActivity(sugar3.activity.activity.Activity):
 	def __init__(self, handle):
 		sugar3.activity.activity.Activity.__init__(self, handle)
-		self.paused = True
 		self.activity = Main.Main()
 		self.activity.run()
 		# The execution of this class pauses until the game is exited from game main menu
