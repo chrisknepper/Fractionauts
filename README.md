@@ -22,6 +22,11 @@ Once we created the .xo file we copied it onto a flash drive and plugged it into
 Open the .xo file on the OLPC to install and launch the game. If you have a previous version of the game installed on your OLPC, delete the .Activity file and relaunch the new .xo file to overwrite it.
 
 
+Resources
+---------
+To reduce package size, the art assets are archived at [this repo](https://github.com/lcb931023/fractionauts_resource).
+
+
 Contributing
 ------------
 A list of open issues can be found in our issue section of our github. Any problems found can be logged there and we will work with you to help solve them.
