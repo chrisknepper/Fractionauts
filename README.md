@@ -1,6 +1,6 @@
 Fractionauts
 =================
-Fractionnauts is a fraction and astronaut based puzzle/quiz game centered around 4th grade students interested in learning how to perform basic arithmetic with fractions.
+Fractionauts is a fraction and astronaut based puzzle/quiz game centered around 4th grade students interested in learning how to perform basic arithmetic with fractions.
 
 Running
 -------
