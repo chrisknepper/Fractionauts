@@ -35,3 +35,6 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
+
+#System Crap
+.DS_Store
